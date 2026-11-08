@@ -3,99 +3,209 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LexChaco — Automatización Procesal & Copiloto Legal</title>
+  <title>AIL — Al Legales | Plataforma & Ecosistema Legal</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <div class="app-layout">
 
-    <!-- SIDEBAR DE NAVEGACIÓN MODERNA -->
-    <aside class="sidebar">
+    <!-- SIDEBAR DE NAVEGACIÓN OFICIAL AIL AL LEGALES -->
+    <aside class="sidebar" id="mainSidebar">
       <div>
         <div class="sidebar-header">
           <div class="brand-wrapper">
-            <div class="brand-logo">LX</div>
-            <div>
-              <div class="brand-title">LexChaco</div>
-              <div class="brand-sub">Copiloto Procesal IURE / INDI</div>
+            <div class="brand-left" id="brandHomeTrigger" title="AIL Al Legales">
+              <span class="ail-brand-badge">AIL</span>
+              <span class="ail-brand-name">Al Legales</span>
             </div>
+            <button type="button" class="sidebar-collapse-btn" id="btnToggleSidebar" title="Colapsar / expandir menú">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+            </button>
           </div>
 
-          <select id="tenantSelect" class="tenant-picker">
-            <option value="estudio_principal">Estudio Jurídico Dr. Gómez</option>
-            <option value="estudio_asociados">Estudio Asociados Resistencia</option>
-          </select>
+          <div class="sidebar-quick-search" id="btnSidebarSpotlight" title="Búsqueda rápida en todo el sistema (Ctrl + K)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <span class="search-placeholder">Buscar</span>
+            <span class="kbd-shortcut">Ctrl K</span>
+          </div>
         </div>
 
         <nav class="sidebar-nav">
-          <div class="nav-section-title">Despacho Diario</div>
-          <button type="button" class="nav-item active" data-tab="despacho">
+          <button type="button" class="nav-item" data-tab="hoy">
             <div class="nav-item-left">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
-              <span>Bandeja de Despacho</span>
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              <span>Hoy</span>
             </div>
-            <span class="nav-badge" id="badgeInboxCount">3</span>
           </button>
 
+          <div class="nav-section-title">MIS EXPEDIENTES</div>
           <button type="button" class="nav-item" data-tab="recorrida">
             <div class="nav-item-left">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-              <span>Mis Expedientes (Recorrida)</span>
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+              <span>Expedientes</span>
             </div>
             <span class="nav-badge subtle" id="badgeTotalCases">4</span>
           </button>
-
-          <div class="nav-section-title">Herramientas e IA</div>
-          <button type="button" class="nav-item" data-tab="pdf-viewer">
+          <button type="button" class="nav-item" data-tab="despacho">
             <div class="nav-item-left">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-              <span>Visor & Analizador de PDFs</span>
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+              <span>Novedades</span>
+            </div>
+            <span class="nav-badge" id="badgeInboxCount">3</span>
+          </button>
+          <button type="button" class="nav-item" data-tab="notificaciones">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+              <span>Notificaciones</span>
             </div>
           </button>
-
           <button type="button" class="nav-item" data-tab="vencimientos">
             <div class="nav-item-left">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span>Vencimientos & Caducidad</span>
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span>Agenda</span>
             </div>
             <span class="nav-badge" style="background:#d97706;" id="badgeCaducidadCount">1</span>
           </button>
+          <button type="button" class="nav-item" data-tab="clientes">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              <span>Clientes</span>
+            </div>
+          </button>
 
+          <div class="nav-section-title">INVESTIGAR</div>
+          <button type="button" class="nav-item" data-tab="buscador-ia">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <span>Buscador IA</span>
+            </div>
+          </button>
+          <button type="button" class="nav-item" data-tab="buscador-clasico">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <span>Buscador clásico</span>
+            </div>
+          </button>
+          <button type="button" class="nav-item" data-tab="leyes">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              <span>Leyes</span>
+            </div>
+          </button>
+          <button type="button" class="nav-item" data-tab="alertas">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+              <span>Alertas</span>
+            </div>
+            <span class="pro-tag">PRO</span>
+          </button>
+
+          <div class="nav-section-title">TRABAJAR</div>
+          <button type="button" class="nav-item" data-tab="pdf-viewer">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+              <span>Escritos</span>
+            </div>
+            <span class="pro-tag">PRO</span>
+          </button>
+          <button type="button" class="nav-item" data-tab="chat">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+              <span>Chat</span>
+            </div>
+            <span class="pro-tag">PRO</span>
+          </button>
+          <button type="button" class="nav-item" data-tab="revisar">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Revisar escrito</span>
+            </div>
+            <span class="pro-tag">PRO</span>
+          </button>
+          <button type="button" class="nav-item" data-tab="carta-documento">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>Carta documento</span>
+            </div>
+            <span class="pro-tag">PRO</span>
+          </button>
+          <button type="button" class="nav-item" data-tab="informes">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Informes</span>
+            </div>
+            <span class="pro-tag">PRO</span>
+          </button>
           <button type="button" class="nav-item" data-tab="auditoria">
             <div class="nav-item-left">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              <span>Auditoría & Modelos</span>
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+              <span>Modelos de escrito</span>
+            </div>
+          </button>
+
+          <div class="nav-section-title">HERRAMIENTAS</div>
+          <button type="button" class="nav-item" data-tab="calculadoras">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              <span>Calculadoras</span>
+            </div>
+          </button>
+          <button type="button" class="nav-item" data-tab="escaner">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+              <span>Escáner</span>
+            </div>
+          </button>
+          <button type="button" class="nav-item" data-tab="seguimiento-postal">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+              <span>Seguimiento postal</span>
+            </div>
+          </button>
+          <button type="button" class="nav-item" id="btnSidebarConectorIa" data-tab="conector-ia">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+              <span>Conector de IA</span>
+            </div>
+            <span class="pro-tag">PRO</span>
+          </button>
+          <button type="button" class="nav-item" data-tab="herramientas">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+              <span>Todas las herramientas</span>
+            </div>
+          </button>
+          <button type="button" class="nav-item active" data-tab="cursos">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/></svg>
+              <span>Cursos</span>
             </div>
           </button>
         </nav>
       </div>
 
-      <!-- FOOTER DE SIDEBAR: SUSCRIPCIÓN PERSONAL Y PERFIL -->
+      <!-- FOOTER DE SIDEBAR ESTILO AIL LEGALES -->
       <div class="sidebar-footer">
-        <div class="sub-card-box" id="btnSubConfigTrigger" title="Haz clic para cambiar o configurar tu suscripción">
-          <div class="sub-card-top">
-            <div class="sub-card-name">
-              <span class="status-dot"></span>
-              <span id="subSidebarName">Claude Pro</span>
-            </div>
-            <span class="sub-card-cost">$0 API</span>
-          </div>
-          <div class="sub-card-desc">Suscripción personal vinculada</div>
-        </div>
-
         <div class="user-profile-row">
           <div class="user-profile-info">
-            <div class="avatar-pill" id="userAvatarText">MG</div>
+            <div class="avatar-pill" id="userAvatarText">EB</div>
             <div class="user-names">
-              <div class="user-name-text" id="userNameLabel">Dr. Marcelo Gómez</div>
-              <div class="user-role-text" id="userRoleLabel">Abogado Titular</div>
+              <div class="user-name-text" id="userNameLabel">estudiobrunskole</div>
+              <div class="user-role-text" id="userRoleLabel">Plan Free</div>
             </div>
           </div>
-          <button type="button" class="role-tag-switch" id="btnToggleRoleQuick" title="Cambiar a rol Invitado/Secretario">Cambiar</button>
+          <div class="footer-actions">
+            <button type="button" class="icon-btn-subtle" id="btnSubConfigTrigger" title="Configurar suscripción de IA ($0 API)">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </button>
+            <button type="button" class="icon-btn-subtle" id="btnToggleRoleQuick" title="Cambiar rol (Titular / Secretario)">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </aside>
@@ -103,8 +213,80 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="main-content">
 
-      <!-- HEADER SUPERIOR -->
-      <header class="content-header">
+      <!-- ====================================================================
+           VISTA 0: CURSOS (MODELO OFICIAL AIL DE LOS PDFs)
+           ==================================================================== -->
+      <section id="view-cursos" class="tab-view active">
+        <div class="cursos-scroll-pane">
+          <div class="cursos-container">
+
+            <div class="cursos-topbar">
+              <h1 class="cursos-page-heading">Cursos</h1>
+              <div class="cursos-controls-row">
+                <div class="cursos-search-wrapper">
+                  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <input type="text" id="courseSearchInput" class="cursos-search-input" placeholder="Buscar un tema: amparo, sociedades, IA…">
+                </div>
+
+                <div class="cursos-filters-wrapper">
+                  <button type="button" class="filter-pill-btn active" data-filter="all">Todos</button>
+                  <button type="button" class="filter-pill-btn" data-filter="upcoming">Próximos 2</button>
+                  <button type="button" class="filter-pill-btn" data-filter="recorded">Grabaciones 10</button>
+                  <button type="button" class="filter-icon-btn" id="btnFilterPopover" title="Filtros">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECCIÓN: PRÓXIMOS CURSOS -->
+            <div id="sectionUpcomingBlock">
+              <div class="cursos-section-header" id="headingUpcoming">Próximos cursos</div>
+              <div class="cursos-grid" id="upcomingCoursesGrid"></div>
+            </div>
+
+            <!-- BANNER HERO: ACCESO TOTAL -->
+            <div class="acceso-total-banner" id="accesoTotalBanner">
+              <div>
+                <div class="acceso-tag">ACCESO TOTAL</div>
+                <div class="acceso-title">Todas las grabaciones, en un solo pago</div>
+                <div class="acceso-subtitle">Los 10 cursos grabados, con sus materiales, para ver cuando quieras.</div>
+                
+                <div class="acceso-courses-grid">
+                  <div class="acceso-course-pill">Amparo de salud (2da edición)</div>
+                  <div class="acceso-course-pill">Derecho del consumidor en acción</div>
+                  <div class="acceso-course-pill">Derecho migratorio en la práctica (2da edición)</div>
+                  <div class="acceso-course-pill">Derecho laboral en la práctica</div>
+                  <div class="acceso-course-pill">Curso práctico sobre Sociedades (3° edición)</div>
+                  <div class="acceso-course-pill">Uso profesional y seguro de la IA</div>
+                  <div class="acceso-course-pill">¿Cómo constituir una sociedad en el extranjero?</div>
+                  <div class="acceso-course-pill">Nuevo Baremo · DNU 549/25</div>
+                  <div class="acceso-course-pill">IA Aplicada al ejercicio de la profesión — 3° Ed.</div>
+                  <div class="acceso-course-pill">Workshop IA Aplicada</div>
+                </div>
+              </div>
+
+              <div class="acceso-pricing-side">
+                <div class="acceso-price-main">$290.000</div>
+                <div class="acceso-price-strike">Por separado $850.000</div>
+                <button type="button" class="acceso-cta-btn" id="btnAccesoTotalTrigger">Quiero el acceso total</button>
+              </div>
+            </div>
+
+            <!-- SECCIÓN: GRABACIONES -->
+            <div id="sectionRecordedBlock">
+              <div class="cursos-section-header" id="headingRecorded">Grabaciones</div>
+              <div class="cursos-grid" id="recordedCoursesGrid"></div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           HEADER SUPERIOR (Para Vistas Operativas Legales)
+           ==================================================================== -->
+      <header class="content-header" id="legalContentHeader" style="display:none;">
         <div class="header-left">
           <div class="page-title" id="pageTitle">Bandeja de Despacho Diario</div>
           <div class="header-search">
@@ -114,6 +296,10 @@
         </div>
 
         <div class="header-right">
+          <select id="tenantSelect" class="btn btn-secondary btn-sm" style="height:32px;">
+            <option value="estudio_principal">Estudio Jurídico Dr. Gómez</option>
+            <option value="estudio_asociados">Estudio Asociados Resistencia</option>
+          </select>
           <button type="button" class="btn btn-secondary" id="btnSyncGmailAction">
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             <span>Simular Despacho 07:00 hs</span>
@@ -124,11 +310,11 @@
         </div>
       </header>
 
-      <!-- VISTA 1: BANDEJA DE DESPACHO (MASTER-DETAIL) -->
-      <section id="view-despacho" class="tab-view active">
+      <!-- ====================================================================
+           VISTA 1: BANDEJA DE DESPACHO (MASTER-DETAIL)
+           ==================================================================== -->
+      <section id="view-despacho" class="tab-view">
         <div class="master-detail-container">
-          
-          <!-- LISTA IZQUIERDA -->
           <div class="master-list-pane">
             <div class="master-list-toolbar">
               <span style="font-weight:600; font-size:12px; color:var(--text-secondary);">Causas con movimiento hoy</span>
@@ -136,14 +322,13 @@
             </div>
             <div class="master-list-items" id="masterDispatchList"></div>
           </div>
-
-          <!-- DETALLE DERECHO -->
           <div class="detail-pane" id="detailCasePane"></div>
-
         </div>
       </section>
 
-      <!-- VISTA 2: LISTADO DE RECORRIDA COMPLETO -->
+      <!-- ====================================================================
+           VISTA 2: LISTADO DE RECORRIDA COMPLETO (CHACO IURE / INDI)
+           ==================================================================== -->
       <section id="view-recorrida" class="tab-view">
         <div class="table-container-card">
           <div style="padding:14px 18px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
@@ -172,16 +357,15 @@
         </div>
       </section>
 
-      <!-- VISTA 3: VISOR & ANALIZADOR DE PDFs (SPLIT SCREEN) -->
+      <!-- ====================================================================
+           VISTA 3: VISOR & ANALIZADOR DE PDFs (SPLIT SCREEN)
+           ==================================================================== -->
       <section id="view-pdf-viewer" class="tab-view">
         <div class="pdf-workspace-view">
-          
-          <!-- COLUMNA IZQUIERDA: DOCUMENTO JUDICIAL -->
           <div class="pdf-preview-col">
             <div class="pdf-document-sheet" id="pdfDocumentSheet"></div>
           </div>
 
-          <!-- COLUMNA DERECHA: ASISTENTE & ACCIONES -->
           <div class="pdf-side-controls">
             <div style="margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
               <span style="font-weight:600; font-size:13px; color:var(--text-main);">Ejemplos Oficiales del Chaco</span>
@@ -212,13 +396,14 @@
               <button type="button" class="btn btn-primary" id="btnApproveDraftAction">Auditar y Aprobar</button>
             </div>
           </div>
-
         </div>
       </section>
 
-      <!-- VISTA 4: VENCIMIENTOS Y CADUCIDAD -->
+      <!-- ====================================================================
+           VISTA 4: VENCIMIENTOS Y CADUCIDAD (AGENDA)
+           ==================================================================== -->
       <section id="view-vencimientos" class="tab-view">
-        <div style="padding:20px; max-width:1000px; margin:0 auto; width:100%;">
+        <div style="padding:24px; max-width:1000px; margin:0 auto; width:100%; overflow-y:auto;">
           <div class="detail-card">
             <h3 style="font-size:15px; font-weight:600; margin-bottom:6px;">Watchdog de Caducidad de Instancia (Límite 3 meses / 90 días)</h3>
             <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">Monitoreo proactivo para evitar la pérdida de procesos por inactividad procesal (Art. 310 CPCCCh).</p>
@@ -233,9 +418,11 @@
         </div>
       </section>
 
-      <!-- VISTA 5: AUDITORÍA Y MODELOS -->
+      <!-- ====================================================================
+           VISTA 5: AUDITORÍA Y MODELOS
+           ==================================================================== -->
       <section id="view-auditoria" class="tab-view">
-        <div style="padding:20px;">
+        <div style="padding:24px; overflow-y:auto;">
           <div class="detail-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
               <div>
@@ -267,16 +454,126 @@
         </div>
       </section>
 
+      <!-- ====================================================================
+           VISTA GENÉRICA PARA SECCIONES SECUNDARIAS
+           ==================================================================== -->
+      <section id="view-placeholder" class="tab-view">
+        <div style="padding:40px; max-width:800px; margin:0 auto; text-align:center;">
+          <div style="width:48px; height:48px; border-radius:50%; background:#f3f4f6; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto; color:#111827;">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h2 style="font-size:18px; font-weight:600; margin-bottom:8px;" id="placeholderTitle">Módulo AIL Al Legales</h2>
+          <p style="font-size:13px; color:#6b7280; margin-bottom:20px;" id="placeholderDesc">Sección conectada al entorno operativo del estudio jurídico.</p>
+          <button type="button" class="btn btn-secondary" onclick="document.querySelector('.nav-item[data-tab=\'cursos\']').click()">Volver a Cursos</button>
+        </div>
+      </section>
+
     </main>
 
   </div>
 
-  <!-- MODAL CONECTAR SUSCRIPCIÓN PERSONAL -->
+  <!-- ========================================================================
+       MODAL: PROGRAMA DEL CURSO
+       ======================================================================== -->
+  <div class="modal-overlay" id="programModal">
+    <div class="modal-window">
+      <div class="modal-header-clean">
+        <div>
+          <h3 style="font-size:14.5px; font-weight:600;" id="progModalTitle">Programa del curso</h3>
+          <div style="font-size:11.5px; color:#6b7280;" id="progModalMeta"></div>
+        </div>
+        <button type="button" class="icon-btn-subtle" data-close-modal>✕</button>
+      </div>
+      <div class="modal-body-clean">
+        <div style="background:#f9fafb; border:1px solid #e5e7eb; border-radius:6px; padding:12px; margin-bottom:16px;">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#9ca3af; margin-bottom:4px;">Descripción General</div>
+          <p style="font-size:12.5px; color:#374151; line-height:1.55;" id="progModalDesc"></p>
+        </div>
+
+        <div style="font-size:12px; font-weight:700; text-transform:uppercase; color:#6b7280; letter-spacing:0.05em; margin-bottom:8px;">Temario & Módulos</div>
+        <div style="display:flex; flex-direction:column; gap:8px;" id="progModalModules"></div>
+      </div>
+      <div class="modal-footer-clean">
+        <button type="button" class="btn btn-secondary" data-close-modal>Cerrar</button>
+        <button type="button" class="btn btn-primary" id="btnProgModalEnroll">Inscribirme ahora</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: CHECKOUT / INSCRIPCIÓN
+       ======================================================================== -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-window">
+      <div class="modal-header-clean">
+        <div>
+          <h3 style="font-size:14.5px; font-weight:600;" id="chkModalTitle">Confirmar Inscripción</h3>
+          <div style="font-size:11.5px; color:#6b7280;" id="chkModalSub">Acceso inmediato con certificado y materiales</div>
+        </div>
+        <button type="button" class="icon-btn-subtle" data-close-modal>✕</button>
+      </div>
+      <div class="modal-body-clean">
+        <div style="background:#f9fafb; border:1px solid #e5e7eb; border-radius:6px; padding:14px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:13px; font-weight:600; color:#111827;" id="chkItemName">IA Aplicada al ejercicio profesional</div>
+            <div style="font-size:11.5px; color:#6b7280;">1 clase en vivo vía Zoom + Grabación grabada de por vida</div>
+          </div>
+          <div style="font-size:18px; font-weight:700; color:#111827;" id="chkItemPrice">$99.000</div>
+        </div>
+
+        <form id="checkoutForm" onsubmit="event.preventDefault(); confirmOrderAction();">
+          <div style="margin-bottom:12px;">
+            <label style="display:block; font-size:11.5px; font-weight:600; margin-bottom:4px; color:#374151;">Nombre y Apellido del Profesional</label>
+            <input type="text" id="chkInputName" required value="Dr. Matías Luis Brunskole" style="width:100%; height:32px; border:1px solid #e5e7eb; border-radius:4px; padding:0 10px; font-size:12.5px;">
+          </div>
+          <div style="margin-bottom:12px;">
+            <label style="display:block; font-size:11.5px; font-weight:600; margin-bottom:4px; color:#374151;">Correo Electrónico (Para recibir enlace de Zoom y materiales)</label>
+            <input type="email" id="chkInputEmail" required value="estudiobrunskole@aillegales.com" style="width:100%; height:32px; border:1px solid #e5e7eb; border-radius:4px; padding:0 10px; font-size:12.5px;">
+          </div>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:11.5px; font-weight:600; margin-bottom:4px; color:#374151;">Medio de Pago</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <label style="border:1px solid #e5e7eb; padding:8px 12px; border-radius:4px; display:flex; align-items:center; gap:8px; cursor:pointer; font-size:12px;">
+                <input type="radio" name="payMethod" value="mp" checked>
+                <span>Mercado Pago / Tarjetas</span>
+              </label>
+              <label style="border:1px solid #e5e7eb; padding:8px 12px; border-radius:4px; display:flex; align-items:center; gap:8px; cursor:pointer; font-size:12px;">
+                <input type="radio" name="payMethod" value="transfer">
+                <span>Transferencia (CBU/Alias)</span>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer-clean">
+        <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="confirmOrderAction()">Pagar y Obtener Acceso</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: SPOTLIGHT SEARCH (CTRL + K)
+       ======================================================================== -->
+  <div class="modal-overlay" id="spotlightModal">
+    <div class="modal-window" style="max-width:540px;">
+      <div style="padding:12px 16px; border-bottom:1px solid #e5e7eb; display:flex; align-items:center; gap:10px;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="spotlightInput" placeholder="Buscar expedientes, cursos, escritos, leyes o herramientas…" style="border:none; outline:none; font-size:13.5px; width:100%; color:#111827;">
+        <span class="kbd-shortcut">ESC</span>
+      </div>
+      <div style="max-height:360px; overflow-y:auto; padding:10px 8px;" id="spotlightResults"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: CONECTOR DE IA PERSONAL ($0 COSTO API)
+       ======================================================================== -->
   <div class="modal-overlay" id="subModal">
     <div class="modal-window">
       <div class="modal-header-clean">
         <h3 style="font-size:14px; font-weight:600;">Conectar tu Suscripción de IA Personal ($0 Costo de API)</h3>
-        <button type="button" class="btn btn-secondary btn-sm" data-close-modal>✕</button>
+        <button type="button" class="icon-btn-subtle" data-close-modal>✕</button>
       </div>
       <div class="modal-body-clean">
         <p style="font-size:12.5px; color:var(--text-secondary); margin-bottom:14px;">
@@ -303,14 +600,14 @@
           <label style="border:1px solid var(--border); padding:10px 14px; border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
             <div>
               <strong style="display:block; font-size:13px;">Gemini Advanced (Google)</strong>
-              <span style="font-size:11.5px; color:var(--text-muted);">Gran capacidad para expedientes completos</span>
+              <span style="font-size:11.5px; color:var(--text-muted);">Gran capacidad para expedientes completos de más de 200 fojas</span>
             </div>
             <input type="radio" name="subRadio" value="Gemini Advanced">
           </label>
         </div>
 
         <div style="background:#f1f5f9; padding:10px 12px; border-radius:4px; font-family:var(--font-mono); font-size:11.5px; color:#334155;">
-          HOME="/srv/tenants/estudio_chaco" claude auth login --claudeai
+          HOME="/srv/tenants/estudiobrunskole" claude auth login --claudeai
         </div>
       </div>
       <div class="modal-footer-clean">
