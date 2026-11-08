@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estudio Jurídico Chaco - Gestión Procesal y Copiloto Legal</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20%22100%22%20%22100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
+</head>
+<body>
+
+  <!-- ==================================================================== -->
+  <!-- BARRA SUPERIOR & CONTROL MULTI-TENANT                                -->
+  <!-- ==================================================================== -->
+  <header class="app-header">
+    <div class="header-container">
+      
+      <!-- Marca e Identidad del Sistema Judicial -->
+      <div class="brand-section">
+        <div class="brand-icon">⚖️</div>
+        <div class="brand-title">
+          <h1>
+            <span id="currentTenantName">Estudio Jurídico Dr. Gómez (Chaco)</span>
+            <span class="badge-chaco">Poder Judicial del Chaco</span>
+          </h1>
+          <div class="brand-subtitle" id="currentTenantSubtitle">
+            Dr. Marcelo Gómez • Mat. Prof. N° 4582 STJ Chaco
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones de Cabecera: Selector de Estudio, Rol y Suscripción -->
+      <div class="header-actions">
+        
+        <!-- Selector de Estudio Jurídico (Multi-Tenant) -->
+        <div class="tenant-selector-wrapper">
+          <span class="tenant-selector-label">Estudio:</span>
+          <select id="tenantSelector" class="custom-select" title="Seleccionar Estudio Jurídico">
+            <option value="estudio_chaco_central">Estudio Dr. Gómez (Central Chaco)</option>
+            <option value="estudio_resistencia_asoc">Asociados Resistencia & Cía</option>
+          </select>
+        </div>
+
+        <!-- Conmutador de Rol (Administrador Titular vs Invitado Secretario) -->
+        <div class="role-switch-container" title="Conmutador de Perfil y Permisos de Seguridad">
+          <button id="roleAdminBtn" class="role-btn active admin">
+            <span>👨‍⚖️</span> Administrador
+          </button>
+          <button id="roleGuestBtn" class="role-btn">
+            <span>🧑‍💼</span> Invitado / Secretario
+          </button>
+        </div>
+
+        <!-- Puente de Suscripción CLI (Arquitectura Orca/CLI) -->
+        <div class="cli-sub-badge" id="cliSubBadge" title="Estado de la Suscripción Claude CLI / Pro">
+          <div class="pulse-dot" id="subPulseDot"></div>
+          <span id="subBadgeLabel" style="font-size: 0.82rem; font-weight: 600;">Consultando CLI...</span>
+        </div>
+
+        <!-- Botón de Protección de Patrimonio Intelectual (Respuesta 8) -->
+        <button class="btn-ip-protection" id="btnIpProtection" title="Acceso a la biblioteca de modelos procesales">
+          <span>🛡️</span> Modelos Exclusivos
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================================================================== -->
+  <!-- BANNER DE ESTADÍSTICAS Y CONTROL OPERATIVO                           -->
+  <!-- ==================================================================== -->
+  <section class="stats-banner">
+    <div class="stats-grid">
+      <div class="stat-chip">
+        <div class="stat-icon">📁</div>
+        <div class="stat-info">
+          <div class="stat-val" id="statTotalCauses">-</div>
+          <div class="stat-label">Causas en Trámite</div>
+        </div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-icon">📬</div>
+        <div class="stat-info">
+          <div class="stat-val" id="statUnreadInbox">-</div>
+          <div class="stat-label">Despachos Judiciales Hoy</div>
+        </div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-info">
+          <div class="stat-val" id="statUrgentDeadlines">-</div>
+          <div class="stat-label">Vencimientos Críticos (Días Hábiles)</div>
+        </div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-info">
+          <div class="stat-val" id="statCaducidadAlerts">-</div>
+          <div class="stat-label">Riesgo Caducidad / Prescripción</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- LAYOUT PRINCIPAL                                                     -->
+  <!-- ==================================================================== -->
+  <main class="main-wrapper">
+    
+    <!-- COLUMNA IZQUIERDA: BANDEJA DIARIA & WATCHDOGS -->
+    <aside class="side-panel">
+      
+      <!-- Bandeja de Entrada Diaria ("Salió a Despacho" - Respuesta 10) -->
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <div class="panel-title">
+            <span>📬 Despacho Diario (Gmail / IURIX)</span>
+          </div>
+          <span class="badge-counter" id="inboxBadgeCounter">0 nuevas</span>
+        </div>
+        <div class="panel-body">
+          <button class="btn-simulate-email" id="btnSimulateEmail">
+            <span>📩</span> Simular llegada de correo Gmail (Salió a despacho)
+          </button>
+          <div class="inbox-list" id="inboxList">
+            <!-- Items inyectados dinámicamente -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Watchdog de Prescripción de Derechos -->
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <div class="panel-title">
+            <span>🛡️ Watchdog de Prescripción (CCCN)</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="prescriptionList">
+            <!-- Items inyectados dinámicamente -->
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- COLUMNA DERECHA: GESTIÓN DE CAUSAS, PLAZOS Y AUDITORÍA -->
+    <section class="content-area">
+      
+      <!-- Pestañas de Navegación -->
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="causes">
+          <span>🌳</span> Árbol de Causas y Sub-causas
+        </button>
+        <button class="tab-btn" data-tab="deadlines">
+          <span>⏱️</span> Monitor de Plazos & Caducidad
+        </button>
+        <button class="tab-btn" data-tab="audit">
+          <span>📜</span> Libro de Auditoría Inmutable
+        </button>
+      </nav>
+
+      <!-- VISTA 1: ÁRBOL DE CAUSAS -->
+      <div id="causesTabView">
+        
+        <!-- Barra de Controles y Filtros -->
+        <div class="controls-bar" style="margin-bottom: 16px;">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchCausesInput" class="search-input" placeholder="Buscar por expediente, carátula, juzgado o cliente...">
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-secondary filter-btn active" data-filter="all">Todas</button>
+            <button class="btn btn-secondary filter-btn" data-filter="simple">Trámites Simples</button>
+            <button class="btn btn-secondary filter-btn" data-filter="complex">Trámites Complejos</button>
+            <button class="btn btn-secondary filter-btn" data-filter="caducidad">Riesgo Caducidad</button>
+          </div>
+        </div>
+
+        <!-- Contenedor de Tarjetas de Causas -->
+        <div id="causesListContainer">
+          <!-- Tarjetas renderizadas dinámicamente -->
+        </div>
+
+      </div>
+
+      <!-- VISTA 2: MONITOR DE PLAZOS Y CADUCIDAD -->
+      <div id="deadlinesTabView" style="display: none;">
+        <div id="deadlinesListContainer"></div>
+      </div>
+
+      <!-- VISTA 3: AUDITORÍA INMUTABLE -->
+      <div id="auditTabView" style="display: none;">
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div class="panel-title">
+              <span>📜 Registro Inmutable de Auditoría & Trazabilidad de Patrimonio Intelectual</span>
+            </div>
+          </div>
+          <div class="panel-body" style="padding: 0; overflow-x: auto;">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th>Fecha / Hora</th>
+                  <th>Usuario</th>
+                  <th>Rol</th>
+                  <th>Acción</th>
+                  <th>Detalle del Evento</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody">
+                <!-- Filas de auditoría -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ==================================================================== -->
+  <!-- MODALES DEL SISTEMA                                                  -->
+  <!-- ==================================================================== -->
+
+  <!-- Modal 1: Visor y Exportador de Escrito Determinístico ($0) -->
+  <div class="modal-overlay" id="docViewerModal">
+    <div class="modal-content" style="max-width: 900px;">
+      <div class="modal-header">
+        <div class="modal-title" id="docViewerTitle">Escrito Judicial Formal</div>
+        <button class="modal-close-btn modal-close-trigger">&times;</button>
+      </div>
+      <div class="modal-body" style="background: #0f141d;">
+        <div class="legal-preview-paper" id="docViewerPaper"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btnCopyDraft">📋 Copiar Texto Judicial</button>
+        <button class="btn btn-primary" id="btnDownloadWord">💾 Descargar Word (.doc)</button>
+        <button class="btn btn-secondary modal-close-trigger">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Copiloto IA & Auditoría Humana de Escritos -->
+  <div class="modal-overlay" id="copilotModal">
+    <div class="modal-content" style="max-width: 920px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🤖 Copiloto Legal IA - Auditoría y Redacción</span>
+        </div>
+        <button class="modal-close-btn modal-close-trigger">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4 id="copilotExpteTitle" style="color: #fff; margin-bottom: 8px;">-</h4>
+        <div class="proveido-box" style="margin-bottom: 14px;">
+          <strong style="color: #60a5fa; font-size: 0.78rem;">PROVEÍDO ANALIZADO:</strong>
+          <div id="copilotProveidoReview" class="proveido-text" style="font-size: 0.8rem;"></div>
+        </div>
+
+        <div class="copilot-diagnostic-box">
+          <div id="copilotDiagnosticText"></div>
+          <div id="copilotStrategyText" style="margin-top: 10px;"></div>
+        </div>
+
+        <label style="font-size: 0.8rem; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 6px;">
+          ✏️ Borrador Procesal Generado (Editable antes de Visado):
+        </label>
+        <textarea id="copilotDraftEditor" class="legal-draft-editor"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close-trigger">Cancelar</button>
+        <button class="btn btn-primary" id="btnApproveDraft">
+          ⚖️ Auditar y Aprobar Escrito
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Gestión de Suscripción Claude CLI (Orca/CLI Architecture) -->
+  <div class="modal-overlay" id="subscriptionModal">
+    <div class="modal-content" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>⚙️ Puente Multi-Tenant Claude CLI & Suscripción</span>
+        </div>
+        <button class="modal-close-btn modal-close-trigger">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 14px;">
+          Cada estudio jurídico posee su propio espacio aislado de suscripción (ejecutando con <code>HOME=&lt;tenantDir&gt;</code>). Esto permite que el letrado titular utilice su propia suscripción de Claude Pro / Team sin incurrir en costos variables por token ni mezclar credenciales.
+        </p>
+        <div id="subModalDetails"></div>
+
+        <div style="background: #0d121c; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-top: 12px;">
+          <strong style="font-size: 0.76rem; color: #94a3b8; text-transform: uppercase;">Comando de Vinculación Nativa CLI:</strong>
+          <pre id="subCliCommand" style="color: #60a5fa; font-family: monospace; font-size: 0.8rem; margin-top: 6px; white-space: pre-wrap; word-break: break-all;"></pre>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close-trigger">Cerrar</button>
+        <button class="btn btn-primary" id="btnToggleSubModal">Alternar Suscripción</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Alerta de Protección de Patrimonio Intelectual (Respuesta 8) -->
+  <div class="modal-overlay" id="ipShieldModal">
+    <div class="modal-content" style="max-width: 580px; border-color: #ef4444;">
+      <div class="modal-header" style="background: #2a1215; border-bottom-color: #ef4444;">
+        <div class="modal-title" style="color: #f87171;">
+          <span>🛑 ACCESO DENEGADO - PROTECCIÓN DE PATRIMONIO INTELECTUAL</span>
+        </div>
+        <button class="modal-close-btn modal-close-trigger">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size: 0.88rem; color: #fecaca; line-height: 1.6;" id="ipShieldReason">
+          Su rol de <strong>Invitado / Secretario</strong> no tiene autorización para descargar ni exportar masivamente la biblioteca de modelos procesales y material exclusivo del estudio jurídico.
+        </div>
+        <div style="margin-top: 14px; padding: 10px; background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; font-size: 0.78rem; color: #fca5a5;">
+          📌 <em>"Es parte de mi patrimonio intelectual y de trabajo porque tengo material descargado exclusivo y ordenado..."</em> (Entrevista al Abogado Titular, Respuesta 8).<br>
+          Este evento ha sido asentado con marca temporal en el <strong>Libro de Auditoría Inmutable</strong>.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close-trigger">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Biblioteca de Modelos (Solo Administrador) -->
+  <div class="modal-overlay" id="modelLibraryModal">
+    <div class="modal-content" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📚 Biblioteca de Modelos Exclusivos del Estudio</span>
+        </div>
+        <button class="modal-close-btn modal-close-trigger">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 12px;">
+          Patrimonio Intelectual del Titular. Modelos procesales optimizados para los Juzgados Civiles, Comerciales y Laborales de Resistencia:
+        </p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          <li style="background: #18202d; padding: 10px 14px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; color: #fff;">📄 01_Acepta_Deposito_Judicial_y_Denuncia_CBU.doc</span>
+            <button class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px;" onclick="showToast('Plantilla descargada', 'success')">Descargar</button>
+          </li>
+          <li style="background: #18202d; padding: 10px 14px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; color: #fff;">📄 02_Impugnacion_Pericia_Contable_LCT_Chaco.doc</span>
+            <button class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px;" onclick="showToast('Plantilla descargada', 'success')">Descargar</button>
+          </li>
+          <li style="background: #18202d; padding: 10px 14px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; color: #fff;">📄 03_Impulso_Procesal_Interrumpe_Caducidad_Art310.doc</span>
+            <button class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px;" onclick="showToast('Plantilla descargada', 'success')">Descargar</button>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close-trigger">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6: Vincular Sub-causa / Incidente -->
+  <div class="modal-overlay" id="addSubcauseModal">
+    <div class="modal-content" style="max-width: 520px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🌳 Vincular Sub-causa / Incidente Procesal</span>
+        </div>
+        <button class="modal-close-btn modal-close-trigger">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="addSubcauseTargetExpte" style="color: #60a5fa; font-weight: 700; margin-bottom: 12px;"></div>
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 4px;">Tipo / Título del Incidente:</label>
+          <input type="text" id="inputSubcauseTitle" class="search-input" placeholder="Ej: Incidente de Medida Cautelar / Embargo">
+        </div>
+        <div>
+          <label style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 4px;">Estado Procesal Actual:</label>
+          <input type="text" id="inputSubcauseDesc" class="search-input" placeholder="Ej: A la espera de mandamiento de traba">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close-trigger">Cancelar</button>
+        <button class="btn btn-primary" id="btnConfirmAddSubcause">Vincular Incidente</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor para Notificaciones Toast Flotantes -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

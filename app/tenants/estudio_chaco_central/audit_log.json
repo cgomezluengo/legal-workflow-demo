@@ -1,0 +1,65 @@
+[
+  {
+    "id": "audit-1794164198498-93k0",
+    "timestamp": "2026-11-08T18:56:38.498Z",
+    "user": "Dr. Gómez",
+    "role": "ADMIN",
+    "action": "APPROVE_DRAFT_FINAL",
+    "details": "Escrito APROBADO formalmente para su presentación judicial en Expte. causa-8310-24. Firmado por Dr. Marcelo Gómez",
+    "ip": "127.0.0.1"
+  },
+  {
+    "id": "audit-1794164192349-aoue",
+    "timestamp": "2026-11-08T18:56:32.349Z",
+    "user": "Secretario Pérez",
+    "role": "GUEST",
+    "action": "SECURITY_BLOCK_IP_PROTECTION",
+    "details": "BLOQUEADO: Intento de MASS_EXPORT_TEMPLATES no autorizado por usuario con perfil Invitado. Se protegió el patrimonio intelectual del titular.",
+    "ip": "127.0.0.1"
+  },
+  {
+    "id": "audit-1794164184561-n9fq",
+    "timestamp": "2026-11-08T18:56:24.561Z",
+    "user": "Abogado Titular",
+    "role": "ADMIN",
+    "action": "RUN_AI_COPILOT",
+    "details": "Análisis procesal con Copiloto IA (Origen: Claude Pro Copilot Bridge (Suscripción Demo Conectada)) para Expte. 8.310/24",
+    "ip": "127.0.0.1"
+  },
+  {
+    "id": "audit-1794164175962-h59a",
+    "timestamp": "2026-11-08T18:56:15.962Z",
+    "user": "Dr. Gómez",
+    "role": "SYSTEM",
+    "action": "SIMULATED_DISPATCH_RECEIVED",
+    "details": "Simulación de correo recibido: Causa 19236/26 salió a despacho. Se generó vinculación de expediente y cálculo automático de vencimiento hábil.",
+    "ip": "127.0.0.1"
+  },
+  {
+    "id": "audit-1794164169241-izop",
+    "timestamp": "2026-11-08T18:56:09.241Z",
+    "user": "Abogado Titular",
+    "role": "ADMIN",
+    "action": "GENERATE_DETERMINISTIC_DRAFT",
+    "details": "Generado escrito automático determinístico ($0 costo) de aceptación de depósito para 14.820/25",
+    "ip": "127.0.0.1"
+  },
+  {
+    "id": "audit-1794164144136-t5bt",
+    "timestamp": "2026-11-08T18:55:44.136Z",
+    "user": "Abogado Titular",
+    "role": "ADMIN",
+    "action": "SUBSCRIPTION_BRIDGE_CHANGE",
+    "details": "Acción de suscripción: toggle_demo. Estado: ¡Suscripción de Claude Copilot Legal conectada exitosamente!",
+    "ip": "127.0.0.1"
+  },
+  {
+    "id": "log-seed-1",
+    "timestamp": "2026-11-08T18:55:30.868Z",
+    "user": "Sistema Multi-Tenant Chaco",
+    "role": "ADMIN",
+    "action": "INIT_TENANT",
+    "details": "Estudio inicializado con repositorio aislado en tenants/estudio_chaco_central",
+    "ip": "127.0.0.1"
+  }
+]

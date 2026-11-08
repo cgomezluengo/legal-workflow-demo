@@ -1,0 +1,200 @@
+[
+  {
+    "id": "causa-19236-26",
+    "expteNo": "19236/26",
+    "caratula": "SILVA ESTEBAN C/ EDIFICIOS CHACO S.A. S/ ACCIÓN INDEMNIZATORIA",
+    "juzgado": "Juzgado Civil y Comercial N° 2 - Resistencia",
+    "fuero": "Civil y Comercial",
+    "cliente": "Silva, Esteban Marcos (DNI 31.092.114)",
+    "clienteDoc": "DNI 31.092.114",
+    "clienteCuit": "20-31092114-1",
+    "tipoTramite": "COMPLEJO",
+    "estadoProcesal": "Salió a despacho - Traslado de documental (5 días)",
+    "fechaUltimoMovimiento": "2026-11-08",
+    "inactividadDias": 0,
+    "subcausas": [],
+    "proveidoTexto": "Resistencia, 2026-11-08. Téngase por recibida la documental arrimada por la parte demandada. De la misma, córrase traslado a la parte actora por el término de CINCO (5) DÍAS HÁBILES bajo apercibimiento de ley. Notifíquese por cédula electrónica. - Fdo. Dra. Claudia Morales (Jueza)",
+    "plazo": {
+      "startDate": "2026-11-08",
+      "businessDaysCount": 5,
+      "expirationDate": "2026-11-13",
+      "gracePeriodDate": "2026-11-17 09:00 hs (Plazo de Gracia)",
+      "remainingBusinessDays": 5,
+      "isExpired": false,
+      "isCritical": false
+    },
+    "watchdogCaducidad": {
+      "lastMovementDate": "2026-11-08",
+      "inactiveDays": 0,
+      "limitDays": 90,
+      "remainingDays": 90,
+      "percentageConsumed": 0,
+      "statusLevel": "NORMAL",
+      "badgeColor": "green",
+      "statusMessage": "En término procesal (0 días de inactividad)",
+      "recommendedMotion": "Presentar escrito simple de mero trámite (\"SOLICITA SE PASE A DESPACHO / REITERA PEDIDO\") para interrumpir el plazo perentorio."
+    },
+    "borradoresGenerados": [],
+    "readyAction": "COPILOTO_ANALISIS_IMPUGNACION"
+  },
+  {
+    "id": "causa-14820-25",
+    "expteNo": "14.820/25",
+    "caratula": "PEREZ JUAN C/ SEGUROS DEL NORTE S.A. S/ DAÑOS Y PERJUICIOS",
+    "juzgado": "Juzgado Civil y Comercial N° 3 - Resistencia",
+    "fuero": "Civil y Comercial",
+    "cliente": "Pérez, Juan Carlos",
+    "clienteDoc": "DNI 24.112.980",
+    "clienteCuit": "20-24112980-4",
+    "tipoTramite": "SIMPLE",
+    "estadoProcesal": "Salió a despacho - Depósito Judicial disponible",
+    "montoDepositado": 1850000,
+    "fechaUltimoMovimiento": "2026-11-08",
+    "inactividadDias": 0,
+    "subcausas": [],
+    "proveidoTexto": "Resistencia, 2026-11-08. Téngase por acreditado en autos el depósito judicial efectuado por la citada en garantía SEGUROS DEL NORTE S.A. en la cuenta judicial a la orden de este Tribunal en el Nuevo Banco del Chaco S.A., por la suma de PESOS UN MILLÓN OCHOCIENTOS CINCUENTA MIL ($1.850.000,00). Del mismo, córrase traslado a la actora por el término de ley y manifieste sobre la dación en pago y denuncie cuenta bancaria y CBU a sus efectos. Notifíquese por cédula electrónica. - Fdo. Dra. Elena Ruiz (Jueza Civil y Comercial N° 3)",
+    "plazo": {
+      "startDate": "2026-11-08",
+      "businessDaysCount": 5,
+      "expirationDate": "2026-11-13",
+      "gracePeriodDate": "2026-11-17 09:00 hs (Plazo de Gracia)",
+      "remainingBusinessDays": 5,
+      "isExpired": false,
+      "isCritical": false
+    },
+    "watchdogCaducidad": {
+      "lastMovementDate": "2026-11-08",
+      "inactiveDays": 0,
+      "limitDays": 90,
+      "remainingDays": 90,
+      "percentageConsumed": 0,
+      "statusLevel": "NORMAL",
+      "badgeColor": "green",
+      "statusMessage": "En término procesal (0 días de inactividad)",
+      "recommendedMotion": "Presentar escrito simple de mero trámite (\"SOLICITA SE PASE A DESPACHO / REITERA PEDIDO\") para interrumpir el plazo perentorio."
+    },
+    "borradoresGenerados": [
+      {
+        "id": "draft-1794164169241",
+        "titulo": "ACEPTA DEPÓSITO JUDICIAL Y DENUNCIA CBU",
+        "tipo": "DETERMINISTICO",
+        "fechaGeneracion": "2026-11-08T18:56:09.241Z",
+        "costo": "$0.00",
+        "estado": "LISTO_PARA_AUDITAR",
+        "texto": "ACEPTA DEPÓSITO JUDICIAL - DENUNCIA CBU - SOLICITA LIBRAMIENTO DE ORDEN DE TRANSFERENCIA\n\nSeñor Juez:\n\nDr. Marcelo Gómez, abogado inscripto en la Matrícula Profesional N° M.P. N° 4582 STJ Chaco - F° 124 T° V del Superior Tribunal de Justicia del Chaco, CUIT N° 20-28945612-7, en mi carácter de letrado apoderado de la parte actora, con domicilio procesal constituido en Av. 9 de Julio 345, Piso 4, Of. B, Resistencia, Chaco y domicilio procesal electrónico constituido en dr.gomez@estudiochaco.com.ar, en los autos caratulados: \"PEREZ JUAN C/ SEGUROS DEL NORTE S.A. S/ DAÑOS Y PERJUICIOS\", Expte. N° 14.820/25, en trámite por ante el Juzgado Civil y Comercial N° 3 - Resistencia, a V.S. respetuosamente digo:\n\nI. OBJETO:\nQue por el presente acto vengo en tiempo y forma procesal oportuna a manifestar que mi mandante, Pérez, Juan Carlos, ACEPTA EN PAGO el depósito judicial acreditado en autos en la cuenta bancaria de autos a la orden de este Tribunal, efectuado por la contraria / citada en garantía por la suma total de PESOS UN MILLÓN OCHOCIENTOS CINCUENTA MIL CON 00/100 ($ 1.850.000,00), imputándose íntegramente la misma a cuenta de capital e intereses correspondientes a la liquidación firme de autos.\n\nII. DENUNCIA CUENTA BANCARIA Y CBU PARA TRANSFERENCIA:\nA efectos de que se efectivice la percepción de las sumas depositadas y en cumplimiento de las acordadas del Superior Tribunal de Justicia del Chaco sobre libramiento de pagos electrónicos judiciales, vengo a denunciar la cuenta bancaria de titularidad de mi representada:\n- Titular de la Cuenta: Pérez, Juan Carlos\n- Documento (DNI/CUIL): DNI 24.112.980\n- Entidad Bancaria: Nuevo Banco del Chaco S.A.\n- Clave Bancaria Uniforme (CBU): 3110030200000123456789\n- Alias CBU: GOMEZ.ABOGADO.CHACO\n- Tipo de Cuenta: Caja de Ahorro en Pesos\n\nAsimismo, manifiesto bajo juramento de ley que la cuenta bancaria precedentemente individualizada se encuentra plenamente activa y habilitada para recibir transferencias judiciales.\n\nIII. APORTES DE LEY Y HONORARIOS:\nHabiéndose satisfecho las exigencias relativas a los aportes previsionales y de ley (Ley N° 833-C de Aranceles de Abogados y Procuradores del Chaco), no existe impedimento alguno para la efectivización de la orden de pago.\n\nIV. PETITORIO:\nPor todo lo manifestado, a V.S. solicito respetuosamente:\n1. Tenga por aceptado en pago el depósito judicial de $ 1.850.000,00.\n2. Tenga por denunciada la cuenta bancaria y CBU de la parte actora.\n3. Previa vista a la contraria y sin más trámite, ordene el libramiento de la pertinente Orden de Transferencia Electrónica Judicial a través del sistema IURIX / NBCH hacia la cuenta bancaria denunciada en el acápite II.\n\nProveer de conformidad,\nSERÁ JUSTICIA.\n\nResistencia (Chaco), 8 de noviembre de 2026.",
+        "html": "<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Escrito Judicial - Expte 14.820/25</title>\n  <style>\n    @page {\n      size: A4;\n      margin: 3.5cm 2.5cm 2.5cm 3cm;\n    }\n    body {\n      font-family: 'Times New Roman', Times, serif;\n      font-size: 13pt;\n      line-height: 1.6;\n      color: #111;\n      background: #fff;\n      margin: 0 auto;\n      max-width: 800px;\n      padding: 30px;\n    }\n    .titulo {\n      text-align: center;\n      font-weight: bold;\n      text-decoration: underline;\n      font-size: 14pt;\n      margin-bottom: 28px;\n      letter-spacing: 0.5px;\n    }\n    .encabezado {\n      font-weight: bold;\n      margin-bottom: 20px;\n    }\n    p {\n      text-align: justify;\n      text-indent: 40px;\n      margin-bottom: 16px;\n    }\n    .no-indent {\n      text-indent: 0;\n    }\n    .seccion-titulo {\n      font-weight: bold;\n      margin-top: 22px;\n      margin-bottom: 10px;\n      text-indent: 0;\n    }\n    .datos-banco {\n      background-color: #f8f9fa;\n      border-left: 3px solid #2b4c7e;\n      padding: 12px 20px;\n      margin: 18px 0;\n      font-family: monospace;\n      font-size: 11pt;\n    }\n    .petitorio-lista {\n      margin-left: 30px;\n      margin-bottom: 20px;\n    }\n    .petitorio-lista li {\n      margin-bottom: 8px;\n      text-align: justify;\n    }\n    .cierre {\n      text-align: center;\n      font-weight: bold;\n      margin-top: 36px;\n      margin-bottom: 40px;\n    }\n    .firma {\n      text-align: right;\n      margin-top: 60px;\n      font-size: 11pt;\n      line-height: 1.4;\n      border-top: 1px dashed #666;\n      display: inline-block;\n      float: right;\n      padding-top: 8px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"titulo\">ACEPTA DEPÓSITO JUDICIAL - DENUNCIA CBU - SOLICITA LIBRAMIENTO DE ORDEN DE TRANSFERENCIA</div>\n  \n  <div class=\"encabezado\">Señor Juez:</div>\n\n  <p><strong>Dr. Marcelo Gómez</strong>, abogado inscripto en la Matrícula Profesional N° M.P. N° 4582 STJ Chaco - F° 124 T° V del Superior Tribunal de Justicia del Chaco, CUIT N° 20-28945612-7, en representación de la parte actora, con domicilio procesal constituido en Av. 9 de Julio 345, Piso 4, Of. B, Resistencia, Chaco y casillero electrónico dr.gomez@estudiochaco.com.ar, en los autos caratulados: <em>\"PEREZ JUAN C/ SEGUROS DEL NORTE S.A. S/ DAÑOS Y PERJUICIOS\"</em>, Expte. N° <strong>14.820/25</strong>, en trámite por ante el Juzgado Civil y Comercial N° 3 - Resistencia, a V.S. respetuosamente digo:</p>\n\n  <div class=\"seccion-titulo\">I. OBJETO:</div>\n  <p>Que por el presente acto vengo en tiempo y forma oportuna a manifestar que mi mandante, <strong>Pérez, Juan Carlos</strong>, ACEPTA EN PAGO el depósito judicial acreditado en autos en la cuenta de este Tribunal, efectuado por la contraria por la suma total de <strong>PESOS UN MILLÓN OCHOCIENTOS CINCUENTA MIL CON 00/100 ($ 1.850.000,00)</strong>, imputándose íntegramente la misma a cuenta de capital e intereses devengados.</p>\n\n  <div class=\"seccion-titulo\">II. DENUNCIA CUENTA BANCARIA Y CBU PARA TRANSFERENCIA:</div>\n  <p>A efectos de que se efectivice la percepción de las sumas depositadas y en cumplimiento de las acordadas del Superior Tribunal de Justicia del Chaco relativas al libramiento de transferencias electrónicas judiciales, denuncio los datos de la cuenta bancaria de mi mandante:</p>\n\n  <div class=\"datos-banco\">\n    <strong>Titular:</strong> Pérez, Juan Carlos<br>\n    <strong>Documento:</strong> DNI 24.112.980<br>\n    <strong>Entidad Bancaria:</strong> Nuevo Banco del Chaco S.A.<br>\n    <strong>CBU:</strong> 3110030200000123456789<br>\n    <strong>Alias CBU:</strong> GOMEZ.ABOGADO.CHACO<br>\n    <strong>Tipo de Cuenta:</strong> Caja de Ahorro en Pesos\n  </div>\n\n  <p>Asimismo, manifiesto bajo juramento de ley que la cuenta informada se encuentra activa y habilitada para operar con órdenes de transferencia judicial.</p>\n\n  <div class=\"seccion-titulo\">III. PETITORIO:</div>\n  <p class=\"no-indent\">Por todo lo expuesto, a V.S. solicito:</p>\n  <ol class=\"petitorio-lista\">\n    <li>Tenga por aceptado en pago el depósito judicial de $ 1.850.000,00.</li>\n    <li>Tenga por denunciada la cuenta bancaria precedentemente individualizada.</li>\n    <li>Previa vista a la contraria y sin más dilaciones, ordene el libramiento de la pertinente Orden de Transferencia Electrónica Judicial a la cuenta denunciada en el acápite II.</li>\n  </ol>\n\n  <div class=\"cierre\">\n    Proveer de conformidad,<br>\n    SERÁ JUSTICIA.\n  </div>\n\n  <div class=\"firma\">\n    <strong>Dr. Marcelo Gómez</strong><br>\n    M.P. N° 4582 STJ Chaco - F° 124 T° V<br>\n    Apoderado Parte Actora<br>\n    Resistencia (Chaco), 8 de noviembre de 2026\n  </div>\n</body>\n</html>",
+        "filename": "Escrito_Acepta_Deposito_Expte_14_820_25.doc"
+      }
+    ],
+    "readyAction": "GENERAR_PAGO_SIMPLE"
+  },
+  {
+    "id": "causa-8310-24",
+    "expteNo": "8.310/24",
+    "caratula": "GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO INCAUSADO",
+    "juzgado": "Juzgado del Trabajo N° 1 - Resistencia",
+    "fuero": "Laboral",
+    "cliente": "Gómez, María Elena",
+    "clienteDoc": "DNI 28.445.892",
+    "clienteCuit": "27-28445892-3",
+    "tipoTramite": "COMPLEJO",
+    "estadoProcesal": "Salió a despacho - Traslado de liquidación e impugnación de pericia",
+    "fechaUltimoMovimiento": "2026-11-06",
+    "inactividadDias": 2,
+    "subcausas": [
+      {
+        "id": "sub-8310-1",
+        "titulo": "Incidente de Medida Cautelar de Embargo Preventivo",
+        "caratula": "GOMEZ MARIA S/ MEDIDA CAUTELAR S/ CONSTRUCTORA LITORAL S.R.L.",
+        "juzgado": "Juzgado del Trabajo N° 1",
+        "estado": "Embargo trabado y efectivizado sobre cuenta corriente bancaria por $3.500.000",
+        "fecha": "2026-08-14"
+      }
+    ],
+    "proveidoTexto": "Resistencia, 2026-11-06. Agréguese la pericia contable presentada por el Perito Contador Oficial CP. Jorge Valenzuela. Del informe pericial practicado y la liquidación de rubros indemnizatorios por distracto laboral incausado (arts. 232, 233, 245 de la LCT N° 20.744), córrase traslado a las partes por el término perentorio de CINCO (5) DÍAS HÁBILES bajo apercibimiento de ley. Notifíquese conforme Acordada STJ Chaco N° 3145. - Fdo. Dr. Raúl Benítez (Juez Laboral)",
+    "plazo": {
+      "startDate": "2026-11-06",
+      "businessDaysCount": 5,
+      "expirationDate": "2026-11-13",
+      "gracePeriodDate": "2026-11-17 09:00 hs (Plazo de Gracia)",
+      "remainingBusinessDays": 5,
+      "isExpired": false,
+      "isCritical": false
+    },
+    "watchdogCaducidad": {
+      "lastMovementDate": "2026-11-06",
+      "inactiveDays": 2,
+      "limitDays": 90,
+      "remainingDays": 88,
+      "percentageConsumed": 2,
+      "statusLevel": "NORMAL",
+      "badgeColor": "green",
+      "statusMessage": "En término procesal (2 días de inactividad)",
+      "recommendedMotion": "Presentar escrito simple de mero trámite (\"SOLICITA SE PASE A DESPACHO / REITERA PEDIDO\") para interrumpir el plazo perentorio."
+    },
+    "borradoresGenerados": [
+      {
+        "id": "draft-1794164184560",
+        "titulo": "BORRADOR COPILOTO IA - IMPUGNACIÓN / CONTESTACIÓN",
+        "tipo": "COPILOTO_IA_LOCAL",
+        "fechaGeneracion": "2026-11-08T18:56:24.560Z",
+        "costo": "$0.00 (Simulador Offline)",
+        "estado": "APROBADO_PARA_PRESENTACION_JUDICIAL",
+        "texto": "IMPUGNA PERICIA CONTABLE - MANIFIESTA DISCONFORMIDAD CON LIQUIDACIÓN - INTIMA AL PERITO A SUBSANAR OMISIONES - RESERVA CASO FEDERAL\n\nSeñor Juez:\n\nDr. Titular, por la representación letrada acreditada de la parte actora, Sra. Gómez, María Elena, en los autos caratulados: \"GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO INCAUSADO\", Expte. N° 8.310/24, en trámite por ante el Juzgado del Trabajo N° 1 - Resistencia, a V.S. respetuosamente digo:\n\nI. OBJETO:\nQue en legal tiempo y debida forma vengo por el presente acto a IMPUGNAR la pericia contable presentada en autos por el perito contador designado, por adolecer de vicios sustanciales de fundamentación técnico-aritmética y apartarse expresamente de las constancias documentales obrantes en autos, solicitando se ordene su rectificación con costas al perito o a la contraria en caso de oposición.\n\nII. FUNDAMENTOS DE LA IMPUGNACIÓN:\n1. Errónea determinación de la Base Remuneratoria (Art. 245 LCT): El perito omitió computar como parte integrante de la Mejor Remuneración Mensual Normal y Habitual (MRMNH) los conceptos no remunerativos que por pacífica jurisprudencia del Superior Tribunal de Justicia del Chaco poseen naturaleza salarial real (\"Pérez c/ Disco\", CSJN).\n2. Omitió liquidar las diferencias salariales devengadas correspondientes a las últimas categorías convencionales vigentes a la fecha del distracto.\n3. El perito aplicó una tasa de interés pasiva que pulveriza el crédito laboral alimentario, debiendo estarse a la Tasa Activa Cartera General del Nuevo Banco del Chaco S.A. conforme criterio plenario.\n\nIII. PETITORIO:\nPor todo lo expuesto, a V.S. solicito:\n1. Se tenga por presentada en tiempo y forma la impugnación a la pericia contable.\n2. Se corra traslado de la presente al perito contador por el término de ley a fin de que proceda a la rectificación solicitada.\n3. Oportunamente, se apruebe la liquidación que en definitiva practique esta parte.\n4. Se mantenga presente la reserva del Caso Federal (art. 14 Ley 48).\n\nProveer de conformidad,\nSERÁ JUSTICIA.",
+        "diagnostico": "El Juzgado Laboral ha puesto a disposición el informe del Perito Contador Oficial sobre liquidación de indemnización por despido incausado (arts. 232, 245 LCT). Se confirió traslado por el término perentorio de 5 días hábiles. Se detectaron discrepancias en la base de cálculo de la mejor remuneración mensual normal y habitual (MRMNH) y exclusión indebida del rubro SAC proporcional y diferencias de comisiones.",
+        "estrategia": "1. Impugnar la pericia contable dentro del plazo legal de 5 días hábiles.\n2. Señalar el error aritmético en el cálculo del tope indemnizatorio del Convenio Colectivo aplicable.\n3. Solicitar al Juzgado se intime al perito contador a rectificar la planilla en el plazo de 3 días bajo apercibimiento de remoción.\n4. Formular expresa reserva de la cuestión federal (art. 14 Ley 48).",
+        "plazoEstimado": "5 DÍAS HÁBILES (Vencimiento con plazo de gracia art. 124 CPCC)",
+        "aprobadoPor": "Dr. Marcelo Gómez (M.P. N° 4582 STJ Chaco - F° 124 T° V)",
+        "fechaAprobacion": "2026-11-08T18:56:38.497Z"
+      }
+    ],
+    "readyAction": "COPILOTO_IA_IMPUGNACION"
+  },
+  {
+    "id": "causa-3105-23",
+    "expteNo": "3.105/23",
+    "caratula": "BANCO DEL CHACO S.A. C/ RODRIGUEZ LUIS S/ JUICIO EJECUTIVO",
+    "juzgado": "Juzgado Civil y Comercial N° 6 - Resistencia",
+    "fuero": "Civil y Comercial (Ejecutivo)",
+    "cliente": "Rodríguez, Luis Alberto",
+    "clienteDoc": "DNI 17.892.401",
+    "clienteCuit": "20-17892401-8",
+    "tipoTramite": "CADUCIDAD_PENDIENTE",
+    "estadoProcesal": "ALERTA DE CADUCIDAD: 78 días sin impulso procesal de la contraria",
+    "fechaUltimoMovimiento": "2026-08-22",
+    "inactividadDias": 78,
+    "subcausas": [
+      {
+        "id": "sub-3105-1",
+        "titulo": "Incidente de Levantamiento de Embargo de Haberes",
+        "caratula": "RODRIGUEZ LUIS S/ LEVANTAMIENTO DE EMBARGO EN AUTOS PRINCIPALES",
+        "juzgado": "Juzgado Civil y Comercial N° 6",
+        "estado": "Contestó vista el ejecutante. A la espera de auto resolutorio.",
+        "fecha": "2026-06-20"
+      },
+      {
+        "id": "sub-3105-2",
+        "titulo": "Beneficio de Litigar sin Gastos (Art. 78 CPCC Chaco)",
+        "caratula": "RODRIGUEZ LUIS S/ BENEFICIO DE LITIGAR SIN GASTOS",
+        "juzgado": "Juzgado Civil y Comercial N° 6",
+        "estado": "Concesión provisoria otorgada por el juzgado",
+        "fecha": "2026-05-11"
+      }
+    ],
+    "proveidoTexto": "Resistencia, 2026-08-22. Atento al estado de autos y no habiéndose instado el procedimiento por la parte actora ejecutante, téngase presente. Autos a despacho para lo que por derecho corresponda. Notifíquese por nota.",
+    "plazo": null,
+    "watchdogCaducidad": {
+      "lastMovementDate": "2026-08-22",
+      "inactiveDays": 78,
+      "limitDays": 90,
+      "remainingDays": 12,
+      "percentageConsumed": 87,
+      "statusLevel": "CRITICAL",
+      "badgeColor": "danger",
+      "statusMessage": "ALERTA CRÍTICA: Restan solo 12 días corridos para la caducidad (87% consumido). Presentar escrito impulsor urgente.",
+      "recommendedMotion": "Presentar escrito simple de mero trámite (\"SOLICITA SE PASE A DESPACHO / REITERA PEDIDO\") para interrumpir el plazo perentorio."
+    },
+    "borradoresGenerados": [],
+    "readyAction": "WATCHDOG_CADUCIDAD_ACCION"
+  }
+]

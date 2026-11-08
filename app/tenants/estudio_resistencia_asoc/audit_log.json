@@ -1,0 +1,11 @@
+[
+  {
+    "id": "log-seed-1",
+    "timestamp": "2026-11-08T18:55:30.869Z",
+    "user": "Sistema Multi-Tenant Chaco",
+    "role": "ADMIN",
+    "action": "INIT_TENANT",
+    "details": "Estudio inicializado con repositorio aislado en tenants/estudio_resistencia_asoc",
+    "ip": "127.0.0.1"
+  }
+]

@@ -1,0 +1,135 @@
+[
+  {
+    "id": "causa-14820-25",
+    "expteNo": "14.820/25",
+    "caratula": "PEREZ JUAN C/ SEGUROS DEL NORTE S.A. S/ DAÑOS Y PERJUICIOS",
+    "juzgado": "Juzgado Civil y Comercial N° 3 - Resistencia",
+    "fuero": "Civil y Comercial",
+    "cliente": "Pérez, Juan Carlos",
+    "clienteDoc": "DNI 24.112.980",
+    "clienteCuit": "20-24112980-4",
+    "tipoTramite": "SIMPLE",
+    "estadoProcesal": "Salió a despacho - Depósito Judicial disponible",
+    "montoDepositado": 1850000,
+    "fechaUltimoMovimiento": "2026-11-08",
+    "inactividadDias": 0,
+    "subcausas": [],
+    "proveidoTexto": "Resistencia, 2026-11-08. Téngase por acreditado en autos el depósito judicial efectuado por la citada en garantía SEGUROS DEL NORTE S.A. en la cuenta judicial a la orden de este Tribunal en el Nuevo Banco del Chaco S.A., por la suma de PESOS UN MILLÓN OCHOCIENTOS CINCUENTA MIL ($1.850.000,00). Del mismo, córrase traslado a la actora por el término de ley y manifieste sobre la dación en pago y denuncie cuenta bancaria y CBU a sus efectos. Notifíquese por cédula electrónica. - Fdo. Dra. Elena Ruiz (Jueza Civil y Comercial N° 3)",
+    "plazo": {
+      "startDate": "2026-11-08",
+      "businessDaysCount": 5,
+      "expirationDate": "2026-11-13",
+      "gracePeriodDate": "2026-11-17 09:00 hs (Plazo de Gracia)",
+      "remainingBusinessDays": 5,
+      "isExpired": false,
+      "isCritical": false
+    },
+    "watchdogCaducidad": {
+      "lastMovementDate": "2026-11-08",
+      "inactiveDays": 0,
+      "limitDays": 90,
+      "remainingDays": 90,
+      "percentageConsumed": 0,
+      "statusLevel": "NORMAL",
+      "badgeColor": "green",
+      "statusMessage": "En término procesal (0 días de inactividad)",
+      "recommendedMotion": "Presentar escrito simple de mero trámite (\"SOLICITA SE PASE A DESPACHO / REITERA PEDIDO\") para interrumpir el plazo perentorio."
+    },
+    "borradoresGenerados": [],
+    "readyAction": "GENERAR_PAGO_SIMPLE"
+  },
+  {
+    "id": "causa-8310-24",
+    "expteNo": "8.310/24",
+    "caratula": "GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO INCAUSADO",
+    "juzgado": "Juzgado del Trabajo N° 1 - Resistencia",
+    "fuero": "Laboral",
+    "cliente": "Gómez, María Elena",
+    "clienteDoc": "DNI 28.445.892",
+    "clienteCuit": "27-28445892-3",
+    "tipoTramite": "COMPLEJO",
+    "estadoProcesal": "Salió a despacho - Traslado de liquidación e impugnación de pericia",
+    "fechaUltimoMovimiento": "2026-11-06",
+    "inactividadDias": 2,
+    "subcausas": [
+      {
+        "id": "sub-8310-1",
+        "titulo": "Incidente de Medida Cautelar de Embargo Preventivo",
+        "caratula": "GOMEZ MARIA S/ MEDIDA CAUTELAR S/ CONSTRUCTORA LITORAL S.R.L.",
+        "juzgado": "Juzgado del Trabajo N° 1",
+        "estado": "Embargo trabado y efectivizado sobre cuenta corriente bancaria por $3.500.000",
+        "fecha": "2026-08-14"
+      }
+    ],
+    "proveidoTexto": "Resistencia, 2026-11-06. Agréguese la pericia contable presentada por el Perito Contador Oficial CP. Jorge Valenzuela. Del informe pericial practicado y la liquidación de rubros indemnizatorios por distracto laboral incausado (arts. 232, 233, 245 de la LCT N° 20.744), córrase traslado a las partes por el término perentorio de CINCO (5) DÍAS HÁBILES bajo apercibimiento de ley. Notifíquese conforme Acordada STJ Chaco N° 3145. - Fdo. Dr. Raúl Benítez (Juez Laboral)",
+    "plazo": {
+      "startDate": "2026-11-06",
+      "businessDaysCount": 5,
+      "expirationDate": "2026-11-13",
+      "gracePeriodDate": "2026-11-17 09:00 hs (Plazo de Gracia)",
+      "remainingBusinessDays": 5,
+      "isExpired": false,
+      "isCritical": false
+    },
+    "watchdogCaducidad": {
+      "lastMovementDate": "2026-11-06",
+      "inactiveDays": 2,
+      "limitDays": 90,
+      "remainingDays": 88,
+      "percentageConsumed": 2,
+      "statusLevel": "NORMAL",
+      "badgeColor": "green",
+      "statusMessage": "En término procesal (2 días de inactividad)",
+      "recommendedMotion": "Presentar escrito simple de mero trámite (\"SOLICITA SE PASE A DESPACHO / REITERA PEDIDO\") para interrumpir el plazo perentorio."
+    },
+    "borradoresGenerados": [],
+    "readyAction": "COPILOTO_IA_IMPUGNACION"
+  },
+  {
+    "id": "causa-3105-23",
+    "expteNo": "3.105/23",
+    "caratula": "BANCO DEL CHACO S.A. C/ RODRIGUEZ LUIS S/ JUICIO EJECUTIVO",
+    "juzgado": "Juzgado Civil y Comercial N° 6 - Resistencia",
+    "fuero": "Civil y Comercial (Ejecutivo)",
+    "cliente": "Rodríguez, Luis Alberto",
+    "clienteDoc": "DNI 17.892.401",
+    "clienteCuit": "20-17892401-8",
+    "tipoTramite": "CADUCIDAD_PENDIENTE",
+    "estadoProcesal": "ALERTA DE CADUCIDAD: 78 días sin impulso procesal de la contraria",
+    "fechaUltimoMovimiento": "2026-08-22",
+    "inactividadDias": 78,
+    "subcausas": [
+      {
+        "id": "sub-3105-1",
+        "titulo": "Incidente de Levantamiento de Embargo de Haberes",
+        "caratula": "RODRIGUEZ LUIS S/ LEVANTAMIENTO DE EMBARGO EN AUTOS PRINCIPALES",
+        "juzgado": "Juzgado Civil y Comercial N° 6",
+        "estado": "Contestó vista el ejecutante. A la espera de auto resolutorio.",
+        "fecha": "2026-06-20"
+      },
+      {
+        "id": "sub-3105-2",
+        "titulo": "Beneficio de Litigar sin Gastos (Art. 78 CPCC Chaco)",
+        "caratula": "RODRIGUEZ LUIS S/ BENEFICIO DE LITIGAR SIN GASTOS",
+        "juzgado": "Juzgado Civil y Comercial N° 6",
+        "estado": "Concesión provisoria otorgada por el juzgado",
+        "fecha": "2026-05-11"
+      }
+    ],
+    "proveidoTexto": "Resistencia, 2026-08-22. Atento al estado de autos y no habiéndose instado el procedimiento por la parte actora ejecutante, téngase presente. Autos a despacho para lo que por derecho corresponda. Notifíquese por nota.",
+    "plazo": null,
+    "watchdogCaducidad": {
+      "lastMovementDate": "2026-08-22",
+      "inactiveDays": 78,
+      "limitDays": 90,
+      "remainingDays": 12,
+      "percentageConsumed": 87,
+      "statusLevel": "CRITICAL",
+      "badgeColor": "danger",
+      "statusMessage": "ALERTA CRÍTICA: Restan solo 12 días corridos para la caducidad (87% consumido). Presentar escrito impulsor urgente.",
+      "recommendedMotion": "Presentar escrito simple de mero trámite (\"SOLICITA SE PASE A DESPACHO / REITERA PEDIDO\") para interrumpir el plazo perentorio."
+    },
+    "borradoresGenerados": [],
+    "readyAction": "WATCHDOG_CADUCIDAD_ACCION"
+  }
+]

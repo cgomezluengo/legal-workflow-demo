@@ -1,0 +1,8 @@
+{
+  "active": true,
+  "plan": "Claude Pro Legal Copilot (Suscripción Ilimitada)",
+  "accountEmail": "dr.gomez@estudiochaco.com.ar",
+  "connectedAt": "2026-11-08T18:55:44.136Z",
+  "tenantId": "estudio_chaco_central",
+  "bridgeType": "Orca/CLI Multi-Tenant Proxy"
+}

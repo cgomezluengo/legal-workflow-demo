@@ -1,0 +1,20 @@
+[
+  {
+    "id": "presc-001",
+    "caratula": "MARTINEZ ROBERTO C/ TRANSPORTES DEL CHACO S.R.L. S/ DAÑOS (Siniestro Vial)",
+    "cliente": "Martínez, Roberto Carlos",
+    "fechaHecho": "2023-11-20",
+    "plazoPrescripcionAnios": 3,
+    "materia": "Responsabilidad Civil Extracontractual (Art. 2561 CCCN)",
+    "estado": "Etapa prejudicial / Negociación con aseguradora",
+    "watchdog": {
+      "eventDate": "2023-11-20",
+      "prescriptionYears": 3,
+      "claimType": "Daños y Perjuicios (CCN 2561)",
+      "expirationDate": "2026-11-20",
+      "remainingDays": 12,
+      "isAlert": true,
+      "alertMessage": "ALERTA DE PRESCRIPCIÓN: Vence en 12 días. Iniciar demanda o interpelación auténtica (art. 2541 CCCN)."
+    }
+  }
+]

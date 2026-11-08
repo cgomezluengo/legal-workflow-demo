@@ -1,0 +1,5 @@
+﻿ID,Pregunta / Requisito a pedirle al abogado,Para qué lo necesitamos (Impacto Técnico),Respuesta del Abogado,Estado
+V-01,Reenviar 3 ejemplos reales de los mails de Gmail que dicen 'Salió a despacho'.,"Para ver qué datos exactos trae el mail (si trae el N° de expediente limpio, carátula, juzgado o un link directo).",,Pendiente
+V-02,"¿Cómo entra exactamente a la página del PJ Chaco para bajar los PDFs? (¿Usuario y clave normal, tiene CAPTCHA de imágenes/'No soy un robot', o pide enchufar Token USB?).",Define si el robot puede descargar los PDFs 100% solo a la madrugada o si necesita que él haga clic para autorizar.,,Pendiente
+V-03,Compartir 3 o 4 plantillas Word reales (ej. el escrito de 'acepto depósito y denuncio cuenta bancaria') y 1 PDF de un proveído real del juzgado.,Para diseñar el generador automático de documentos en Word y probar cómo lee la IA los PDFs del juzgado.,,Pendiente
+V-04,"Definir exactamente qué puede hacer el usuario 'Invitado / Secretario' (ej. ¿solo ver borradores y redactar en causas asignadas, o puede ver todas las causas?).",Para configurar los permisos de seguridad y proteger sus modelos exclusivos desde el día uno.,,Pendiente

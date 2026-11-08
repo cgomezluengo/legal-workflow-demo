@@ -1,0 +1,30 @@
+[
+  {
+    "id": "notif-001",
+    "origen": "Poder Judicial del Chaco (Gmail - IURIX/INDI)",
+    "remitente": "notificaciones-iurix@justiciachaco.gov.ar",
+    "asunto": "PJ Chaco - Causa Salió a Despacho - Expte. 14.820/25",
+    "fecha": "2026-11-08 07:15 hs",
+    "expteNo": "14.820/25",
+    "caratula": "PEREZ JUAN C/ SEGUROS DEL NORTE S/ DAÑOS Y PERJUICIOS",
+    "juzgado": "Juzgado Civil y Comercial N° 3",
+    "resumen": "Se acreditó el depósito judicial por $1.850.000. Traslado para denunciar CBU y manifestar conformidad.",
+    "leido": false,
+    "tipoTramite": "SIMPLE",
+    "causaId": "causa-14820-25"
+  },
+  {
+    "id": "notif-002",
+    "origen": "Poder Judicial del Chaco (Gmail - IURIX/INDI)",
+    "remitente": "notificaciones-iurix@justiciachaco.gov.ar",
+    "asunto": "PJ Chaco - Causa Salió a Despacho - Expte. 8.310/24",
+    "fecha": "2026-11-08 07:22 hs",
+    "expteNo": "8.310/24",
+    "caratula": "GOMEZ MARIA C/ CONSTRUCTORA LITORAL S/ DESPIDO",
+    "juzgado": "Juzgado del Trabajo N° 1",
+    "resumen": "Presentación de pericia contable oficial. Traslado de liquidación por 5 días hábiles.",
+    "leido": false,
+    "tipoTramite": "COMPLEJO",
+    "causaId": "causa-8310-24"
+  }
+]

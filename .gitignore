@@ -1,0 +1,4 @@
+node_modules/
+app/tenants/*/.*
+!app/tenants/*/.gitkeep
+.DS_Store
