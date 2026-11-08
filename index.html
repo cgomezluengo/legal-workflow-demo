@@ -3,337 +3,324 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LexFlow — Automatización Procesal & Copiloto Legal</title>
+  <title>LexChaco — Automatización Procesal & Copiloto Legal</title>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- BARRA SUPERIOR FORMAL -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="brand-mark">LF</div>
-        <div class="brand-text">
-          <h1 id="tenantNameTitle">Estudio Jurídico titular</h1>
-          <p id="tenantSubTitle">Automatización de Recorrida Judicial & Redacción Asistida</p>
-        </div>
-      </div>
+  <div class="app-layout">
 
-      <div class="topbar-controls">
-        <select id="tenantSelect" class="select-clean" aria-label="Seleccionar estudio">
-          <option value="estudio_principal">Estudio Jurídico Principal (Titular)</option>
-          <option value="estudio_asociados">Estudio Asociados & Cía</option>
-        </select>
-
-        <div class="segmented-control" role="group" aria-label="Rol de usuario">
-          <button type="button" id="btnRoleAdmin" class="seg-btn active">Administrador</button>
-          <button type="button" id="btnRoleGuest" class="seg-btn">Invitado / Secretario</button>
-        </div>
-
-        <button type="button" id="btnOpenSubModal" class="sub-pill">
-          <span class="dot" id="subDot"></span>
-          <span id="subStatusText">Suscripción: Claude Pro (Activa)</span>
-        </button>
-
-        <button type="button" id="btnModelsVault" class="btn btn-outline">
-          Biblioteca de Modelos
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-
-    <!-- FLUJO DE VALOR EN 3 PASOS -->
-    <section class="workflow-banner">
-      <div class="workflow-header">
-        <h2>Flujo de Trabajo Diario Automatizado (Conectado a tu propia suscripción)</h2>
-        <span>Costo de API: $0.00 — Usa tu cuenta personal</span>
-      </div>
-
-      <div class="workflow-steps">
-        <div class="step-card">
-          <div>
-            <div class="step-num">Paso 1 — Conexión de Cuenta</div>
-            <h3>Vinculá tu propia suscripción de IA</h3>
-            <p>Conectá tu cuenta existente de Claude Pro, ChatGPT Plus o Gemini Advanced mediante sesión aislada por estudio. Sin pagar tokens ni API Keys adicionales.</p>
-          </div>
-          <div class="step-footer">
-            <span id="stepProviderLabel">Motor activo: Claude Pro</span>
-            <button type="button" class="btn btn-outline btn-sm" id="btnStepConfigSub">Cambiar cuenta</button>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div>
-            <div class="step-num">Paso 2 — Lectura de Despacho y PDFs</div>
-            <h3>Sincronización automática de Recorrida</h3>
-            <p>Al recibir el aviso en Gmail ("Salió a despacho"), el sistema consulta el listado de recorrida, detecta Notificaciones Art. 155 y descarga el PDF del proveído automáticamente.</p>
-          </div>
-          <div class="step-footer">
-            <span>Evita abrir expedientes uno por uno</span>
-            <button type="button" class="btn btn-accent btn-sm" id="btnSimulateSync">Simular llegada de Despacho</button>
-          </div>
-        </div>
-
-        <div class="step-card">
-          <div>
-            <div class="step-num">Paso 3 — Ejecución de Tareas</div>
-            <h3>Análisis del PDF y Borrador listo para auditar</h3>
-            <p>Para trámites simples genera el escrito en Word al instante (ej. acepta depósito y denuncia CBU). Para traslados complejos redacta el proyecto de escrito para tu revisión final.</p>
-          </div>
-          <div class="step-footer">
-            <span>Control profesional 100% del abogado</span>
-            <button type="button" class="btn btn-outline btn-sm" id="btnGoPdfTab">Probar con PDFs de ejemplo</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- INDICADORES OPERATIVOS -->
-    <section class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">Expedientes en Recorrida</div>
-        <div class="kpi-value" id="kpiTotalCases">4</div>
-        <div class="kpi-sub">Sincronizados con IURE / INDI</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Salieron a Despacho Hoy</div>
-        <div class="kpi-value" id="kpiTodayDispatch">3</div>
-        <div class="kpi-sub">PDFs descargados y analizados</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Plazos Procesales Corriendo</div>
-        <div class="kpi-value" id="kpiActiveDeadlines">2</div>
-        <div class="kpi-sub">Calculados en días hábiles judiciales</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Alertas de Caducidad / Prescripción</div>
-        <div class="kpi-value" id="kpiCaducidadAlerts">1</div>
-        <div class="kpi-sub">Control preventivo de 90 días (3 meses)</div>
-      </div>
-    </section>
-
-    <!-- NAVEGACIÓN PRINCIPAL -->
-    <div class="tabs-bar">
-      <div class="tabs-list">
-        <button type="button" class="tab-link active" data-tab="recorrida">1. Listado de Recorrida y Despacho Diario</button>
-        <button type="button" class="tab-link" data-tab="expedientes">2. Causas, Sub-causas y Tareas de IA</button>
-        <button type="button" class="tab-link" data-tab="pdfs">3. Visor y Analizador de PDFs Judiciales</button>
-        <button type="button" class="tab-link" data-tab="auditoria">4. Control de Plazos y Registro de Auditoría</button>
-      </div>
-
+    <!-- SIDEBAR DE NAVEGACIÓN MODERNA -->
+    <aside class="sidebar">
       <div>
-        <input type="search" id="searchInput" class="select-clean" style="padding-right:12px; width:260px;" placeholder="Filtrar por expediente o carátula...">
-      </div>
-    </div>
-
-    <!-- SECCIÓN 1: LISTADO DE RECORRIDA -->
-    <section id="tab-recorrida" class="tab-panel">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h3>Listado de Recorrida — Mis Expedientes y Notificaciones Recientes</h3>
-            <p>Réplica automatizada del Sistema de Control de Trámites Procesales y Notificaciones (IURE / Lex). Los proveídos nuevos ya fueron descargados.</p>
+        <div class="sidebar-header">
+          <div class="brand-wrapper">
+            <div class="brand-logo">LX</div>
+            <div>
+              <div class="brand-title">LexChaco</div>
+              <div class="brand-sub">Copiloto Procesal IURE / INDI</div>
+            </div>
           </div>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-outline btn-sm" id="btnFilterArt155">Solo Notificaciones Art. 155</button>
-            <button type="button" class="btn btn-primary btn-sm" id="btnSimulateSyncTable">+ Simular nuevo correo "Salió a Despacho"</button>
+
+          <select id="tenantSelect" class="tenant-picker">
+            <option value="estudio_principal">Estudio Jurídico Dr. Gómez</option>
+            <option value="estudio_asociados">Estudio Asociados Resistencia</option>
+          </select>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section-title">Despacho Diario</div>
+          <button type="button" class="nav-item active" data-tab="despacho">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+              <span>Bandeja de Despacho</span>
+            </div>
+            <span class="nav-badge" id="badgeInboxCount">3</span>
+          </button>
+
+          <button type="button" class="nav-item" data-tab="recorrida">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              <span>Mis Expedientes (Recorrida)</span>
+            </div>
+            <span class="nav-badge subtle" id="badgeTotalCases">4</span>
+          </button>
+
+          <div class="nav-section-title">Herramientas e IA</div>
+          <button type="button" class="nav-item" data-tab="pdf-viewer">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              <span>Visor & Analizador de PDFs</span>
+            </div>
+          </button>
+
+          <button type="button" class="nav-item" data-tab="vencimientos">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Vencimientos & Caducidad</span>
+            </div>
+            <span class="nav-badge" style="background:#d97706;" id="badgeCaducidadCount">1</span>
+          </button>
+
+          <button type="button" class="nav-item" data-tab="auditoria">
+            <div class="nav-item-left">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>Auditoría & Modelos</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- FOOTER DE SIDEBAR: SUSCRIPCIÓN PERSONAL Y PERFIL -->
+      <div class="sidebar-footer">
+        <div class="sub-card-box" id="btnSubConfigTrigger" title="Haz clic para cambiar o configurar tu suscripción">
+          <div class="sub-card-top">
+            <div class="sub-card-name">
+              <span class="status-dot"></span>
+              <span id="subSidebarName">Claude Pro</span>
+            </div>
+            <span class="sub-card-cost">$0 API</span>
+          </div>
+          <div class="sub-card-desc">Suscripción personal vinculada</div>
+        </div>
+
+        <div class="user-profile-row">
+          <div class="user-profile-info">
+            <div class="avatar-pill" id="userAvatarText">MG</div>
+            <div class="user-names">
+              <div class="user-name-text" id="userNameLabel">Dr. Marcelo Gómez</div>
+              <div class="user-role-text" id="userRoleLabel">Abogado Titular</div>
+            </div>
+          </div>
+          <button type="button" class="role-tag-switch" id="btnToggleRoleQuick" title="Cambiar a rol Invitado/Secretario">Cambiar</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main class="main-content">
+
+      <!-- HEADER SUPERIOR -->
+      <header class="content-header">
+        <div class="header-left">
+          <div class="page-title" id="pageTitle">Bandeja de Despacho Diario</div>
+          <div class="header-search">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" id="searchGlobalInput" placeholder="Buscar por expediente, carátula o cliente...">
           </div>
         </div>
 
-        <div class="table-wrap">
-          <table class="data-table">
+        <div class="header-right">
+          <button type="button" class="btn btn-secondary" id="btnSyncGmailAction">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>Simular Despacho 07:00 hs</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="btnOpenPdfTabDirect">
+            <span>Visor de PDFs</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VISTA 1: BANDEJA DE DESPACHO (MASTER-DETAIL) -->
+      <section id="view-despacho" class="tab-view active">
+        <div class="master-detail-container">
+          
+          <!-- LISTA IZQUIERDA -->
+          <div class="master-list-pane">
+            <div class="master-list-toolbar">
+              <span style="font-weight:600; font-size:12px; color:var(--text-secondary);">Causas con movimiento hoy</span>
+              <span class="badge badge-blue" id="despachoBadgeSub">IURE / INDI</span>
+            </div>
+            <div class="master-list-items" id="masterDispatchList"></div>
+          </div>
+
+          <!-- DETALLE DERECHO -->
+          <div class="detail-pane" id="detailCasePane"></div>
+
+        </div>
+      </section>
+
+      <!-- VISTA 2: LISTADO DE RECORRIDA COMPLETO -->
+      <section id="view-recorrida" class="tab-view">
+        <div class="table-container-card">
+          <div style="padding:14px 18px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-weight:600; font-size:14px; color:var(--text-main);">Mis Expedientes en Recorrida (IURE / Lex Chaco)</div>
+              <div style="font-size:12px; color:var(--text-muted);">Sincronización automática de notificaciones electrónicas</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btnFilterArt155Only">Solo Art. 155 CPCCCh</button>
+            </div>
+          </div>
+          <table class="clean-table">
             <thead>
               <tr>
                 <th>N° Expediente</th>
-                <th>Carátula / Cliente</th>
-                <th>Dependencia / Juzgado</th>
-                <th>Motivo / Notificación</th>
-                <th>Fecha</th>
+                <th>Carátula</th>
+                <th>Juzgado / Dependencia</th>
+                <th>Notificación</th>
+                <th>Última Actuación</th>
                 <th>Acceso</th>
-                <th>Tarea Recomendada por tu IA</th>
-                <th>Acciones</th>
+                <th>Acción</th>
               </tr>
             </thead>
-            <tbody id="recorridaTableBody"></tbody>
+            <tbody id="recorridaFullTableBody"></tbody>
           </table>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SECCIÓN 2: EXPEDIENTES, HISTORIA Y BORRADORES -->
-    <section id="tab-expedientes" class="tab-panel" style="display:none;">
-      <div class="case-grid" id="casesDetailContainer"></div>
-    </section>
-
-    <!-- SECCIÓN 3: ANALIZADOR Y VISOR DE PDFs JUDICIALES -->
-    <section id="tab-pdfs" class="tab-panel" style="display:none;">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h3>Ejemplos Específicos de PDFs Judiciales (Lectura, Extracción y Redacción Automática)</h3>
-            <p>Seleccioná uno de los 4 PDFs judiciales de ejemplo o subí un archivo PDF propio desde tu computadora para ver qué extrae el sistema y qué escrito genera.</p>
+      <!-- VISTA 3: VISOR & ANALIZADOR DE PDFs (SPLIT SCREEN) -->
+      <section id="view-pdf-viewer" class="tab-view">
+        <div class="pdf-workspace-view">
+          
+          <!-- COLUMNA IZQUIERDA: DOCUMENTO JUDICIAL -->
+          <div class="pdf-preview-col">
+            <div class="pdf-document-sheet" id="pdfDocumentSheet"></div>
           </div>
-          <div style="display:flex; gap:8px;">
-            <input type="file" id="customPdfInput" accept=".pdf" style="display:none;">
-            <button type="button" class="btn btn-outline btn-sm" id="btnUploadCustomPdf">Subir un PDF de mi computadora</button>
-            <a id="btnDownloadCurrentPdf" href="pdfs/proveido_14820_25_deposito.pdf" download class="btn btn-primary btn-sm">Descargar este PDF de ejemplo</a>
-          </div>
-        </div>
 
-        <div style="padding: 20px;">
-          <!-- Selector de los 4 PDFs de ejemplo -->
-          <div class="pdf-samples-grid" id="pdfSamplesGrid"></div>
+          <!-- COLUMNA DERECHA: ASISTENTE & ACCIONES -->
+          <div class="pdf-side-controls">
+            <div style="margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-weight:600; font-size:13px; color:var(--text-main);">Ejemplos Oficiales del Chaco</span>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnUploadCustomPdf">Subir mi PDF</button>
+              <input type="file" id="inputPdfUpload" accept=".pdf" style="display:none;">
+            </div>
 
-          <!-- Pantalla dividida: Documento PDF a la izquierda / Análisis y Escrito a la derecha -->
-          <div class="split-workspace">
-            <div>
-              <div class="panel-label">
-                <span>Vista Previa del Documento PDF Descargado del Juzgado</span>
-                <span style="font-weight:400; text-transform:none;">Resaltado automático: <mark class="hl-amount">Montos</mark> · <mark class="hl-deadline">Plazos</mark> · <mark class="hl-law">Normativa</mark></span>
+            <div class="sample-pills-row" id="samplePillsRow"></div>
+
+            <div style="margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--text-muted); letter-spacing:0.05em;">Datos Detectados en el PDF</span>
+                <span class="badge badge-green" id="pdfSourceTag">Claude Pro ($0 API)</span>
               </div>
-              <div class="legal-paper" id="pdfPaperView"></div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;" id="pdfExtractedGrid"></div>
             </div>
 
-            <div class="card" style="margin-bottom:0;">
-              <div class="card-header">
-                <div>
-                  <h3 id="pdfTaskHeaderTitle">Resultado del Análisis y Borrador Generado</h3>
-                  <p id="pdfTaskHeaderSub">Procesado automáticamente con tu suscripción vinculada</p>
-                </div>
-                <span class="badge badge-blue" id="pdfTaskTypeBadge">Trámite Simple</span>
+            <div style="margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--text-muted); letter-spacing:0.05em;">Borrador Judicial Sugerido</span>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnCopyDraftText">Copiar</button>
               </div>
-              <div style="padding: 20px;">
-                <div class="extracted-list" id="pdfExtractedFields"></div>
+              <textarea id="pdfDraftEditorArea" class="draft-textarea" style="border:1px solid var(--border); border-radius:var(--radius-sm); height:220px;"></textarea>
+            </div>
 
-                <div class="panel-label" style="margin-top:8px;">
-                  <span>Proyecto de Escrito Judicial (Editable para Auditar)</span>
-                  <span id="pdfAiSourceTag" style="color:var(--accent);">Generado por Plantilla / Suscripción</span>
-                </div>
-                <textarea id="pdfDraftTextarea" class="editor-textarea"></textarea>
+            <div style="display:flex; gap:8px; justify-content:flex-end;">
+              <button type="button" class="btn btn-secondary" id="btnDownloadWordFile">Descargar Word (.doc)</button>
+              <button type="button" class="btn btn-primary" id="btnApproveDraftAction">Auditar y Aprobar</button>
+            </div>
+          </div>
 
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:8px; flex-wrap:wrap;">
-                  <div style="display:flex; gap:8px;">
-                    <button type="button" class="btn btn-outline btn-sm" id="btnCopyPdfDraft">Copiar texto</button>
-                    <button type="button" class="btn btn-outline btn-sm" id="btnDownloadWordDraft">Descargar en Word (.doc)</button>
-                  </div>
-                  <button type="button" class="btn btn-primary" id="btnApprovePdfDraft">Auditar y Aprobar Escrito</button>
-                </div>
+        </div>
+      </section>
+
+      <!-- VISTA 4: VENCIMIENTOS Y CADUCIDAD -->
+      <section id="view-vencimientos" class="tab-view">
+        <div style="padding:20px; max-width:1000px; margin:0 auto; width:100%;">
+          <div class="detail-card">
+            <h3 style="font-size:15px; font-weight:600; margin-bottom:6px;">Watchdog de Caducidad de Instancia (Límite 3 meses / 90 días)</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">Monitoreo proactivo para evitar la pérdida de procesos por inactividad procesal (Art. 310 CPCCCh).</p>
+            <div id="caducidadListContainer"></div>
+          </div>
+
+          <div class="detail-card">
+            <h3 style="font-size:15px; font-weight:600; margin-bottom:6px;">Watchdog de Prescripción de Derechos (Extrajudicial)</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">Alertas antes del vencimiento del plazo para interponer la demanda judicial.</p>
+            <div id="prescripcionListContainer"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISTA 5: AUDITORÍA Y MODELOS -->
+      <section id="view-auditoria" class="tab-view">
+        <div style="padding:20px;">
+          <div class="detail-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <div>
+                <h3 style="font-size:15px; font-weight:600;">Biblioteca de Modelos Procesales (Patrimonio Intelectual)</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Protección activa: Los usuarios invitados/secretarios no pueden exportar masivamente las plantillas.</p>
               </div>
+              <span class="badge badge-green">4 Modelos Activos</span>
             </div>
+            <div id="modelsVaultContainer"></div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- SECCIÓN 4: PLAZOS Y AUDITORÍA -->
-    <section id="tab-auditoria" class="tab-panel" style="display:none;">
-      <div class="case-columns" style="margin-bottom: 20px;">
-        <div class="card" style="margin-bottom:0;">
-          <div class="card-header">
-            <div>
-              <h3>Watchdog de Caducidad de Instancia (Límite 3 Meses / 90 Días)</h3>
-              <p>Monitoreo automático de inactividad procesal para evitar la caducidad del expediente.</p>
+          <div class="table-container-card" style="margin:0;">
+            <div style="padding:14px 18px; border-bottom:1px solid var(--border);">
+              <div style="font-weight:600; font-size:14px;">Registro de Auditoría Inmutable</div>
             </div>
-          </div>
-          <div style="padding: 20px;" id="caducidadWatchdogList"></div>
-        </div>
-
-        <div class="card" style="margin-bottom:0;">
-          <div class="card-header">
-            <div>
-              <h3>Watchdog de Prescripción de Derechos (Previo a Demanda)</h3>
-              <p>Control de carpetas en etapa extrajudicial antes del vencimiento de la acción legal.</p>
-            </div>
-          </div>
-          <div style="padding: 20px;" id="prescripcionWatchdogList"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h3>Registro Inmutable de Auditoría y Accesos (Protección de Patrimonio Intelectual)</h3>
-            <p>Trazabilidad completa de qué usuario (Titular o Invitado/Secretario) visualizó, generó o aprobó cada documento.</p>
+            <table class="clean-table">
+              <thead>
+                <tr>
+                  <th>Fecha/Hora</th>
+                  <th>Usuario</th>
+                  <th>Rol</th>
+                  <th>Operación</th>
+                  <th>Detalle del Registro</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBodyMain"></tbody>
+            </table>
           </div>
         </div>
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Fecha y Hora</th>
-                <th>Usuario</th>
-                <th>Rol</th>
-                <th>Evento</th>
-                <th>Detalle</th>
-              </tr>
-            </thead>
-            <tbody id="auditTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+      </section>
 
-  </main>
+    </main>
 
-  <!-- MODAL: CONECTAR SUSCRIPCIÓN DE IA PROPIA -->
-  <div class="modal-backdrop" id="subscriptionModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>Conectar Suscripción Personal de IA (Sin costo de API)</h3>
-        <button type="button" class="btn btn-subtle btn-sm" data-close-modal>Cerrar</button>
+  </div>
+
+  <!-- MODAL CONECTAR SUSCRIPCIÓN PERSONAL -->
+  <div class="modal-overlay" id="subModal">
+    <div class="modal-window">
+      <div class="modal-header-clean">
+        <h3 style="font-size:14px; font-weight:600;">Conectar tu Suscripción de IA Personal ($0 Costo de API)</h3>
+        <button type="button" class="btn btn-secondary btn-sm" data-close-modal>✕</button>
       </div>
-      <div class="modal-body">
-        <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">
-          Seleccioná la suscripción mensual que ya utilizás. El servidor aísla las credenciales de cada estudio jurídico en su propio contenedor para ejecutar el análisis de proveídos y redacción de borradores sin pagar consumo de API por token.
+      <div class="modal-body-clean">
+        <p style="font-size:12.5px; color:var(--text-secondary); margin-bottom:14px;">
+          Cada abogado vincula su cuenta mensual existente. El servidor ejecuta el proceso en un contenedor aislado por estudio sin cobrarte consumo por API:
         </p>
 
-        <div class="provider-grid" id="providerSelectorGrid">
-          <div class="provider-option selected" data-provider="Claude Pro (Suscripción Mensual)">
-            <h4>Claude Pro / Max</h4>
-            <p>Ideal para redacción jurídica extensa y contestación de traslados complejos.</p>
-          </div>
-          <div class="provider-option" data-provider="ChatGPT Plus (Suscripción Mensual)">
-            <h4>ChatGPT Plus / Pro</h4>
-            <p>Conexión vía sesión autenticada Codex CLI para análisis rápido de expedientes.</p>
-          </div>
-          <div class="provider-option" data-provider="Gemini Advanced / Google AI">
-            <h4>Gemini Advanced</h4>
-            <p>Gran ventana de contexto para leer expedientes combinados completos en PDF.</p>
-          </div>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;" id="modalSubProviders">
+          <label style="border:1px solid var(--border); padding:10px 14px; border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+            <div>
+              <strong style="display:block; font-size:13px;">Claude Pro / Max (Anthropic)</strong>
+              <span style="font-size:11.5px; color:var(--text-muted);">Excelente para contestación de traslados e impugnaciones</span>
+            </div>
+            <input type="radio" name="subRadio" value="Claude Pro" checked>
+          </label>
+
+          <label style="border:1px solid var(--border); padding:10px 14px; border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+            <div>
+              <strong style="display:block; font-size:13px;">ChatGPT Plus / Pro (OpenAI)</strong>
+              <span style="font-size:11.5px; color:var(--text-muted);">Conexión de sesión OAuth mediante CLI</span>
+            </div>
+            <input type="radio" name="subRadio" value="ChatGPT Plus">
+          </label>
+
+          <label style="border:1px solid var(--border); padding:10px 14px; border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+            <div>
+              <strong style="display:block; font-size:13px;">Gemini Advanced (Google)</strong>
+              <span style="font-size:11.5px; color:var(--text-muted);">Gran capacidad para expedientes completos</span>
+            </div>
+            <input type="radio" name="subRadio" value="Gemini Advanced">
+          </label>
         </div>
 
-        <div style="background:var(--bg-page); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px;">
-          <div style="font-size:12px; font-weight:600; color:var(--text-main);">Aislamiento técnico en el servidor (Multi-Estudio):</div>
-          <div class="code-block" id="cliCommandPreview">HOME="/srv/tenants/estudio_principal" claude auth login --claudeai</div>
-          <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">
-            Al vincular la cuenta, se abre la autorización oficial OAuth del proveedor y el token queda resguardado únicamente dentro del directorio privado de tu estudio.
-          </p>
+        <div style="background:#f1f5f9; padding:10px 12px; border-radius:4px; font-family:var(--font-mono); font-size:11.5px; color:#334155;">
+          HOME="/srv/tenants/estudio_chaco" claude auth login --claudeai
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline" data-close-modal>Cancelar</button>
-        <button type="button" class="btn btn-primary" id="btnConfirmSubConnect">Vincular y Activar Suscripción</button>
+      <div class="modal-footer-clean">
+        <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnSaveSubModal">Guardar Conexión</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: BIBLIOTECA DE MODELOS Y PROTECCIÓN IP -->
-  <div class="modal-backdrop" id="modelsModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>Biblioteca de Modelos Exclusivos del Estudio (Patrimonio Intelectual)</h3>
-        <button type="button" class="btn btn-subtle btn-sm" data-close-modal>Cerrar</button>
-      </div>
-      <div class="modal-body" id="modelsModalBody"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-close-modal>Entendido</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast" id="toastBox"></div>
+  <div class="toast-msg" id="toastNotice"></div>
 
   <script src="js/app.js"></script>
 </body>

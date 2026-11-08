@@ -1,904 +1,647 @@
 /* ==========================================================================
-   LEXFLOW — Motor Interactivo de Automatización Procesal & Análisis de PDFs
-   Funciona 100% en GitHub Pages y en Servidor Local
+   LEXCHACO — Lógica de Aplicación & Copiloto Judicial
    ========================================================================== */
 
 const TENANTS = {
   estudio_principal: {
-    name: 'Estudio Jurídico titular',
-    subtitle: 'Automatización de Recorrida Judicial (IURE / INDI) & Copiloto Legal',
-    titular: 'Dr. Titular del Estudio (Mat. Prof. STJ)',
-    provider: 'Claude Pro (Suscripción Mensual)'
+    name: 'Estudio Jurídico Dr. Gómez',
+    titular: 'Dr. Marcelo Gómez',
+    roleLabel: 'Abogado Titular',
+    avatar: 'MG',
+    provider: 'Claude Pro'
   },
   estudio_asociados: {
-    name: 'Estudio Asociados & Cía',
-    subtitle: 'Gestión Multi-Fuero Civil, Comercial y Laboral',
-    titular: 'Dra. Asociada Titular (Mat. Prof. STJ)',
-    provider: 'ChatGPT Plus (Suscripción Mensual)'
+    name: 'Estudio Asociados Resistencia',
+    titular: 'Dra. Silvana Ramírez',
+    roleLabel: 'Socia Administradora',
+    avatar: 'SR',
+    provider: 'ChatGPT Plus'
   }
 };
 
 const PDF_SAMPLES = [
   {
     id: 'pdf-deposito',
-    file: 'pdfs/proveido_14820_25_deposito.pdf',
-    shortTitle: '1. Proveído de Depósito Judicial',
-    subtitle: 'Expte. 14.820/25 — Trámite Simple ($0 IA)',
-    typeBadge: 'Trámite Simple — Plantilla Automática',
-    badgeClass: 'badge-green',
-    expte: '14.820/25 (IURE: 14820/2025-1-C)',
+    title: '1. Depósito Judicial ($1.850.000)',
+    expte: '14.820/25',
     caratula: 'PEREZ JUAN C/ SEGUROS DEL NORTE S/ DAÑOS Y PERJUICIOS',
     juzgado: 'Juzgado Civil y Comercial N° 3',
-    acto: 'Téngase presente depósito judicial ($1.850.000)',
-    plazo: 'Sin vencimiento fatal (Habilita cobro inmediato)',
-    monto: '$ 1.850.000,00 (Nuevo Banco del Chaco S.A.)',
-    paperHtml: `
-      <div class="paper-header">
-        <div>
-          <h4>PODER JUDICIAL DE LA PROVINCIA DEL CHACO</h4>
-          <p>Juzgado Civil y Comercial N° 3 • Secretaría N° 3 • Sistema IURE / INDI</p>
-        </div>
-        <div style="text-align:right;">
-          <span class="badge badge-neutral">Expte. 14.820/25</span>
-          <p style="margin-top:4px;">Publicado: Hoy 07:15 hs</p>
-        </div>
+    plazo: 'Habilita libramiento de pago',
+    monto: '$ 1.850.000,00 (Nuevo Banco del Chaco)',
+    docText: `
+      <div style="border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:16px; display:flex; justify-content:space-between;">
+        <strong>PODER JUDICIAL DEL CHACO — JUZGADO CIVIL Y COMERCIAL N° 3</strong>
+        <span>Expte. N° 14.820/25</span>
       </div>
-      <p style="margin-bottom:12px;"><strong>AUTOS Y VISTOS:</strong> Para proveer el informe bancario electrónico remitido por el Nuevo Banco del Chaco S.A. en autos caratulados: <strong>"PEREZ JUAN C/ SEGUROS DEL NORTE S/ DAÑOS Y PERJUICIOS" (Expte. N° 14.820/25)</strong>;</p>
-      <p style="margin-bottom:12px;"><strong>RESUELVO:</strong> Téngase presente la boleta de depósito judicial informada por el Nuevo Banco del Chaco S.A. por la suma de <span class="hl-amount">$ 1.850.000,00 (Pesos Un Millón Ochocientos Cincuenta Mil)</span> en concepto de capital de condena, depositada en la cuenta judicial abierta a la orden de este Juzgado y como perteneciente a estos obrados.</p>
-      <p style="margin-bottom:16px;">Hágase saber a la parte actora a sus efectos. Previo al libramiento de orden de pago electrónica, denuncie el beneficiario constancia de CBU, CUIT y situación fiscal ante <span class="hl-law">ARCA / AFIP</span>. <span class="hl-law">Notifíquese conforme Art. 155 del CPCCCh</span>.</p>
-      <p style="font-size:12px; color:#64748b; border-top:1px solid #e2e8f0; padding-top:10px;">Firmado digitalmente por: Juez Civil y Comercial N° 3 — Actuario/Secretario.</p>
+      <p style="margin-bottom:12px;"><strong>AUTOS Y VISTOS:</strong> Para proveer en autos caratulados <em>"PEREZ JUAN C/ SEGUROS DEL NORTE S/ DAÑOS Y PERJUICIOS" (Expte. N° 14.820/25)</em>;</p>
+      <p style="margin-bottom:12px;"><strong>RESUELVO:</strong> Téngase presente la boleta de depósito judicial informada por el Nuevo Banco del Chaco S.A. por la suma de <span style="background:#d1fae5; color:#065f46; font-weight:600; padding:1px 4px; border-radius:3px;">$ 1.850.000,00</span> en concepto de capital de condena.</p>
+      <p style="margin-bottom:12px;">Hágase saber a la parte actora. Previo a ordenar la libranza electrónica, denuncie cuenta bancaria (CBU) y situación fiscal ante ARCA. Notifíquese conforme Art. 155 CPCCCh.</p>
+      <p style="font-size:11px; color:#64748b; margin-top:20px; border-top:1px solid #e2e8f0; padding-top:8px;">Firma Digital Verificada: Secretaría N° 3.</p>
     `,
-    draftText: `ACEPTA DEPÓSITO JUDICIAL - DENUNCIA CBU - SOLICITA LIBRAMIENTO DE ORDEN DE PAGO ELECTRÓNICA
+    draft: `ACEPTA DEPÓSITO JUDICIAL - DENUNCIA CBU - SOLICITA ORDEN DE PAGO ELECTRÓNICA
 
-Señor Juez en lo Civil y Comercial N° 3:
+Señor Juez Civil y Comercial N° 3:
 
-Dr. Titular del Estudio, por la representación acreditada de la parte actora en los autos caratulados "PEREZ JUAN C/ SEGUROS DEL NORTE S/ DAÑOS Y PERJUICIOS" (Expte. N° 14.820/25 - IURE 14820/2025-1-C), ante V.S. respetuosamente digo:
+Dr. Marcelo Gómez, en representación de la actora en autos "PEREZ JUAN C/ SEGUROS DEL NORTE S/ DAÑOS Y PERJUICIOS" (Expte. 14.820/25), ante V.S. digo:
 
-I.- ACEPTA PAGO: Que habiendo tomado conocimiento del proveído salido a despacho mediante el cual se hace saber el depósito efectuado por la demandada por la suma de $ 1.850.000,00 en el Nuevo Banco del Chaco S.A., vengo a aceptar el mismo y solicitar su inmediata transferencia.
+I.- ACEPTA PAGO: Habiendo tomado conocimiento del proveído mediante el cual se informa el depósito judicial por $ 1.850.000,00 en el Nuevo Banco del Chaco S.A., vengo a manifestar mi conformidad y aceptar el mismo.
 
-II.- DENUNCIA DATOS BANCARIOS (CBU): A los fines de la transferencia electrónica, denuncio los datos de la cuenta titularidad de esta parte:
+II.- DENUNCIA CBU: A los fines de la transferencia de fondos, denuncio los siguientes datos:
+- Titular: Juan Carlos Pérez
 - Banco: Nuevo Banco del Chaco S.A.
 - CBU: 31100002-11000045891234
-- Alias: ESTUDIO.LEGAL.CHACO
-- CUIT: 20-28451920-4 (Monotributista - Constancia ARCA adjunta).
+- CUIT: 20-28451920-4 (Monotributista)
 
-III.- PETITORIO: Solicito se libre oficio electrónico al Nuevo Banco del Chaco S.A. ordenando la transferencia de los fondos depositados.
+III.- PETITORIO: Se ordene el libramiento de la orden de pago electrónica correspondiente.
 
-Proveer de conformidad,
 SERÁ JUSTICIA.`
   },
   {
     id: 'pdf-pericia',
-    file: 'pdfs/proveido_8310_24_traslado_pericia.pdf',
-    shortTitle: '2. Traslado de Pericia Contable (Plazo)',
-    subtitle: 'Expte. 8.310/24 — Trámite Complejo (5 días)',
-    typeBadge: 'Trámite Complejo — Copiloto IA + Auditoría',
-    badgeClass: 'badge-blue',
-    expte: '8.310/24 (IURE: 8310/2024-1-L)',
+    title: '2. Traslado de Pericia (5 Días)',
+    expte: '8.310/24',
     caratula: 'GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO',
     juzgado: 'Juzgado del Trabajo N° 1',
-    acto: 'Traslado de Pericia Contable y Liquidación',
-    plazo: '5 días hábiles judiciales (Vence próximo jueves)',
-    monto: 'Liquidación pericial practicada: $ 6.420.500,00',
-    paperHtml: `
-      <div class="paper-header">
-        <div>
-          <h4>PODER JUDICIAL DE LA PROVINCIA DEL CHACO</h4>
-          <p>Juzgado del Trabajo N° 1 • Secretaría Única • Sistema IURE / INDI</p>
-        </div>
-        <div style="text-align:right;">
-          <span class="badge badge-neutral">Expte. 8.310/24</span>
-          <p style="margin-top:4px;">Publicado: Hoy 07:42 hs</p>
-        </div>
+    plazo: '5 días hábiles judiciales',
+    monto: 'Planilla Pericial: $ 6.420.500,00',
+    docText: `
+      <div style="border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:16px; display:flex; justify-content:space-between;">
+        <strong>PODER JUDICIAL DEL CHACO — JUZGADO DEL TRABAJO N° 1</strong>
+        <span>Expte. N° 8.310/24</span>
       </div>
-      <p style="margin-bottom:12px;"><strong>AUTOS Y VISTOS:</strong> Agréguese el dictamen pericial contable presentado vía <span class="hl-law">INDI</span> por el Perito Contador desinsaculado en autos caratulados: <strong>"GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO" (Expte. N° 8.310/24)</strong>;</p>
-      <p style="margin-bottom:12px;"><strong>RESUELVO:</strong> Del informe pericial contable y planilla de liquidación por la suma de <span class="hl-amount">$ 6.420.500,00</span>, córrase traslado a las partes por el término fatal e improrrogable de <span class="hl-deadline">CINCO (5) DÍAS HÁBILES JUDICIALES</span>, bajo apercibimiento de tenerlo por consentido (<span class="hl-law">Art. 473 CPCCCh</span> y Ley Procesal Laboral).</p>
-      <p style="margin-bottom:16px;"><span class="hl-law">Notifíquese electrónicamente conforme Art. 155 del CPCCCh</span>.</p>
-      <p style="font-size:12px; color:#64748b; border-top:1px solid #e2e8f0; padding-top:10px;">Firmado digitalmente por: Juez del Trabajo N° 1 — Secretaría Laboral.</p>
+      <p style="margin-bottom:12px;"><strong>AUTOS Y VISTOS:</strong> El dictamen pericial contable presentado en autos <em>"GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO" (Expte. 8.310/24)</em>;</p>
+      <p style="margin-bottom:12px;"><strong>RESUELVO:</strong> De la pericia contable y planilla por la suma de <span style="background:#d1fae5; color:#065f46; font-weight:600; padding:1px 4px; border-radius:3px;">$ 6.420.500,00</span>, córrase traslado a las partes por el término de <span style="background:#fef3c7; color:#92400e; font-weight:600; padding:1px 4px; border-radius:3px;">CINCO (5) DÍAS HÁBILES JUDICIALES</span>, bajo apercibimiento de ley (Art. 473 CPCCCh).</p>
+      <p style="margin-bottom:12px;">Notifíquese por cédula electrónica conforme Art. 155 CPCCCh.</p>
+      <p style="font-size:11px; color:#64748b; margin-top:20px; border-top:1px solid #e2e8f0; padding-top:8px;">Firma Digital: Juez del Trabajo N° 1.</p>
     `,
-    draftText: `CONTESTA TRASLADO DE PERICIA CONTABLE - CONSIENTE PARCIALMENTE - IMPUGNA TASA DE INTERÉS APLICADA
+    draft: `CONTESTA TRASLADO DE PERICIA CONTABLE - OBSERVA CÁLCULO DE INTERESES
 
 Señor Juez del Trabajo N° 1:
 
-Dr. Titular del Estudio, apoderado de la parte actora en autos "GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO" (Expte. N° 8.310/24), ante V.S. digo:
+Dr. Marcelo Gómez, apoderado de la actora en autos "GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO" (Expte. 8.310/24), a V.S. digo:
 
-I.- OBJETO: En legal tiempo y forma (dentro del plazo de 5 días hábiles conferido por proveído notificado conforme Art. 155 CPCCCh), vengo a contestar el traslado del dictamen pericial contable.
+I.- En legal tiempo y forma, dentro del plazo de 5 días hábiles conferido, contesto el traslado de la pericia contable presentada.
 
-II.- CONSIENTE RUBROS INDEMNIZATORIOS: Esta parte consiente la determinación de la mejor remuneración mensual, normal y habitual y el cálculo de los rubros de antigüedad (Art. 245 LCT) y preaviso.
+II.- CONSIENTE: Se consienten las bases salariales y los rubros indemnizatorios calculados.
 
-III.- OBSERVA LIQUIDACIÓN DE INTERESES: Solicito al experto aclare y recalcule los intereses moratorios desde la fecha del distracto aplicando la tasa activa nominal anual del Banco de la Nación Argentina conforme doctrina legal vigente del Superior Tribunal de Justicia del Chaco, habiéndose omitido capitalizar el último período.
+III.- IMPUGNA TASA: Se solicita al perito rectifique la tasa de interés aplicada desde la fecha del distracto, debiendo aplicar la tasa activa cartera general del Banco Nación con capitalización periódica conforme doctrina vigente del STJ Chaco.
 
-IV.- PETITORIO: Se tenga por contestado en tiempo y forma el traslado conferido y se corra vista al perito contador.
-
-Proveer de conformidad,
 SERÁ JUSTICIA.`
   },
   {
-    id: 'pdf-cedula-negativa',
-    file: 'pdfs/proveido_3105_23_intimacion_caducidad.pdf',
-    shortTitle: '3. Cédula Diligenciada con Informe Negativo',
-    subtitle: 'Expte. 1.505/25 — Recorrida INDI / Juzgado',
-    typeBadge: 'Trámite Simple — Reitera o Denuncia Domicilio',
-    badgeClass: 'badge-amber',
-    expte: '1.505/25 (IURE: 1505/2025-2-F)',
-    caratula: 'FERNANDEZ LAURA C/ GOMEZ ROBERTO S/ ALIMENTOS Y CUIDADO PERSONAL',
-    juzgado: 'Juzgado de Niñez, Adolescencia y Familia N° 2',
-    acto: 'Cédula diligenciada con informe negativo (No atiende / Domicilio cerrado)',
-    plazo: 'Impulsar antes de los 90 días (Evitar caducidad)',
+    id: 'pdf-cedula',
+    title: '3. Cédula con Informe Negativo',
+    expte: '1.505/25',
+    caratula: 'FERNANDEZ LAURA C/ GOMEZ ROBERTO S/ ALIMENTOS',
+    juzgado: 'Juzgado de Familia N° 2',
+    plazo: 'Activar trámite',
     monto: 'No aplica',
-    paperHtml: `
-      <div class="paper-header">
-        <div>
-          <h4>PODER JUDICIAL DE LA PROVINCIA DEL CHACO</h4>
-          <p>Oficina de Mandamientos y Notificaciones • Juzgado de Familia N° 2</p>
-        </div>
-        <div style="text-align:right;">
-          <span class="badge badge-neutral">Expte. 1.505/25</span>
-          <p style="margin-top:4px;">Publicado: Hoy 08:10 hs</p>
-        </div>
+    docText: `
+      <div style="border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:16px; display:flex; justify-content:space-between;">
+        <strong>PODER JUDICIAL DEL CHACO — JUZGADO DE FAMILIA N° 2</strong>
+        <span>Expte. N° 1.505/25</span>
       </div>
-      <p style="margin-bottom:12px;"><strong>INFORME DEL OFICIAL NOTIFICADOR:</strong> En el día de la fecha me constituí en el domicilio denunciado en autos caratulados <strong>"FERNANDEZ LAURA C/ GOMEZ ROBERTO S/ ALIMENTOS" (Expte. N° 1.505/25)</strong> a fin de diligenciar la cédula de traslado.</p>
-      <p style="margin-bottom:12px;">Habiendo llamado en reiteradas oportunidades sin ser atendido y manifestando un vecino que el requerido trabaja en horario matutino, procedo a devolver la presente <span class="hl-deadline">CÉDULA DILIGENCIADA CON INFORME NEGATIVO</span>.</p>
-      <p style="margin-bottom:16px;"><strong>PROVEÍDO DEL JUZGADO:</strong> Téngase presente el informe negativo que antecede. Hágase saber a la interesada a fin de que <span class="hl-law">inste lo que por derecho corresponda</span>.</p>
-      <p style="font-size:12px; color:#64748b; border-top:1px solid #e2e8f0; padding-top:10px;">Documento generado en: Juzgado de Niñez, Adolescencia y Familia N° 2.</p>
+      <p style="margin-bottom:12px;"><strong>INFORME DE OFICIAL NOTIFICADOR:</strong> En fecha 08/11/2026 me constituí en el domicilio denunciado no hallando moradores. Vecinos informan que trabaja en horario matutino. Se devuelve cédula con <span style="background:#fee2e2; color:#991b1b; font-weight:600; padding:1px 4px; border-radius:3px;">INFORME NEGATIVO</span>.</p>
+      <p style="margin-bottom:12px;"><strong>PROVEÍDO:</strong> Téngase presente. Hágase saber a la actora a fin de que inste lo que por derecho corresponda.</p>
+      <p style="font-size:11px; color:#64748b; margin-top:20px; border-top:1px solid #e2e8f0; padding-top:8px;">Oficina de Mandamientos y Notificaciones.</p>
     `,
-    draftText: `SOLICITA NUEVA CÉDULA CON HABILITACIÓN DE DÍAS Y HORAS INHÁBILES - ACTIVA TRÁMITE
+    draft: `SOLICITA NUEVA CÉDULA CON HABILITACIÓN DE DÍAS Y HORAS INHÁBILES
 
-Señor Juez de Niñez, Adolescencia y Familia N° 2:
+Señor Juez de Familia N° 2:
 
-Dr. Titular del Estudio, por la parte actora en los autos "FERNANDEZ LAURA C/ GOMEZ ROBERTO S/ ALIMENTOS" (Expte. N° 1.505/25), a V.S. digo:
+Dr. Marcelo Gómez, por la parte actora en autos "FERNANDEZ LAURA C/ GOMEZ ROBERTO S/ ALIMENTOS" (Expte. 1.505/25), a V.S. digo:
 
-I.- Atento al informe negativo del Oficial Notificador obrante en autos —del cual surge que el demandado reside allí pero se ausenta en horario matutino—, vengo a solicitar se libre nueva cédula al mismo domicilio denunciado, con expresa HABILITACIÓN DE DÍAS Y HORAS INHÁBILES (Art. 153 CPCCCh), y en su caso bajo responsabilidad de parte.
+Atento al informe del oficial notificador del cual surge que el demandado se ausenta en horario matutino por razones laborales, vengo a solicitar se libre nueva cédula de notificación con expresa HABILITACIÓN DE DÍAS Y HORAS INHÁBILES (Art. 153 CPCCCh).
 
-II.- Sirva la presente de formal activación de trámite procesal.
-
-Proveer de conformidad,
 SERÁ JUSTICIA.`
   },
   {
     id: 'pdf-caducidad',
-    file: 'pdfs/escrito_modelo_acepta_deposito_cbu.pdf',
-    shortTitle: '4. Alerta de Caducidad (78 días inactivo)',
-    subtitle: 'Expte. 3.105/23 — Impulso urgente antes de 3 meses',
-    typeBadge: 'Alerta Crítica — Watchdog 90 Días',
-    badgeClass: 'badge-red',
-    expte: '3.105/23 (IURE: 3105/2023-1-C)',
-    caratula: 'CREDITOS DEL NORTE S.A. C/ RODRIGUEZ LUIS S/ EJECUTIVO',
+    title: '4. Alerta de Caducidad (78 Días)',
+    expte: '3.105/23',
+    caratula: 'CREDITOS DEL NORTE C/ RODRIGUEZ LUIS S/ EJECUTIVO',
     juzgado: 'Juzgado Civil y Comercial N° 1',
-    acto: 'Intimación / Control de inactividad procesal (78 días corridos)',
-    plazo: 'Quedan 12 días para cumplir los 3 meses (Art. 310 CPCCCh)',
-    monto: 'Capital reclamado: $ 3.200.000,00',
-    paperHtml: `
-      <div class="paper-header">
-        <div>
-          <h4>SISTEMA DE CONTROL DE PLAZOS Y CADUCIDAD — LEXFLOW</h4>
-          <p>Detección preventiva sobre Listado de Recorrida (Juzgado Civil y Comercial N° 1)</p>
-        </div>
-        <div style="text-align:right;">
-          <span class="badge badge-red">78 / 90 Días Inactivo</span>
-          <p style="margin-top:4px;">Último trámite: hace 78 días</p>
-        </div>
+    plazo: '12 días restantes antes de 3 meses',
+    monto: 'Juicio Ejecutivo: $ 3.200.000,00',
+    docText: `
+      <div style="border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:16px; display:flex; justify-content:space-between;">
+        <strong>ALERTA DE INACTIVIDAD PROCESAL — LEXCHACO WATCHDOG</strong>
+        <span>Expte. N° 3.105/23</span>
       </div>
-      <p style="margin-bottom:12px;"><strong>REPORTE AUTOMÁTICO DE RIESGO DE CADUCIDAD:</strong> El sistema detectó que en el expediente <strong>"CREDITOS DEL NORTE S.A. C/ RODRIGUEZ LUIS S/ EJECUTIVO" (Expte. N° 3.105/23)</strong> y su sub-causa vinculada <em>"Incidente de Levantamiento de Embargo"</em> han transcurrido <span class="hl-deadline">78 días corridos sin impulso procesal</span> desde la última providencia ("VISTA P/ RESOLUCION").</p>
-      <p style="margin-bottom:16px;">A fin de evitar que opere el plazo de <span class="hl-law">caducidad de instancia de TRES (3) MESES (Art. 310 inc. 2 CPCCCh)</span>, tu suscripción de IA redactó el escrito impulsor listo para presentar por INDI hoy mismo.</p>
-      <p style="font-size:12px; color:#64748b; border-top:1px solid #e2e8f0; padding-top:10px;">Watchdog Preventivo Automático — Estudio Jurídico.</p>
+      <p style="margin-bottom:12px;"><strong>ESTADO DE AUTOS:</strong> Han transcurrido <span style="background:#fee2e2; color:#991b1b; font-weight:600; padding:1px 4px; border-radius:3px;">78 días corridos</span> sin que la contraparte ni el juzgado impulsen el expediente.</p>
+      <p style="margin-bottom:12px;">A fin de evitar la caducidad de instancia de TRES (3) MESES (Art. 310 inc. 2 CPCCCh), se generó el escrito de pase a resolver para interrumpir el plazo inmediatamente.</p>
+      <p style="font-size:11px; color:#64748b; margin-top:20px; border-top:1px solid #e2e8f0; padding-top:8px;">Monitoreo preventivo del estudio.</p>
     `,
-    draftText: `ACTIVA TRÁMITE - SOLICITA PASEN AUTOS A DESPACHO PARA RESOLVER
+    draft: `ACTIVA TRÁMITE - SOLICITA PASEN AUTOS A DESPACHO PARA RESOLVER
 
-Señor Juez en lo Civil y Comercial N° 1:
+Señor Juez Civil y Comercial N° 1:
 
-Dr. Titular del Estudio, por la representación acreditada en autos "CREDITOS DEL NORTE S.A. C/ RODRIGUEZ LUIS S/ EJECUTIVO" (Expte. N° 3.105/23), a V.S. digo:
+Dr. Marcelo Gómez, en autos "CREDITOS DEL NORTE C/ RODRIGUEZ LUIS S/ EJECUTIVO" (Expte. 3.105/23), a V.S. digo:
 
-Que encontrándose contestada la vista conferida a las partes y atento al estado de los presentes obrados, solicito pasen los autos inmediatamente a despacho para dictar resolución interlocutoria, sirviendo esta presentación de formal acto impulsorio del proceso (Art. 310 CPCCCh).
+Que atento al estado de autos y encontrándose cumplidas las vistas previas, solicito pasen las actuaciones a despacho a fin de resolver, sirviendo esta presentación de expreso acto de impulso procesal (Art. 310 CPCCCh).
 
-Proveer de conformidad,
 SERÁ JUSTICIA.`
   }
 ];
 
-const INITIAL_CASES = [
+const CASES = [
   {
     id: 'c-1',
-    expteLex: '14.820/25',
-    expteIure: '14820/2025-1-C',
+    expte: '14.820/25',
+    iure: '14820/2025-1-C',
     caratula: 'PEREZ JUAN C/ SEGUROS DEL NORTE S/ DAÑOS Y PERJUICIOS',
-    cliente: 'Pérez, Juan Carlos',
-    dependencia: 'Juzgado Civil y Comercial N° 3 - Sec. 3',
-    motivo: 'NOTIFICACIÓN ART. 155 DEL CPCCCh',
+    juzgado: 'Juzgado Civil y Comercial N° 3',
+    cliente: 'Juan Carlos Pérez',
     fecha: 'Hoy 07:15',
-    acceso: 'Libre',
-    hasAtencion: false,
-    taskSummary: 'Depósito $1.850.000 detectado → Generar escrito Acepta Pago y CBU',
-    taskType: 'SIMPLE',
-    pdfSampleId: 'pdf-deposito',
+    tag: 'Depósito Judicial',
+    tagColor: 'badge-green',
+    sampleId: 'pdf-deposito',
     inactiveDays: 2,
-    deadlineText: 'Sin plazo fatal (Habilita cobro)',
-    subcauses: [
-      { title: 'Beneficio de Litigar sin Gastos (Expte. 14.820/25-B)', status: 'Concedido definitivamente' }
-    ],
-    history: [
-      { doc: true, indi: false, fecha: 'Hoy 07:15', folio: '188', desc: 'TENER PRESENTE BOLETA DE DEPÓSITO ($1.850.000) - NOTIF. ART. 155', origen: 'JUZGADO CIVIL Y COM. N° 3' },
-      { doc: false, indi: true, fecha: '28/10/2026 11:20', folio: '185', desc: 'PRACTICA PLANILLA LIQUIDACIÓN - Esc. + 1 adjunto', origen: 'INDI (Dr. Titular)' },
-      { doc: true, indi: false, fecha: '14/10/2026 12:10', folio: '180', desc: 'SENTENCIA DEFINITIVA HACER LUGAR A LA DEMANDA', origen: 'JUZGADO CIVIL Y COM. N° 3' }
-    ]
+    motivo: 'NOTIF. ART. 155 CPCCCh',
+    taskDesc: 'Depósito de $1.850.000 informado por el banco. Escrito listo para denunciar CBU y cobrar.'
   },
   {
     id: 'c-2',
-    expteLex: '8.310/24',
-    expteIure: '8310/2024-1-L',
+    expte: '8.310/24',
+    iure: '8310/2024-1-L',
     caratula: 'GOMEZ MARIA C/ CONSTRUCTORA LITORAL S.R.L. S/ DESPIDO',
-    cliente: 'Gómez, María Elena',
-    dependencia: 'Juzgado del Trabajo N° 1 - Sec. Laboral',
-    motivo: 'NOTIFICACIÓN ART. 155 DEL CPCCCh',
+    juzgado: 'Juzgado del Trabajo N° 1',
+    cliente: 'María Elena Gómez',
     fecha: 'Hoy 07:42',
-    acceso: 'Libre',
-    hasAtencion: true,
-    taskSummary: 'Traslado de Pericia (5 días hábiles) → Borrador de impugnación parcial listo',
-    taskType: 'COMPLEJO',
-    pdfSampleId: 'pdf-pericia',
+    tag: 'Traslado 5 Días',
+    tagColor: 'badge-amber',
+    sampleId: 'pdf-pericia',
     inactiveDays: 5,
-    deadlineText: 'Vence en 5 días hábiles (CPCCCh)',
-    subcauses: [
-      { title: 'Incidente de Embargo Preventivo', status: 'Traba de embargo efectiva sobre cuenta corriente' }
-    ],
-    history: [
-      { doc: true, indi: false, fecha: 'Hoy 07:42', folio: '142', desc: 'TRASLADO DE PERICIA CONTABLE POR 5 DÍAS HÁBILES (ART. 155 CPCCCh)', origen: 'JUZGADO DEL TRABAJO N° 1' },
-      { doc: false, indi: true, fecha: '04/11/2026 09:50', folio: '136', desc: 'PRESENTA INFORME PERICIAL CONTABLE - Esc. + 2 adjuntos', origen: 'INDI (Perito Contador)' },
-      { doc: true, indi: false, fecha: '19/10/2026 10:15', folio: '132', desc: 'INTÍMASE AL PERITO A PRESENTAR DICTAMEN', origen: 'JUZGADO DEL TRABAJO N° 1' }
-    ]
+    motivo: 'NOTIF. ART. 155 CPCCCh',
+    taskDesc: 'Traslado de pericia contable ($6.420.500). Contestación e impugnación de tasa lista.'
   },
   {
     id: 'c-3',
-    expteLex: '1.505/25',
-    expteIure: '1505/2025-2-F',
+    expte: '1.505/25',
+    iure: '1505/2025-2-F',
     caratula: 'FERNANDEZ LAURA C/ GOMEZ ROBERTO S/ ALIMENTOS',
-    cliente: 'Fernández, Laura',
-    dependencia: 'Juzgado de Niñez, Adolescencia y Familia N° 2',
-    motivo: 'CÉDULA DILIGENCIADA',
+    juzgado: 'Juzgado de Familia N° 2',
+    cliente: 'Laura Fernández',
     fecha: 'Hoy 08:10',
-    acceso: 'RESERVADO',
-    hasAtencion: true,
-    taskSummary: 'Cédula con informe negativo → Generar escrito pidiendo habilitación de día y hora',
-    taskType: 'SIMPLE',
-    pdfSampleId: 'pdf-cedula-negativa',
+    tag: 'Cédula Negativa',
+    tagColor: 'badge-blue',
+    sampleId: 'pdf-cedula',
     inactiveDays: 11,
-    deadlineText: 'Reiterar cédula para audiencia',
-    subcauses: [
-      { title: 'Incidente de Alimentos Provisorios', status: 'Cuota provisoria fijada y vigente' },
-      { title: 'Incidente de Régimen Comunicacional', status: 'A la espera de dictamen de Asesoría de Menores' }
-    ],
-    history: [
-      { doc: true, indi: false, fecha: 'Hoy 08:10', folio: '64', desc: 'CEDULA DILIGENCIADA CON INFORME NEGATIVO', origen: 'JUZGADO DE FAMILIA N° 2' },
-      { doc: true, indi: false, fecha: '27/10/2026 12:40', folio: '61', desc: 'SEÑALA NUEVA FECHA DE AUDIENCIA - NOTIFÍQUESE', origen: 'JUZGADO DE FAMILIA N° 2' },
-      { doc: false, indi: true, fecha: '21/10/2026 18:15', folio: '59', desc: 'SOLICITA NUEVA AUDIENCIA - ACTIVA TRÁMITE', origen: 'INDI (Dr. Titular)' }
-    ]
+    motivo: 'CÉDULA DILIGENCIADA',
+    taskDesc: 'Oficial no encontró moradores. Escrito de reiteración con días y horas inhábiles preparado.'
   },
   {
     id: 'c-4',
-    expteLex: '3.105/23',
-    expteIure: '3105/2023-1-C',
-    caratula: 'CREDITOS DEL NORTE S.A. C/ RODRIGUEZ LUIS S/ EJECUTIVO',
-    cliente: 'Rodríguez, Luis Alberto',
-    dependencia: 'Juzgado Civil y Comercial N° 1 - Sec. 1',
-    motivo: 'ALERTA CADUCIDAD (78 DÍAS)',
+    expte: '3.105/23',
+    iure: '3105/2023-1-C',
+    caratula: 'CREDITOS DEL NORTE C/ RODRIGUEZ LUIS S/ EJECUTIVO',
+    juzgado: 'Juzgado Civil y Comercial N° 1',
+    cliente: 'Luis Alberto Rodríguez',
     fecha: 'Hace 78 días',
-    acceso: 'Libre',
-    hasAtencion: true,
-    taskSummary: 'Riesgo de Caducidad (78/90 días) → Presentar escrito impulsor urgente',
-    taskType: 'CADUCIDAD',
-    pdfSampleId: 'pdf-caducidad',
+    tag: 'Alerta Caducidad',
+    tagColor: 'badge-red',
+    sampleId: 'pdf-caducidad',
     inactiveDays: 78,
-    deadlineText: 'CRÍTICO: Quedan 12 días para los 3 meses',
-    subcauses: [
-      { title: 'Incidente de Levantamiento de Embargo de Haberes', status: 'Contestó vista ejecutante — Pendiente pedir autos a resolver' }
-    ],
-    history: [
-      { doc: true, indi: false, fecha: '22/08/2026 11:30', folio: '104', desc: 'TÉNGASE POR CONTESTADA LA VISTA - AUTOS SEGÚN SU ESTADO', origen: 'JUZGADO CIVIL Y COM. N° 1' },
-      { doc: false, indi: true, fecha: '14/08/2026 10:05', folio: '101', desc: 'CONTESTA TRASLADO INCIDENTE - Esc. + 0 adjuntos', origen: 'INDI (Dr. Titular)' }
-    ]
+    motivo: 'INACTIVIDAD 78 DÍAS',
+    taskDesc: 'Faltan 12 días para los 3 meses de caducidad (Art. 310 CPCCCh). Escrito impulsor listo.'
   }
 ];
 
-const INITIAL_PRESCRIPTIONS = [
-  {
-    cliente: 'Martínez, Héctor Rubén',
-    asunto: 'Reclamo por Accidente de Tránsito (Ruta Nac. 16)',
-    plazoLegal: '3 años (Art. 2561 CCCN — Responsabilidad Civil)',
-    vencimiento: 'Restan 38 días corridos para interponer demanda',
-    estado: 'Falta adjuntar historia clínica certificada para sortear demanda'
-  },
-  {
-    cliente: 'Acosta, Valeria Soledad',
-    asunto: 'Diferencias Salariales e Indemnización Art. 245 LCT',
-    plazoLegal: '2 años (Art. 256 LCT — Prescripción Laboral)',
-    vencimiento: 'Restan 64 días corridos (Telegrama TCL suspensivo enviado)',
-    estado: 'Liquidación final lista para iniciar demanda laboral'
-  }
+const AUDIT_LOGS = [
+  { time: 'Hoy 07:16', user: 'Robot Despacho (Gmail/IURE)', role: 'SISTEMA', op: 'DESCARGA_PDF', detail: 'Descargó proveído de Expte. 14.820/25 y detectó depósito de $1.850.000.' },
+  { time: 'Hoy 07:43', user: 'Claude Pro (Contenedor Estudio)', role: 'IA_SUB', op: 'ANALISIS_TRASLADO', detail: 'Leyó pericia en Expte. 8.310/24 y redactó escrito para impugnar tasa de interés.' },
+  { time: 'Hoy 08:11', user: 'Watchdog Caducidad', role: 'SISTEMA', op: 'ALERTA_90_DIAS', detail: 'Expte. 3.105/23 superó los 75 días sin trámite. Escrito impulsor preparado.' }
 ];
 
 const STATE = {
-  tenantId: 'estudio_principal',
+  tenant: 'estudio_principal',
   role: 'ADMIN', // 'ADMIN' | 'GUEST'
-  activeProvider: 'Claude Pro (Suscripción Mensual)',
-  filterArt155Only: false,
+  selectedCaseId: 'c-1',
+  selectedPdfSampleId: 'pdf-deposito',
   searchQuery: '',
-  selectedPdfId: 'pdf-deposito',
-  cases: [...INITIAL_CASES],
-  auditLog: [
-    { time: 'Hoy 07:16:04', user: 'Sistema Automático (Gmail + IURE)', role: 'SYSTEM', event: 'DESCARGA_PROVEIDO', detail: 'Descargó PDF de Expte. 14.820/25 y detectó depósito judicial por $1.850.000.' },
-    { time: 'Hoy 07:43:12', user: 'Suscripción Claude Pro (Contenedor Estudio)', role: 'AI_SUB', event: 'BORRADOR_GENERADO', detail: 'Analizó pericia contable en Expte. 8.310/24 y redactó contestación de traslado (plazo 5 días hábiles).' },
-    { time: 'Hoy 08:11:00', user: 'Watchdog Caducidad (Cron Diario)', role: 'SYSTEM', event: 'ALERTA_CADUCIDAD', detail: 'Expte. 3.105/23 alcanzó 78 días de inactividad (límite 90 días Art. 310 CPCCCh).' }
-  ]
+  activeTab: 'despacho'
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  bindEvents();
+  setupUI();
   renderAll();
 });
 
-function bindEvents() {
-  // Selector de estudio
-  document.getElementById('tenantSelect').addEventListener('change', (e) => {
-    STATE.tenantId = e.target.value;
-    const t = TENANTS[STATE.tenantId];
-    STATE.activeProvider = t.provider;
-    addAudit('CAMBIO_ESTUDIO', `Sesión cambiada a ${t.name}`);
-    renderAll();
-    showToast(`Estudio activo: ${t.name}`);
-  });
+function setupUI() {
+  // Pestañas
+  document.querySelectorAll('.nav-item').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.nav-item').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-view').forEach((v) => v.classList.remove('active'));
+      const targetView = document.getElementById(`view-${tab}`);
+      if (targetView) targetView.classList.add('active');
+      STATE.activeTab = tab;
 
-  // Cambio de Rol (Admin vs Invitado)
-  document.getElementById('btnRoleAdmin').addEventListener('click', () => setRole('ADMIN'));
-  document.getElementById('btnRoleGuest').addEventListener('click', () => setRole('GUEST'));
-
-  // Tabs
-  document.querySelectorAll('.tab-link').forEach((btn) => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-  });
-
-  document.getElementById('btnGoPdfTab').addEventListener('click', () => switchTab('pdfs'));
-
-  // Buscador
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    STATE.searchQuery = e.target.value.toLowerCase();
-    renderRecorridaTable();
-    renderCasesDetail();
-  });
-
-  // Filtro Art. 155
-  document.getElementById('btnFilterArt155').addEventListener('click', (e) => {
-    STATE.filterArt155Only = !STATE.filterArt155Only;
-    e.currentTarget.classList.toggle('btn-primary', STATE.filterArt155Only);
-    e.currentTarget.classList.toggle('btn-outline', !STATE.filterArt155Only);
-    renderRecorridaTable();
-  });
-
-  // Simular llegada de nuevo correo Gmail / Despacho
-  document.getElementById('btnSimulateSync').addEventListener('click', simulateNewDispatch);
-  document.getElementById('btnSimulateSyncTable').addEventListener('click', simulateNewDispatch);
-
-  // Modal de Suscripción
-  document.getElementById('btnOpenSubModal').addEventListener('click', openSubModal);
-  document.getElementById('btnStepConfigSub').addEventListener('click', openSubModal);
-
-  document.querySelectorAll('#providerSelectorGrid .provider-option').forEach((card) => {
-    card.addEventListener('click', () => {
-      document.querySelectorAll('#providerSelectorGrid .provider-option').forEach((c) => c.classList.remove('selected'));
-      card.classList.add('selected');
-      const prov = card.dataset.provider;
-      const cmdMap = {
-        'Claude Pro (Suscripción Mensual)': `HOME="/srv/tenants/${STATE.tenantId}" claude auth login --claudeai`,
-        'ChatGPT Plus (Suscripción Mensual)': `HOME="/srv/tenants/${STATE.tenantId}" codex login`,
-        'Gemini Advanced / Google AI': `HOME="/srv/tenants/${STATE.tenantId}" GOOGLE_GENAI_USE_GCA=true gemini`
+      const titles = {
+        'despacho': 'Bandeja de Despacho Diario',
+        'recorrida': 'Mis Expedientes en Recorrida (IURE / Lex Chaco)',
+        'pdf-viewer': 'Visor & Analizador de PDFs Judiciales',
+        'vencimientos': 'Control de Vencimientos & Caducidad de Instancia',
+        'auditoria': 'Auditoría & Biblioteca de Modelos'
       };
-      document.getElementById('cliCommandPreview').textContent = cmdMap[prov] || cmdMap['Claude Pro (Suscripción Mensual)'];
+      document.getElementById('pageTitle').textContent = titles[tab] || 'LexChaco';
     });
   });
 
-  document.getElementById('btnConfirmSubConnect').addEventListener('click', () => {
-    const selected = document.querySelector('#providerSelectorGrid .provider-option.selected');
-    if (selected) {
-      STATE.activeProvider = selected.dataset.provider;
-      addAudit('VINCULACION_SUSCRIPCION', `Cuenta vinculada: ${STATE.activeProvider} en contenedor aislado /srv/tenants/${STATE.tenantId}`);
+  document.getElementById('btnOpenPdfTabDirect').addEventListener('click', () => {
+    document.querySelector('.nav-item[data-tab="pdf-viewer"]').click();
+  });
+
+  // Selector de Tenant
+  document.getElementById('tenantSelect').addEventListener('change', (e) => {
+    STATE.tenant = e.target.value;
+    renderAll();
+    showToast(`Cambiado a: ${TENANTS[STATE.tenant].name}`);
+  });
+
+  // Switch de Rol
+  document.getElementById('btnToggleRoleQuick').addEventListener('click', () => {
+    STATE.role = STATE.role === 'ADMIN' ? 'GUEST' : 'ADMIN';
+    renderHeader();
+    showToast(STATE.role === 'ADMIN' ? 'Modo: Abogado Titular (Control total)' : 'Modo: Invitado / Secretario (Modelos protegidos)');
+  });
+
+  // Buscador
+  document.getElementById('searchGlobalInput').addEventListener('input', (e) => {
+    STATE.searchQuery = e.target.value.toLowerCase();
+    renderMasterDispatchList();
+    renderRecorridaTable();
+  });
+
+  // Simular Despacho
+  document.getElementById('btnSyncGmailAction').addEventListener('click', () => {
+    const newCase = {
+      id: `c-${Date.now()}`,
+      expte: '2.410/26',
+      iure: '2410/2026-1-C',
+      caratula: 'MORALES DIEGO C/ TRANSPORTE DEL LITORAL S/ DAÑOS Y PERJUICIOS',
+      juzgado: 'Juzgado Civil y Comercial N° 2',
+      cliente: 'Diego Hernán Morales',
+      fecha: 'Hoy (Recién recibido)',
+      tag: 'Depósito Judicial',
+      tagColor: 'badge-green',
+      sampleId: 'pdf-deposito',
+      inactiveDays: 0,
+      motivo: 'NOTIF. ART. 155 CPCCCh',
+      taskDesc: 'Depósito judicial de condena acreditado en la cuenta del juzgado.'
+    };
+    CASES.unshift(newCase);
+    STATE.selectedCaseId = newCase.id;
+    AUDIT_LOGS.unshift({
+      time: 'Recién',
+      user: 'Robot Despacho (Gmail)',
+      role: 'SISTEMA',
+      op: 'NUEVO_DESPACHO',
+      detail: 'Detectó aviso en Gmail de Expte. 2.410/26 y descargó proveído automáticamente.'
+    });
+    renderAll();
+    showToast('Nuevo despacho recibido: Expte. 2.410/26 (PDF descargado y analizado)');
+  });
+
+  // Modales
+  document.getElementById('btnSubConfigTrigger').addEventListener('click', () => {
+    document.getElementById('subModal').classList.add('open');
+  });
+
+  document.querySelectorAll('[data-close-modal]').forEach((b) => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.modal-overlay').forEach((m) => m.classList.remove('open'));
+    });
+  });
+
+  document.getElementById('btnSaveSubModal').addEventListener('click', () => {
+    const radio = document.querySelector('input[name="subRadio"]:checked');
+    if (radio) {
+      TENANTS[STATE.tenant].provider = radio.value;
       renderHeader();
-      renderPdfWorkspace();
-      closeModals();
-      showToast(`Suscripción vinculada: ${STATE.activeProvider}`);
+      document.getElementById('subModal').classList.remove('open');
+      showToast(`Suscripción vinculada: ${radio.value} (Costo API $0)`);
     }
   });
 
-  // Biblioteca de modelos (Protección de Patrimonio Intelectual)
-  document.getElementById('btnModelsVault').addEventListener('click', openModelsModal);
-
-  // Acciones en pestaña PDFs
-  document.getElementById('btnCopyPdfDraft').addEventListener('click', () => {
-    const text = document.getElementById('pdfDraftTextarea').value;
+  // Acciones en PDF Viewer
+  document.getElementById('btnCopyDraftText').addEventListener('click', () => {
+    const text = document.getElementById('pdfDraftEditorArea').value;
     navigator.clipboard.writeText(text);
-    showToast('Escrito copiado al portapapeles');
+    showToast('Borrador judicial copiado al portapapeles');
   });
 
-  document.getElementById('btnDownloadWordDraft').addEventListener('click', () => {
-    const text = document.getElementById('pdfDraftTextarea').value;
-    const sample = PDF_SAMPLES.find((s) => s.id === STATE.selectedPdfId) || PDF_SAMPLES[0];
-    downloadWordDoc(text, `Escrito_${sample.id}.doc`);
+  document.getElementById('btnDownloadWordFile').addEventListener('click', () => {
+    const text = document.getElementById('pdfDraftEditorArea').value;
+    downloadDoc(text, `Escrito_Judicial_${Date.now()}.doc`);
   });
 
-  document.getElementById('btnApprovePdfDraft').addEventListener('click', () => {
-    const sample = PDF_SAMPLES.find((s) => s.id === STATE.selectedPdfId) || PDF_SAMPLES[0];
+  document.getElementById('btnApproveDraftAction').addEventListener('click', () => {
     if (STATE.role === 'GUEST') {
-      addAudit('REVISION_SECRETARIO', `Secretario guardó revisión de borrador en ${sample.expte} (Pendiente firma del titular).`);
-      showToast('Revisión guardada y enviada para aprobación final del Abogado Titular');
+      showToast('Revisión guardada y enviada a visado del Abogado Titular');
     } else {
-      addAudit('APROBACION_TITULAR', `Abogado Titular auditó y aprobó el escrito definitivo para ${sample.expte}.`);
-      showToast('Escrito auditado y aprobado por el Abogado Titular (Listo para subir a INDI)');
+      showToast('Escrito auditado y firmado digitalmente (Listo para presentar en INDI)');
     }
-    renderAuditTab();
   });
 
-  // Subir PDF propio desde la computadora
+  // Subir PDF propio
   document.getElementById('btnUploadCustomPdf').addEventListener('click', () => {
-    document.getElementById('customPdfInput').click();
+    document.getElementById('inputPdfUpload').click();
   });
 
-  document.getElementById('customPdfInput').addEventListener('change', handleCustomPdfUpload);
-
-  // Cerrar modales
-  document.querySelectorAll('[data-close-modal]').forEach((btn) => {
-    btn.addEventListener('click', closeModals);
-  });
-}
-
-function setRole(role) {
-  STATE.role = role;
-  document.getElementById('btnRoleAdmin').classList.toggle('active', role === 'ADMIN');
-  document.getElementById('btnRoleGuest').classList.toggle('active', role === 'GUEST');
-  addAudit('CAMBIO_ROL', `Vista cambiada a perfil: ${role === 'ADMIN' ? 'Administrador (Titular)' : 'Invitado / Secretario (Acceso Limitado)'}`);
-  renderAll();
-  showToast(role === 'ADMIN' ? 'Modo Administrador (Control total)' : 'Modo Invitado / Secretario (Modelos protegidos contra descarga masiva)');
-}
-
-function switchTab(tabId) {
-  document.querySelectorAll('.tab-link').forEach((b) => b.classList.toggle('active', b.dataset.tab === tabId));
-  document.querySelectorAll('.tab-panel').forEach((p) => {
-    p.style.display = p.id === `tab-${tabId}` ? 'block' : 'none';
+  document.getElementById('inputPdfUpload').addEventListener('change', (e) => {
+    const f = e.target.files[0];
+    if (f) {
+      showToast(`Archivo "${f.name}" cargado localmente. Analizando con ${TENANTS[STATE.tenant].provider}...`);
+      document.getElementById('pdfDocumentSheet').innerHTML = `
+        <div style="border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:16px;">
+          <strong>DOCUMENTO PDF SUBIDO LOCALMENTE</strong>
+          <p style="font-size:12px; color:#64748b;">${f.name} (${(f.size / 1024).toFixed(1)} KB)</p>
+        </div>
+        <p>El archivo fue procesado en tu navegador local con privacidad total.</p>
+        <p>Tu suscripción conectada identificó los plazos judiciales y la carátula procesal.</p>
+      `;
+    }
   });
 }
 
 function renderAll() {
   renderHeader();
+  renderMasterDispatchList();
+  renderDetailPane();
   renderRecorridaTable();
-  renderCasesDetail();
-  renderPdfWorkspace();
-  renderAuditTab();
+  renderPdfViewer();
+  renderVencimientos();
+  renderAuditoria();
 }
 
 function renderHeader() {
-  const t = TENANTS[STATE.tenantId];
-  document.getElementById('tenantNameTitle').textContent = t.name;
-  document.getElementById('tenantSubTitle').textContent = `${t.titular} — ${t.subtitle}`;
-  document.getElementById('subStatusText').textContent = `Suscripción: ${STATE.activeProvider.split(' (')[0]} (Activa)`;
-  document.getElementById('stepProviderLabel').textContent = `Motor activo: ${STATE.activeProvider.split(' (')[0]}`;
-
-  document.getElementById('kpiTotalCases').textContent = STATE.cases.length;
-  document.getElementById('kpiTodayDispatch').textContent = STATE.cases.filter((c) => c.fecha.startsWith('Hoy')).length;
-  document.getElementById('kpiActiveDeadlines').textContent = STATE.cases.filter((c) => c.taskType === 'COMPLEJO' || c.taskType === 'SIMPLE').length;
-  document.getElementById('kpiCaducidadAlerts').textContent = STATE.cases.filter((c) => c.inactiveDays >= 60).length;
+  const t = TENANTS[STATE.tenant];
+  document.getElementById('subSidebarName').textContent = t.provider;
+  document.getElementById('userAvatarText').textContent = STATE.role === 'ADMIN' ? t.avatar : 'SC';
+  document.getElementById('userNameLabel').textContent = STATE.role === 'ADMIN' ? t.titular : 'Secretario del Estudio';
+  document.getElementById('userRoleLabel').textContent = STATE.role === 'ADMIN' ? t.roleLabel : 'Invitado / Operador';
+  document.getElementById('badgeInboxCount').textContent = CASES.length;
+  document.getElementById('badgeTotalCases').textContent = CASES.length;
 }
 
 function getFilteredCases() {
-  return STATE.cases.filter((c) => {
-    if (STATE.filterArt155Only && !c.motivo.includes('155')) return false;
-    if (STATE.searchQuery) {
-      const hay = `${c.expteLex} ${c.expteIure} ${c.caratula} ${c.cliente} ${c.dependencia}`.toLowerCase();
-      if (!hay.includes(STATE.searchQuery)) return false;
-    }
-    return true;
+  return CASES.filter((c) => {
+    if (!STATE.searchQuery) return true;
+    const all = `${c.expte} ${c.iure} ${c.caratula} ${c.cliente} ${c.juzgado}`.toLowerCase();
+    return all.includes(STATE.searchQuery);
   });
 }
 
-function renderRecorridaTable() {
-  const tbody = document.getElementById('recorridaTableBody');
+function renderMasterDispatchList() {
+  const container = document.getElementById('masterDispatchList');
   const list = getFilteredCases();
 
-  tbody.innerHTML = list.map((c) => {
-    const motivoBadge = c.motivo.includes('155')
-      ? `<span class="badge badge-amber">${c.motivo}</span>`
-      : (c.motivo.includes('CADUCIDAD') ? `<span class="badge badge-red">${c.motivo}</span>` : `<span class="badge badge-neutral">${c.motivo}</span>`);
-
-    const accesoBadge = c.acceso === 'RESERVADO'
-      ? `<span class="badge badge-red">RESERVADO</span>`
-      : `<span class="badge badge-green">Libre</span>`;
-
-    return `
-      <tr>
-        <td>
-          <div class="expte-num">${c.expteLex}</div>
-          <div style="font-size:11px; color:var(--text-muted);">IURE: ${c.expteIure}</div>
-          ${c.hasAtencion ? `<span class="badge badge-amber" style="margin-top:3px;">Atención Lex/IURE</span>` : ''}
-        </td>
-        <td>
-          <div class="caratula-title">${c.caratula}</div>
-          <div class="caratula-sub">Cliente: ${c.cliente}</div>
-        </td>
-        <td>${c.dependencia}</td>
-        <td>${motivoBadge}</td>
-        <td style="white-space:nowrap;">${c.fecha}</td>
-        <td>${accesoBadge}</td>
-        <td>
-          <div style="font-weight:500; color:var(--text-main);">${c.taskSummary}</div>
-          <div style="font-size:11px; color:var(--text-muted);">${c.deadlineText}</div>
-        </td>
-        <td style="white-space:nowrap;">
-          <button type="button" class="btn btn-outline btn-sm" onclick="openPdfSampleFromCase('${c.pdfSampleId}')">Ver PDF y Escrito</button>
-        </td>
-      </tr>
-    `;
-  }).join('');
-}
-
-function renderCasesDetail() {
-  const container = document.getElementById('casesDetailContainer');
-  const list = getFilteredCases();
-
-  container.innerHTML = list.map((c) => {
-    const sample = PDF_SAMPLES.find((s) => s.id === c.pdfSampleId) || PDF_SAMPLES[0];
-    const pct = Math.min(100, Math.round((c.inactiveDays / 90) * 100));
-    const barColor = c.inactiveDays >= 60 ? 'var(--danger)' : 'var(--success)';
-
-    return `
-      <article class="case-card">
-        <div class="case-top">
-          <div>
-            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-              <span class="badge badge-neutral">Lex: ${c.expteLex}</span>
-              <span class="badge badge-blue">IURE: ${c.expteIure}</span>
-              <span class="badge ${c.acceso === 'RESERVADO' ? 'badge-red' : 'badge-green'}">Acceso ${c.acceso}</span>
-            </div>
-            <h3 class="case-title">${c.caratula}</h3>
-            <div class="case-meta">${c.dependencia} · Cliente: <strong>${c.cliente}</strong></div>
-          </div>
-
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <a href="${sample.file}" download class="btn btn-outline btn-sm">Descargar PDF Combinado</a>
-            <button type="button" class="btn btn-primary btn-sm" onclick="openPdfSampleFromCase('${c.pdfSampleId}')">Abrir en Visor y Auditar Escrito</button>
-          </div>
-        </div>
-
-        <div class="case-columns">
-          <div>
-            <div class="proveido-panel">
-              <div class="panel-label">
-                <span>Últimas Actuaciones adentro del Expediente (Juzgado vs. Presentaciones INDI)</span>
-                <span>Sincronizado hoy</span>
-              </div>
-              <div class="table-wrap">
-                <table class="data-table" style="background:#fff; border:1px solid var(--border);">
-                  <thead>
-                    <tr>
-                      <th>Documento / INDI</th>
-                      <th>Publicado</th>
-                      <th>Folio</th>
-                      <th>Descripción de la Actuación</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${c.history.map((h) => `
-                      <tr>
-                        <td style="white-space:nowrap;">
-                          ${h.doc ? `<button type="button" class="btn btn-subtle btn-sm" onclick="openPdfSampleFromCase('${c.pdfSampleId}')">[Ver Documento]</button>` : ''}
-                          ${h.indi ? `<span class="badge badge-blue">[INDI Presentación]</span>` : ''}
-                        </td>
-                        <td style="white-space:nowrap; font-size:12px;">${h.fecha}</td>
-                        <td style="font-family:var(--font-mono); font-size:12px;">${h.folio}</td>
-                        <td style="font-size:12.5px; color:var(--text-main);">${h.desc}</td>
-                      </tr>
-                    `).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="task-panel">
-            <div>
-              <div class="panel-label">
-                <span>Sub-causas / Incidentes Vinculados (${c.subcauses.length})</span>
-                <span>Árbol de la Causa</span>
-              </div>
-              ${c.subcauses.map((sub) => `
-                <div style="padding:8px 10px; background:var(--bg-page); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px; font-size:12.5px;">
-                  <strong style="color:var(--text-main); display:block;">↳ ${sub.title}</strong>
-                  <span style="color:var(--text-muted);">${sub.status}</span>
-                </div>
-              `).join('')}
-
-              <div class="deadline-bar" style="margin-top:12px;">
-                <span>Plazo Procesal / Vencimiento:</span>
-                <strong style="color:var(--text-main);">${c.deadlineText}</strong>
-              </div>
-
-              <div style="margin-top:12px;">
-                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text-secondary);">
-                  <span>Control de Caducidad de Instancia (Límite 90 días / 3 meses)</span>
-                  <strong>${c.inactiveDays} / 90 días</strong>
-                </div>
-                <div class="progress-track">
-                  <div class="progress-fill" style="width:${pct}%; background:${barColor};"></div>
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid var(--border);">
-              <span style="font-size:12px; color:var(--text-muted);">Procesado con ${STATE.activeProvider.split(' (')[0]}</span>
-              <button type="button" class="btn btn-accent btn-sm" onclick="openPdfSampleFromCase('${c.pdfSampleId}')">Ver Borrador Redactado →</button>
-            </div>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join('');
-}
-
-function renderPdfWorkspace() {
-  const grid = document.getElementById('pdfSamplesGrid');
-  grid.innerHTML = PDF_SAMPLES.map((s) => `
-    <div class="pdf-sample-item ${s.id === STATE.selectedPdfId ? 'active' : ''}" onclick="selectPdfSample('${s.id}')">
-      <span class="badge ${s.badgeClass}">${s.typeBadge.split(' — ')[0]}</span>
-      <h4>${s.shortTitle}</h4>
-      <p>${s.subtitle}</p>
+  container.innerHTML = list.map((c) => `
+    <div class="case-item-card ${c.id === STATE.selectedCaseId ? 'selected' : ''}" onclick="selectCase('${c.id}')">
+      <div class="case-item-top">
+        <span class="expte-badge-num">Expte. ${c.expte}</span>
+        <span class="badge ${c.tagColor}">${c.tag}</span>
+      </div>
+      <div class="case-item-caratula">${c.caratula}</div>
+      <div class="case-task-preview">${c.taskDesc}</div>
+      <div class="case-item-meta">
+        <span>${c.juzgado}</span>
+        <span>${c.fecha}</span>
+      </div>
     </div>
   `).join('');
+}
 
-  const current = PDF_SAMPLES.find((s) => s.id === STATE.selectedPdfId) || PDF_SAMPLES[0];
+window.selectCase = function(id) {
+  STATE.selectedCaseId = id;
+  renderMasterDispatchList();
+  renderDetailPane();
+};
 
-  document.getElementById('btnDownloadCurrentPdf').href = current.file;
-  document.getElementById('pdfPaperView').innerHTML = current.paperHtml;
-  document.getElementById('pdfTaskHeaderTitle').textContent = current.shortTitle;
-  document.getElementById('pdfTaskHeaderSub').textContent = `Analizado con tu cuenta vinculada: ${STATE.activeProvider}`;
-  document.getElementById('pdfTaskTypeBadge').textContent = current.typeBadge;
-  document.getElementById('pdfTaskTypeBadge').className = `badge ${current.badgeClass}`;
-  document.getElementById('pdfAiSourceTag').textContent = `Vía ${STATE.activeProvider.split(' (')[0]} ($0 API)`;
+function renderDetailPane() {
+  const pane = document.getElementById('detailCasePane');
+  const item = CASES.find((c) => c.id === STATE.selectedCaseId) || CASES[0];
+  const sample = PDF_SAMPLES.find((s) => s.id === item.sampleId) || PDF_SAMPLES[0];
+  const t = TENANTS[STATE.tenant];
 
-  document.getElementById('pdfExtractedFields').innerHTML = `
-    <div class="extracted-box">
-      <span>Expediente Detectado</span>
-      <strong>${current.expte}</strong>
-    </div>
-    <div class="extracted-box">
-      <span>Juzgado / Radicación</span>
-      <strong>${current.juzgado}</strong>
-    </div>
-    <div class="extracted-box">
-      <span>Plazo / Vencimiento Calculado</span>
-      <strong>${current.plazo}</strong>
-    </div>
-    <div class="extracted-box">
-      <span>Monto / Importe Detectado</span>
-      <strong>${current.monto}</strong>
+  pane.innerHTML = `
+    <div class="detail-card">
+      <div class="detail-header-top">
+        <div>
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
+            <span class="badge badge-neutral">Expte. ${item.expte}</span>
+            <span class="badge badge-blue">IURE: ${item.iure}</span>
+            <span class="badge ${item.tagColor}">${item.tag}</span>
+          </div>
+          <h2 class="detail-main-title">${item.caratula}</h2>
+          <div class="detail-sub-meta">${item.juzgado} · Cliente: <strong>${item.cliente}</strong> · Notificación: ${item.motivo}</div>
+        </div>
+
+        <div style="display:flex; gap:8px;">
+          <a href="pdfs/${item.sampleId === 'pdf-deposito' ? 'proveido_14820_25_deposito.pdf' : (item.sampleId === 'pdf-pericia' ? 'proveido_8310_24_traslado_pericia.pdf' : 'proveido_3105_23_intimacion_caducidad.pdf')}" download class="btn btn-secondary btn-sm">Descargar PDF Judicial</a>
+        </div>
+      </div>
+
+      <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--text-muted); letter-spacing:0.05em; margin-bottom:4px;">Proveído Salido a Despacho Hoy (Descargado automáticamente)</div>
+      <div class="proveido-display-box">
+        ${sample.docText}
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+        <div>
+          <div style="font-size:13px; font-weight:600; color:var(--text-main);">Proyecto de Escrito Judicial Sugerido</div>
+          <div style="font-size:11.5px; color:var(--text-muted);">Generado con tu suscripción: ${t.provider} ($0 costo de API)</div>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="copyDetailDraft()">Copiar texto</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="downloadDetailDraft('${item.expte}')">Descargar Word (.doc)</button>
+        </div>
+      </div>
+
+      <div class="draft-editor-box">
+        <textarea id="detailDraftArea" class="draft-textarea">${sample.draft}</textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+        <button type="button" class="btn btn-secondary" onclick="document.querySelector('.nav-item[data-tab=\\'pdf-viewer\\']').click()">Abrir en Visor de PDFs Dividido</button>
+        <button type="button" class="btn btn-primary" onclick="approveDetailDraft()">${STATE.role === 'ADMIN' ? '⚖️ Auditar y Firmar Escrito' : '📝 Guardar para Visado de Titular'}</button>
+      </div>
     </div>
   `;
-
-  document.getElementById('pdfDraftTextarea').value = current.draftText;
-  document.getElementById('btnApprovePdfDraft').textContent = STATE.role === 'ADMIN'
-    ? 'Auditar y Aprobar Escrito (Firma Titular)'
-    : 'Guardar Revisión para el Abogado Titular';
 }
 
-window.selectPdfSample = function(sampleId) {
-  STATE.selectedPdfId = sampleId;
-  renderPdfWorkspace();
+window.copyDetailDraft = function() {
+  const t = document.getElementById('detailDraftArea').value;
+  navigator.clipboard.writeText(t);
+  showToast('Escrito copiado al portapapeles');
 };
 
-window.openPdfSampleFromCase = function(sampleId) {
-  STATE.selectedPdfId = sampleId;
-  switchTab('pdfs');
-  renderPdfWorkspace();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+window.downloadDetailDraft = function(expte) {
+  const t = document.getElementById('detailDraftArea').value;
+  downloadDoc(t, `Escrito_Expte_${expte.replace('/', '_')}.doc`);
 };
 
-function handleCustomPdfUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const customId = 'pdf-custom-upload';
-  const customSample = {
-    id: customId,
-    file: 'pdfs/proveido_14820_25_deposito.pdf',
-    shortTitle: `PDF Subido: ${file.name}`,
-    subtitle: `Tamaño: ${(file.size / 1024).toFixed(1)} KB — Analizado en el navegador`,
-    typeBadge: 'Análisis Personalizado con tu Suscripción',
-    badgeClass: 'badge-blue',
-    expte: 'Detectado del documento subido',
-    caratula: file.name.replace(/\.pdf$/i, '').toUpperCase(),
-    juzgado: 'Poder Judicial del Chaco (IURE / INDI)',
-    acto: 'Proveído / Actuación procesal importada manualmente',
-    plazo: '5 días hábiles judiciales desde notificación Art. 155 CPCCCh',
-    monto: 'Verificación automática de planilla / depósito',
-    paperHtml: `
-      <div class="paper-header">
-        <div>
-          <h4>DOCUMENTO PDF CARGADO LOCALMENTE EN EL NAVEGADOR</h4>
-          <p>Archivo: ${file.name} (${(file.size / 1024).toFixed(1)} KB) — Privacidad 100% local</p>
-        </div>
-        <span class="badge badge-green">Leído correctamente</span>
-      </div>
-      <p style="margin-bottom:12px;">El archivo <strong>${file.name}</strong> fue leído directamente en tu sesión local sin subir información confidencial a terceros.</p>
-      <p style="margin-bottom:12px;">En el sistema conectado, el motor extrae el texto completo del PDF, identifica menciones a <span class="hl-law">Notificaciones Art. 155 CPCCCh</span>, <span class="hl-deadline">plazos para contestar traslados o vistas</span> y <span class="hl-amount">montos depositados o regulaciones de honorarios</span>, enviando el contexto a tu suscripción vinculada (${STATE.activeProvider.split(' (')[0]}) para redactar el borrador.</p>
-    `,
-    draftText: `CONTESTA TRASLADO / PRESENTA ESCRITO SOBRE "${file.name.toUpperCase()}"
-
-Señor Juez:
-
-Dr. Titular del Estudio, por la participación acordada en los autos de referencia, ante V.S. respetuosamente digo:
-
-I.- Que habiendo sido notificado de la providencia que antecede (documento "${file.name}"), vengo en legal tiempo y forma a contestar el traslado conferido y solicitar se provea lo que por derecho corresponda.
-
-Proveer de conformidad,
-SERÁ JUSTICIA.`
-  };
-
-  const existingIdx = PDF_SAMPLES.findIndex((s) => s.id === customId);
-  if (existingIdx >= 0) {
-    PDF_SAMPLES[existingIdx] = customSample;
+window.approveDetailDraft = function() {
+  if (STATE.role === 'GUEST') {
+    showToast('Revisión guardada y remitida al Abogado Titular');
   } else {
-    PDF_SAMPLES.unshift(customSample);
+    showToast('Escrito auditado y aprobado (Listo para presentar en INDI)');
   }
+};
 
-  STATE.selectedPdfId = customId;
-  addAudit('CARGA_PDF_LOCAL', `Se analizó localmente el archivo PDF "${file.name}" con la suscripción activa.`);
-  renderPdfWorkspace();
-  renderAuditTab();
-  showToast(`PDF "${file.name}" analizado con éxito`);
+function renderRecorridaTable() {
+  const tbody = document.getElementById('recorridaFullTableBody');
+  const list = getFilteredCases();
+
+  tbody.innerHTML = list.map((c) => `
+    <tr>
+      <td>
+        <strong style="color:var(--text-main); font-family:var(--font-mono);">${c.expte}</strong>
+        <div style="font-size:11px; color:var(--text-muted);">IURE: ${c.iure}</div>
+      </td>
+      <td>
+        <div style="font-weight:600; color:var(--text-main);">${c.caratula}</div>
+        <div style="font-size:11.5px; color:var(--text-muted);">Cliente: ${c.cliente}</div>
+      </td>
+      <td>${c.juzgado}</td>
+      <td><span class="badge ${c.tagColor}">${c.motivo}</span></td>
+      <td>${c.fecha}</td>
+      <td><span class="badge badge-green">Libre</span></td>
+      <td>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="selectCaseAndSwitch('${c.id}')">Ver Detalle</button>
+      </td>
+    </tr>
+  `).join('');
 }
 
-function simulateNewDispatch() {
-  const newCase = {
-    id: `c-${Date.now()}`,
-    expteLex: '2.410/26',
-    expteIure: '2410/2026-1-C',
-    caratula: 'MORALES DIEGO C/ TRANSPORTE DEL LITORAL S.A. S/ DAÑOS Y PERJUICIOS',
-    cliente: 'Morales, Diego Hernán',
-    dependencia: 'Juzgado Civil y Comercial N° 2 - Sec. 2',
-    motivo: 'NOTIFICACIÓN ART. 155 DEL CPCCCh',
-    fecha: 'Hoy (Recién ingresado)',
-    acceso: 'Libre',
-    hasAtencion: false,
-    taskSummary: 'Nuevo depósito judicial detectado → Escrito Acepta Pago y CBU listo para auditar',
-    taskType: 'SIMPLE',
-    pdfSampleId: 'pdf-deposito',
-    inactiveDays: 0,
-    deadlineText: 'Recién salido a despacho hoy',
-    subcauses: [
-      { title: 'Incidente de Beneficio de Litigar sin Gastos', status: 'En trámite' }
-    ],
-    history: [
-      { doc: true, indi: false, fecha: 'Hoy (Recién)', folio: '94', desc: 'SALIÓ A DESPACHO: TÉNGASE PRESENTE DEPÓSITO JUDICIAL - NOTIF. ART. 155', origen: 'JUZGADO CIVIL Y COM. N° 2' }
-    ]
-  };
+window.selectCaseAndSwitch = function(id) {
+  STATE.selectedCaseId = id;
+  document.querySelector('.nav-item[data-tab="despacho"]').click();
+  renderMasterDispatchList();
+  renderDetailPane();
+};
 
-  STATE.cases.unshift(newCase);
-  addAudit('INGESTA_GMAIL_DESPACHO', `Correo de Gmail detectado ("Salió a despacho" Expte. 2.410/26). PDF descargado y borrador preparado.`);
-  renderAll();
-  showToast('Nuevo correo de despacho procesado: Expte. 2.410/26 (PDF descargado y borrador listo)');
+function renderPdfViewer() {
+  const pills = document.getElementById('samplePillsRow');
+  pills.innerHTML = PDF_SAMPLES.map((s) => `
+    <button type="button" class="sample-pill-btn ${s.id === STATE.selectedPdfSampleId ? 'active' : ''}" onclick="selectPdfSample('${s.id}')">
+      ${s.title}
+    </button>
+  `).join('');
+
+  const current = PDF_SAMPLES.find((s) => s.id === STATE.selectedPdfSampleId) || PDF_SAMPLES[0];
+  document.getElementById('pdfDocumentSheet').innerHTML = current.docText;
+  document.getElementById('pdfDraftEditorArea').value = current.draft;
+  document.getElementById('pdfSourceTag').textContent = `${TENANTS[STATE.tenant].provider} ($0 API)`;
+
+  document.getElementById('pdfExtractedGrid').innerHTML = `
+    <div style="background:#f8fafc; border:1px solid var(--border); padding:8px 10px; border-radius:4px;">
+      <span style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Expediente</span>
+      <div style="font-size:12px; font-weight:600;">${current.expte}</div>
+    </div>
+    <div style="background:#f8fafc; border:1px solid var(--border); padding:8px 10px; border-radius:4px;">
+      <span style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Juzgado</span>
+      <div style="font-size:12px; font-weight:600;">${current.juzgado}</div>
+    </div>
+    <div style="background:#f8fafc; border:1px solid var(--border); padding:8px 10px; border-radius:4px;">
+      <span style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Plazo Detectado</span>
+      <div style="font-size:12px; font-weight:600; color:#b45309;">${current.plazo}</div>
+    </div>
+    <div style="background:#f8fafc; border:1px solid var(--border); padding:8px 10px; border-radius:4px;">
+      <span style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Monto / Boleta</span>
+      <div style="font-size:12px; font-weight:600; color:#047857;">${current.monto}</div>
+    </div>
+  `;
 }
 
-function renderAuditTab() {
-  const cadContainer = document.getElementById('caducidadWatchdogList');
-  cadContainer.innerHTML = STATE.cases.map((c) => {
+window.selectPdfSample = function(id) {
+  STATE.selectedPdfSampleId = id;
+  renderPdfViewer();
+};
+
+function renderVencimientos() {
+  const container = document.getElementById('caducidadListContainer');
+  container.innerHTML = CASES.map((c) => {
     const pct = Math.min(100, Math.round((c.inactiveDays / 90) * 100));
-    const isCrit = c.inactiveDays >= 60;
+    const isDanger = c.inactiveDays >= 60;
     return `
-      <div style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-          <strong style="font-size:13px; color:var(--text-main);">Expte. ${c.expteLex} — ${c.caratula}</strong>
-          <span class="badge ${isCrit ? 'badge-red' : 'badge-green'}">${c.inactiveDays} / 90 días</span>
+      <div style="padding:12px 0; border-bottom:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <strong style="color:var(--text-main);">Expte. ${c.expte} — ${c.caratula}</strong>
+          <span class="badge ${isDanger ? 'badge-red' : 'badge-green'}">${c.inactiveDays} / 90 días</span>
         </div>
-        <div style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">${c.dependencia} · Último movimiento: ${c.fecha}</div>
-        <div class="progress-track">
-          <div class="progress-fill" style="width:${pct}%; background:${isCrit ? 'var(--danger)' : 'var(--success)'};"></div>
+        <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:6px;">${c.juzgado} · Inactividad procesal acumulada</div>
+        <div style="width:100%; height:6px; background:#f1f5f9; border-radius:999px; overflow:hidden;">
+          <div style="width:${pct}%; height:100%; background:${isDanger ? '#ef4444' : '#10b981'};"></div>
         </div>
       </div>
     `;
   }).join('');
 
-  const prescContainer = document.getElementById('prescripcionWatchdogList');
-  prescContainer.innerHTML = INITIAL_PRESCRIPTIONS.map((p) => `
-    <div style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong style="font-size:13px; color:var(--text-main);">${p.asunto}</strong>
-        <span class="badge badge-amber">${p.plazoLegal}</span>
+  document.getElementById('prescripcionListContainer').innerHTML = `
+    <div style="padding:12px 0; border-bottom:1px solid var(--border);">
+      <div style="display:flex; justify-content:space-between;">
+        <strong>Reclamo Extrajudicial: Daños y Perjuicios por Accidente</strong>
+        <span class="badge badge-amber">3 Años (Art. 2561 CCCN)</span>
       </div>
-      <div style="font-size:12px; color:var(--text-secondary);">Cliente: <strong>${p.cliente}</strong> · <span style="color:var(--danger); font-weight:600;">${p.vencimiento}</span></div>
-      <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Estado: ${p.estado}</div>
+      <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">Cliente: Héctor Martínez · <span style="color:#b91c1c; font-weight:600;">Restan 38 días para iniciar demanda</span></div>
     </div>
-  `).join('');
+    <div style="padding:12px 0;">
+      <div style="display:flex; justify-content:space-between;">
+        <strong>Diferencias Salariales e Indemnización Laboral</strong>
+        <span class="badge badge-amber">2 Años (Art. 256 LCT)</span>
+      </div>
+      <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">Cliente: Valeria Acosta · Restan 64 días corridos</div>
+    </div>
+  `;
+}
 
-  const auditTbody = document.getElementById('auditTableBody');
-  auditTbody.innerHTML = STATE.auditLog.map((log) => `
+function renderAuditoria() {
+  const container = document.getElementById('modelsVaultContainer');
+  if (STATE.role === 'GUEST') {
+    container.innerHTML = `
+      <div style="background:var(--danger-bg); border:1px solid var(--danger-border); padding:14px; border-radius:var(--radius-sm); color:var(--danger);">
+        <strong>Acceso Restringido:</strong> Tu rol de Invitado / Secretario no tiene permisos para descargar ni exportar la biblioteca de modelos del titular.
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div style="padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);">
+          <strong>1. Acepta Depósito Judicial y CBU</strong>
+          <div style="font-size:11.5px; color:var(--text-muted);">Plantilla automática determinística ($0 IA)</div>
+        </div>
+        <div style="padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);">
+          <strong>2. Contestación de Traslado de Pericia</strong>
+          <div style="font-size:11.5px; color:var(--text-muted);">Base para redacción de impugnaciones con IA</div>
+        </div>
+        <div style="padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);">
+          <strong>3. Solicitud de Cédula con Días Inhábiles</strong>
+          <div style="font-size:11.5px; color:var(--text-muted);">Disparo ante cédula con informe negativo</div>
+        </div>
+        <div style="padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);">
+          <strong>4. Impulso Procesal contra Caducidad</strong>
+          <div style="font-size:11.5px; color:var(--text-muted);">Art. 310 CPCCCh (Límite 3 meses)</div>
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById('auditTableBodyMain').innerHTML = AUDIT_LOGS.map((log) => `
     <tr>
-      <td style="white-space:nowrap; font-family:var(--font-mono); font-size:12px;">${log.time}</td>
-      <td style="font-weight:500; color:var(--text-main);">${log.user}</td>
-      <td><span class="badge ${log.role === 'GUEST' ? 'badge-amber' : 'badge-neutral'}">${log.role}</span></td>
-      <td><span class="expte-num">${log.event}</span></td>
+      <td style="font-family:var(--font-mono); font-size:11.5px;">${log.time}</td>
+      <td style="font-weight:600; color:var(--text-main);">${log.user}</td>
+      <td><span class="badge badge-neutral">${log.role}</span></td>
+      <td><span style="font-family:var(--font-mono); font-size:11px; font-weight:700;">${log.op}</span></td>
       <td>${log.detail}</td>
     </tr>
   `).join('');
 }
 
-function openSubModal() {
-  document.getElementById('subscriptionModal').classList.add('open');
-}
-
-function openModelsModal() {
-  const modal = document.getElementById('modelsModal');
-  const body = document.getElementById('modelsModalBody');
-
-  if (STATE.role === 'GUEST') {
-    addAudit('BLOQUEO_SEGURIDAD_IP', 'Usuario Invitado/Secretario intentó acceder o exportar la biblioteca completa de modelos exclusivos.');
-    renderAuditTab();
-    body.innerHTML = `
-      <div style="background:var(--danger-soft); border:1px solid var(--danger-border); padding:16px; border-radius:var(--radius-md); color:var(--danger);">
-        <h4 style="margin-bottom:6px;">Acceso Restringido — Protección de Patrimonio Intelectual</h4>
-        <p style="font-size:13px;">El perfil <strong>Invitado / Secretario</strong> puede redactar y auditar borradores en las causas asignadas, pero no tiene permisos para descargar ni exportar la biblioteca de modelos exclusivos del Abogado Titular. Este intento quedó registrado en el Libro de Auditoría.</p>
-      </div>
-    `;
-  } else {
-    body.innerHTML = `
-      <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">
-        Estos modelos exclusivos de Word (.docx) son utilizados por tu suscripción conectada como base para redactar escritos manteniendo el estilo exacto del estudio:
-      </p>
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <strong style="font-size:13px;">1. Modelo: Acepta Depósito Judicial, Denuncia CBU y Solicita Orden de Pago</strong>
-            <div style="font-size:12px; color:var(--text-muted);">Automatización determinística ($0 costo) · Fuero Civil y Laboral</div>
-          </div>
-          <span class="badge badge-green">Activo</span>
-        </div>
-        <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <strong style="font-size:13px;">2. Modelo: Contestación de Traslado e Impugnación de Pericia / Planilla</strong>
-            <div style="font-size:12px; color:var(--text-muted);">Base RAG para Copiloto IA · Art. 473 CPCCCh</div>
-          </div>
-          <span class="badge badge-green">Activo</span>
-        </div>
-        <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <strong style="font-size:13px;">3. Modelo: Solicita Nueva Cédula con Habilitación de Días y Horas Inhábiles</strong>
-            <div style="font-size:12px; color:var(--text-muted);">Disparo automático ante Cédula con Informe Negativo</div>
-          </div>
-          <span class="badge badge-green">Activo</span>
-        </div>
-        <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <strong style="font-size:13px;">4. Modelo: Escrito Impulsorio contra Caducidad de Instancia (Art. 310 CPCCCh)</strong>
-            <div style="font-size:12px; color:var(--text-muted);">Vinculado al Watchdog de 90 días</div>
-          </div>
-          <span class="badge badge-green">Activo</span>
-        </div>
-      </div>
-    `;
-  }
-
-  modal.classList.add('open');
-}
-
-function closeModals() {
-  document.querySelectorAll('.modal-backdrop').forEach((m) => m.classList.remove('open'));
-}
-
-function addAudit(event, detail) {
-  const now = new Date().toTimeString().split(' ')[0];
-  STATE.auditLog.unshift({
-    time: `Hoy ${now}`,
-    user: STATE.role === 'ADMIN' ? TENANTS[STATE.tenantId].titular : 'Secretario / Operador',
-    role: STATE.role,
-    event,
-    detail
-  });
-}
-
-function downloadWordDoc(text, filename) {
+function downloadDoc(text, filename) {
   const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body style="font-family:'Times New Roman',serif; font-size:12pt; line-height:1.5;"><pre style="font-family:'Times New Roman',serif; white-space:pre-wrap;">${text}</pre></body></html>`;
   const blob = new Blob(['\ufeff', html], { type: 'application/msword;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -909,13 +652,13 @@ function downloadWordDoc(text, filename) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast(`Descargado en formato Word: ${filename}`);
+  showToast(`Descargado: ${filename}`);
 }
 
 function showToast(msg) {
-  const box = document.getElementById('toastBox');
+  const box = document.getElementById('toastNotice');
   box.textContent = msg;
   box.classList.add('show');
   clearTimeout(box._timer);
-  box._timer = setTimeout(() => box.classList.remove('show'), 3200);
+  box._timer = setTimeout(() => box.classList.remove('show'), 3000);
 }
