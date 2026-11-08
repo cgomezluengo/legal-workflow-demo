@@ -103,6 +103,75 @@
   </section>
 
   <!-- ==================================================================== -->
+  <!-- FLUJO DE VALOR: 3 PASOS (CONECTÁ TU IA + ROBOT RECORRIDA + BORRADORES)-->
+  <!-- ==================================================================== -->
+  <section class="value-flow-section">
+    <div class="value-flow-container">
+      <div class="value-flow-header">
+        <div class="value-flow-title">
+          <span>⚡</span>
+          <span>¿Cómo funciona este software? (Tu propia suscripción de IA trabajando para tu estudio)</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="font-size: 0.76rem; color: #34d399; font-weight: 600;">● Costo API: $0 (Usa tu cuenta existente)</span>
+        </div>
+      </div>
+
+      <div class="value-flow-steps-grid">
+        <!-- Paso 1 -->
+        <div class="value-step-card" id="stepCard1">
+          <div>
+            <div class="value-step-badge">Paso 1: Conexión $0</div>
+            <h4>Conectá tu Suscripción de IA</h4>
+            <p>
+              Vinculá tu suscripción de <strong>Claude Pro/Max</strong>, <strong>ChatGPT Plus</strong> o <strong>Gemini Advanced</strong> ($20/mes). Procesá miles de proveídos y escritos sin pagar tokens de API por separado.
+            </p>
+          </div>
+          <div class="value-step-footer">
+            <span class="badge-acceso libre" id="flowSubBadge">Claude Pro Conectado</span>
+            <button class="btn btn-secondary" style="font-size: 0.72rem; padding: 3px 8px;" onclick="openSubscriptionModal()">
+              ⚙️ Cambiar IA
+            </button>
+          </div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="value-step-card" id="stepCard2">
+          <div>
+            <div class="value-step-badge">Paso 2: Automatización</div>
+            <h4>El Robot lee tu Recorrida y PDFs</h4>
+            <p>
+              A las 07:00 AM el robot ingresa al <strong>Sistema de Notificaciones (IURE / INDI / Lex)</strong>, detecta qué expedientes tuvieron movimiento (Notif. Art. 155 CPCCCh) y descarga los <strong>PDFs combinados</strong> automáticamente. Evitás abrir 40 expedientes uno por uno.
+            </p>
+          </div>
+          <div class="value-step-footer">
+            <span style="font-size: 0.74rem; color: #94a3b8;">⏱️ Ahorro estimado: 2 a 3 hs/día</span>
+            <span class="badge-atencion">Automático</span>
+          </div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="value-step-card" id="stepCard3">
+          <div>
+            <div class="value-step-badge">Paso 3: Redacción</div>
+            <h4>Tu IA Redacta los Borradores</h4>
+            <p>
+              <strong>Trámites Simples:</strong> Detecta depósitos o cédulas negativas y genera el escrito judicial en 1 clic.<br>
+              <strong>Trámites Complejos:</strong> Analiza pericias y caducidad (Art. 310 CPCCCh), calcula plazos hábiles y redacta el borrador listo para tu visado.
+            </p>
+          </div>
+          <div class="value-step-footer">
+            <span style="font-size: 0.74rem; color: #60a5fa; font-weight: 600;">⚖️ Vos siempre tenés el control</span>
+            <button class="btn btn-primary" style="font-size: 0.72rem; padding: 3px 8px;" onclick="switchTab('pdf-analyzer')">
+              📂 Probar con PDFs
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================== -->
   <!-- LAYOUT PRINCIPAL                                                     -->
   <!-- ==================================================================== -->
   <main class="main-wrapper">
@@ -114,13 +183,16 @@
       <div class="panel-card">
         <div class="panel-card-header">
           <div class="panel-title">
-            <span>📬 Despacho Diario (Gmail / IURIX)</span>
+            <span>📬 Listado de Recorrida (IURE / Lex - Mis Expedientes)</span>
           </div>
           <span class="badge-counter" id="inboxBadgeCounter">0 nuevas</span>
         </div>
         <div class="panel-body">
+          <div style="font-size: 0.73rem; color: #94a3b8; margin-bottom: 8px;">
+            Control de Trámites Procesales y Notificaciones (Poder Judicial del Chaco)
+          </div>
           <button class="btn-simulate-email" id="btnSimulateEmail">
-            <span>📩</span> Simular llegada de correo Gmail (Salió a despacho)
+            <span>⚡</span> Simular Procesamiento de Recorrida (07:00 hs)
           </button>
           <div class="inbox-list" id="inboxList">
             <!-- Items inyectados dinámicamente -->
@@ -157,6 +229,9 @@
         </button>
         <button class="tab-btn" data-tab="audit">
           <span>📜</span> Libro de Auditoría Inmutable
+        </button>
+        <button class="tab-btn" data-tab="pdf-analyzer">
+          <span>📂</span> Analizador de PDFs Judiciales (Subir o Probar)
         </button>
       </nav>
 
@@ -213,6 +288,119 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+
+      <!-- VISTA 4: ANALIZADOR DE PDFs JUDICIALES -->
+      <div id="pdfAnalyzerTabView" style="display: none;">
+        <div class="pdf-analyzer-container">
+          
+          <!-- Banner Hero -->
+          <div class="analyzer-hero-card">
+            <div class="analyzer-hero-text">
+              <h2><span>📂</span> Analizador Inteligente de Proveídos & Cédulas Judiciales (PDF)</h2>
+              <p>
+                Pruebe los proveídos y escritos oficiales del <strong>Poder Judicial del Chaco</strong> o cargue cualquier archivo <code>.PDF</code> judicial desde su equipo. El motor legal-tech extrae automáticamente números de expediente, carátula, montos depositados, plazos procesales en días hábiles (CPCC Chaco) y permite redactar la respuesta judicial en 1 solo clic.
+              </p>
+            </div>
+            <div>
+              <button class="btn btn-primary" onclick="document.getElementById('pdfFileInput').click()">
+                <span>📤</span> Subir Archivo PDF
+              </button>
+            </div>
+          </div>
+
+          <!-- Documentos Oficiales de Muestra (4 PDFs Listos) -->
+          <div>
+            <div class="sample-pdfs-section-title">
+              <span>🏛️</span> Documentos Oficiales del Poder Judicial del Chaco (Listos para Probar)
+            </div>
+            <div class="sample-pdfs-grid" id="samplePdfsGrid">
+              <!-- Renderizado dinámicamente -->
+            </div>
+          </div>
+
+          <!-- Zona de Drag & Drop -->
+          <div class="pdf-upload-dropzone" id="pdfDropZone">
+            <input type="file" id="pdfFileInput" accept=".pdf,application/pdf" style="display: none;">
+            <div class="pdf-drop-icon">📑</div>
+            <div class="pdf-drop-title">Arrastre aquí su proveído, cédula o escrito judicial en formato .PDF</div>
+            <div class="pdf-drop-subtitle">
+              O haga clic para examinar archivos. Procesamiento 100% Client-Side en su navegador (seguridad y confidencialidad total: ningún documento sale de su computadora).
+            </div>
+          </div>
+
+          <!-- Panel de Resultados del Análisis -->
+          <div class="analyzer-results-panel" id="analyzerResultsPanel" style="display: none;">
+            <div class="analyzer-results-header">
+              <div>
+                <span class="sample-pdf-badge badge-simple" id="analysisStatusBadge">Extracción Exitosa</span>
+                <h3 id="analysisFileName" style="color: #fff; font-size: 1.05rem; margin-top: 4px;">-</h3>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-secondary" id="btnOpenInSplitViewer">
+                  <span>📄</span> Ver en Visor Split-Screen
+                </button>
+                <a class="btn btn-secondary" id="btnDownloadAnalyzedPdf" href="#" download>
+                  <span>💾</span> Descargar Archivo .PDF
+                </a>
+              </div>
+            </div>
+
+            <!-- Chips de Datos Extraídos -->
+            <div class="extracted-chips-grid">
+              <div class="extracted-chip">
+                <div class="chip-label">📁 Expediente N°</div>
+                <div class="chip-value" id="chipExpte">-</div>
+              </div>
+              <div class="extracted-chip">
+                <div class="chip-label">⚖️ Carátula / Partes</div>
+                <div class="chip-value" id="chipCaratula" style="font-size: 0.82rem;">-</div>
+              </div>
+              <div class="extracted-chip">
+                <div class="chip-label">🏛️ Juzgado / Fuero</div>
+                <div class="chip-value" id="chipJuzgado">-</div>
+              </div>
+              <div class="extracted-chip">
+                <div class="chip-label">⚡ Tipo de Proveído</div>
+                <div class="chip-value" id="chipTipoActo">-</div>
+              </div>
+              <div class="extracted-chip">
+                <div class="chip-label">💰 Monto Detectado</div>
+                <div class="chip-value" id="chipMonto" style="color: #fbbf24;">-</div>
+              </div>
+              <div class="extracted-chip">
+                <div class="chip-label">⏳ Plazo Hábil (CPCC)</div>
+                <div class="chip-value" id="chipPlazo" style="color: #34d399;">-</div>
+              </div>
+            </div>
+
+            <!-- Vista Split: Texto Extraído vs Propuesta Procesal -->
+            <div class="analyzer-split-preview">
+              <div class="raw-text-viewer-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <h4>📄 Capa de Texto Extraída del PDF:</h4>
+                  <button class="btn btn-secondary" style="font-size: 0.7rem; padding: 2px 8px;" id="btnCopyExtractedRawText">Copiar</button>
+                </div>
+                <div class="raw-text-scrollable" id="analysisRawTextViewer"></div>
+              </div>
+
+              <div class="action-proposal-card">
+                <div>
+                  <h4 style="color: #60a5fa; font-size: 0.82rem; text-transform: uppercase; margin-bottom: 8px;">
+                    🎯 Diagnóstico Procesal & Acción Sugerida:
+                  </h4>
+                  <div id="analysisDiagnosticText" style="font-size: 0.86rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 12px;"></div>
+                  <div id="analysisNormativaBox" style="background: rgba(139, 92, 246, 0.1); border-left: 3px solid #8b5cf6; padding: 8px 10px; font-size: 0.78rem; color: #c4b5fd; margin-bottom: 12px;"></div>
+                </div>
+                <div id="analysisActionButtons">
+                  <!-- Inyectado dinámicamente según el caso -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
 
@@ -276,29 +464,54 @@
     </div>
   </div>
 
-  <!-- Modal 3: Gestión de Suscripción Claude CLI (Orca/CLI Architecture) -->
+  <!-- Modal 3: Gestión de Suscripción de IA Propia ($0 Costo API) -->
   <div class="modal-overlay" id="subscriptionModal">
-    <div class="modal-content" style="max-width: 680px;">
+    <div class="modal-content" style="max-width: 720px;">
       <div class="modal-header">
         <div class="modal-title">
-          <span>⚙️ Puente Multi-Tenant Claude CLI & Suscripción</span>
+          <span>⚙️ Conectar tu Propia Suscripción de IA ($0 Costo de API)</span>
         </div>
         <button class="modal-close-btn modal-close-trigger">&times;</button>
       </div>
       <div class="modal-body">
         <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 14px;">
-          Cada estudio jurídico posee su propio espacio aislado de suscripción (ejecutando con <code>HOME=&lt;tenantDir&gt;</code>). Esto permite que el letrado titular utilice su propia suscripción de Claude Pro / Team sin incurrir en costos variables por token ni mezclar credenciales.
+          Este software no te cobra por token ni por consulta. Vinculá la suscripción que ya pagás mensualmente para que tu IA analice las notificaciones judiciales y redacte los borradores de forma ilimitada y segura en tu propia máquina.
         </p>
+
+        <!-- Selector de Proveedores de Suscripción -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;">
+          <div class="provider-choice-card active" id="providerChoiceClaude" onclick="selectAiProvider('claude')">
+            <div style="font-size: 1.4rem;">🟣</div>
+            <strong style="color: #fff; font-size: 0.85rem; display: block; margin: 4px 0;">Claude Pro / Max</strong>
+            <span style="font-size: 0.72rem; color: #a78bfa;">Anthropic ($20/mes)</span>
+            <div style="margin-top: 6px; font-size: 0.68rem; color: #34d399; font-weight: 700;" id="statusBadgeClaude">● Conectado Activo</div>
+          </div>
+
+          <div class="provider-choice-card" id="providerChoiceChatGPT" onclick="selectAiProvider('chatgpt')">
+            <div style="font-size: 1.4rem;">🟢</div>
+            <strong style="color: #fff; font-size: 0.85rem; display: block; margin: 4px 0;">ChatGPT Plus / Team</strong>
+            <span style="font-size: 0.72rem; color: #6ee7b7;">OpenAI ($20/mes)</span>
+            <div style="margin-top: 6px; font-size: 0.68rem; color: #94a3b8;" id="statusBadgeChatGPT">Hacer clic para activar</div>
+          </div>
+
+          <div class="provider-choice-card" id="providerChoiceGemini" onclick="selectAiProvider('gemini')">
+            <div style="font-size: 1.4rem;">🔵</div>
+            <strong style="color: #fff; font-size: 0.85rem; display: block; margin: 4px 0;">Gemini Advanced</strong>
+            <span style="font-size: 0.72rem; color: #93c5fd;">Google One ($20/mes)</span>
+            <div style="margin-top: 6px; font-size: 0.68rem; color: #94a3b8;" id="statusBadgeGemini">Hacer clic para activar</div>
+          </div>
+        </div>
+
         <div id="subModalDetails"></div>
 
         <div style="background: #0d121c; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-top: 12px;">
-          <strong style="font-size: 0.76rem; color: #94a3b8; text-transform: uppercase;">Comando de Vinculación Nativa CLI:</strong>
+          <strong style="font-size: 0.76rem; color: #94a3b8; text-transform: uppercase;">Estado de Sesión Aislada por Estudio:</strong>
           <pre id="subCliCommand" style="color: #60a5fa; font-family: monospace; font-size: 0.8rem; margin-top: 6px; white-space: pre-wrap; word-break: break-all;"></pre>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary modal-close-trigger">Cerrar</button>
-        <button class="btn btn-primary" id="btnToggleSubModal">Alternar Suscripción</button>
+        <button class="btn btn-primary" id="btnToggleSubModal">Alternar Estado de Conexión</button>
       </div>
     </div>
   </div>
@@ -385,6 +598,145 @@
         <button class="btn btn-secondary modal-close-trigger">Cancelar</button>
         <button class="btn btn-primary" id="btnConfirmAddSubcause">Vincular Incidente</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal 7: Visor Split-Screen de PDF Judicial + Extractor Inteligente -->
+  <div class="modal-overlay" id="pdfViewerModal">
+    <div class="modal-content" style="max-width: 1400px; width: 96vw; height: 93vh; display: flex; flex-direction: column;">
+      
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+        <div class="modal-title">
+          <span style="font-size: 1.25rem;">📄</span>
+          <div>
+            <div id="pdfViewerModalTitle" style="font-size: 0.98rem; font-weight: 700; color: #fff;">Visor de Proveído Judicial (Poder Judicial del Chaco)</div>
+            <div id="pdfViewerModalSubtitle" style="font-size: 0.74rem; color: #94a3b8; font-weight: 400;">Expediente Digital • Sistema IURIX</div>
+          </div>
+        </div>
+
+        <div class="pdf-modal-header-actions">
+          <div class="pdf-view-mode-switch">
+            <button class="pdf-view-mode-btn active" id="btnModeOfficialView">
+              👁️ Vista Oficial con Resaltado
+            </button>
+            <button class="pdf-view-mode-btn" id="btnModeNativeBinary">
+              📑 PDF Binario Original
+            </button>
+          </div>
+          <a class="btn btn-secondary" id="btnDownloadPdfModal" href="#" download style="font-size: 0.76rem; padding: 5px 12px; display: inline-flex; align-items: center; gap: 6px;">
+            <span>📥</span> Descargar .pdf
+          </a>
+          <button class="modal-close-btn modal-close-trigger">&times;</button>
+        </div>
+      </div>
+
+      <!-- Cuerpo Split-Screen -->
+      <div class="pdf-split-layout">
+        
+        <!-- Panel Izquierdo: Hoja Oficial / Previsualización PDF -->
+        <div class="pdf-viewer-left-pane">
+          
+          <!-- Toolbar de Controles -->
+          <div class="pdf-view-toolbar" id="pdfViewerToolbar">
+            <div class="pdf-toolbar-group">
+              <span style="font-size: 0.74rem; color: #94a3b8; font-weight: 600;">Resaltado de Cláusulas Clave:</span>
+              <span class="pdf-hl-tag-filter tag-deadline active" id="toggleTagDeadline" title="Filtrar resaltado de plazos procesales">
+                🟢 Plazos & Fechas
+              </span>
+              <span class="pdf-hl-tag-filter tag-amount active" id="toggleTagAmount" title="Filtrar resaltado de montos y cuentas">
+                🟡 Montos & CBU
+              </span>
+              <span class="pdf-hl-tag-filter tag-law active" id="toggleTagLaw" title="Filtrar resaltado de leyes y artículos">
+                🟣 Artículos CPCC / LCT
+              </span>
+            </div>
+            <div class="pdf-toolbar-group">
+              <span style="font-size: 0.74rem; color: #64748b;" id="pdfPageIndicator">Página 1 de 1</span>
+            </div>
+          </div>
+
+          <!-- Contenedor Scrollable del Documento Oficial -->
+          <div class="pdf-paper-scrollable" id="pdfPaperScrollContainer">
+            <div class="pdf-judicial-paper" id="pdfPaperCanvas">
+              <!-- Inyectado dinámicamente con hoja oficial, firmas, etc. -->
+            </div>
+          </div>
+
+          <!-- Contenedor Iframe para visualización binaria original -->
+          <div id="pdfBinaryFrameContainer" style="display: none; flex: 1; height: 100%;">
+            <iframe id="pdfBinaryIframe" class="pdf-binary-frame" src="about:blank"></iframe>
+          </div>
+
+        </div>
+
+        <!-- Panel Derecho: Extracción de Metadatos & Acciones Procesales -->
+        <div class="pdf-viewer-right-pane">
+          <div class="pdf-extract-header">
+            <h3><span>🧠</span> Datos Extraídos del PDF Automáticamente</h3>
+            <span class="sample-pdf-badge badge-simple" style="margin: 0;">100% Precisión</span>
+          </div>
+
+          <div class="pdf-meta-cards-grid">
+            <div class="pdf-meta-item-card highlight-blue">
+              <div class="label">📁 Expediente & Carátula</div>
+              <div class="value" id="pdfExtractExpteCaratula">-</div>
+            </div>
+
+            <div class="pdf-meta-item-card highlight-blue">
+              <div class="label">🏛️ Juzgado & Fuero Judicial</div>
+              <div class="value" id="pdfExtractJuzgado">-</div>
+            </div>
+
+            <div class="pdf-meta-item-card highlight-purple">
+              <div class="label">⚡ Tipo de Proveído / Acto</div>
+              <div class="value" id="pdfExtractTipoActo">-</div>
+            </div>
+
+            <div class="pdf-meta-item-card highlight-yellow">
+              <div class="label">💰 Monto / Depósito Identificado</div>
+              <div class="value" id="pdfExtractMonto" style="color: #fbbf24;">-</div>
+            </div>
+
+            <div class="pdf-meta-item-card highlight-green">
+              <div class="label">⏳ Plazo Procesal Hábil</div>
+              <div class="value" id="pdfExtractPlazo" style="color: #34d399;">-</div>
+            </div>
+
+            <div class="pdf-meta-item-card highlight-green">
+              <div class="label">📅 Vencimiento Estimado (con Plazo de Gracia)</div>
+              <div class="value" id="pdfExtractVencimiento">-</div>
+            </div>
+
+            <div class="pdf-meta-item-card highlight-purple">
+              <div class="label">📜 Normativa Legal Identificada</div>
+              <div class="value" id="pdfExtractNormativa" style="font-size: 0.78rem;">-</div>
+            </div>
+
+            <div class="pdf-meta-item-card">
+              <div class="label">🔐 Firma Digital / Token PJ Chaco</div>
+              <div class="value" id="pdfExtractFirmaToken" style="font-family: var(--font-mono); font-size: 0.75rem; color: #94a3b8;">-</div>
+            </div>
+          </div>
+
+          <!-- Acciones Procesales Inmediatas -->
+          <div class="pdf-actions-card">
+            <h4>⚡ Acciones Procesales Inmediatas:</h4>
+            <div id="pdfViewerDynamicActionArea">
+              <!-- Inyectado según el tipo de trámite -->
+            </div>
+            <button class="btn btn-secondary" id="btnCopyFullProveidoText" style="width: 100%;">
+              📋 Copiar Texto Completo del Proveído
+            </button>
+            <a class="btn btn-secondary" id="btnOpenPdfNewTab" target="_blank" href="#" style="width: 100%; text-align: center; text-decoration: none;">
+              ↗️ Abrir PDF en Nueva Pestaña
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   </div>
 

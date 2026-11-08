@@ -24,7 +24,8 @@ const MIME_TYPES = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.ico': 'image/x-icon',
-  '.doc': 'application/msword'
+  '.doc': 'application/msword',
+  '.pdf': 'application/pdf'
 };
 
 function sendJson(res, statusCode, data) {

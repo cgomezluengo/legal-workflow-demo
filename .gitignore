@@ -2,3 +2,10 @@ node_modules/
 app/tenants/*/.*
 !app/tenants/*/.gitkeep
 .DS_Store
+
+# Archivos confidenciales (NUNCA subir a GitHub)
+privado/
+*.pdf
+!pdfs/*.pdf
+!app/public/pdfs/*.pdf
+__pycache__/
